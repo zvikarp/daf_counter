@@ -119,7 +119,20 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
           onDidReceiveLocalNotification: onDidReceiveLocalNotification);
       var initializationSettings = new InitializationSettings(
           initializationSettingsAndroid, initializationSettingsIOS);
+
+      final categories = [
+        NotificationCategory(
+          "Actions",
+          [
+            NotificationAction("Did it!", "ACTION_YAY"),
+            NotificationAction("Skipped it", "ACTION_NAY"),
+          ],
+        ),
+      ];
+
       flutterLocalNotificationsPlugin.initialize(initializationSettings,
+          categories: categories,
+          onSelectNotificationAction: onSelectNotificationAction,
           onSelectNotification: onSelectNotification);
 
       var time = Time(timeOfDay.hour, timeOfDay.minute, 0);
@@ -134,12 +147,17 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
       await flutterLocalNotificationsPlugin.showDailyAtTime(
           0,
           localizationUtil.translate('did_you_daf'),
-          'd',
+          'Hope you did',
           time,
-          platformChannelSpecifics);
+          platformChannelSpecifics
+      );
     } else {
       toastUtil.showInformation(localizationUtil.translate("select_time"));
     }
+  }
+
+  Future<void> onSelectNotificationAction(NotificationActionData data) async {
+    debugPrint('notification action data: $data');
   }
 
   Future onSelectNotification(String payload) async {

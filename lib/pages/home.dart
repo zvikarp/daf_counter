@@ -1,3 +1,4 @@
+import 'package:daf_plus_plus/dialogs/firstUseReminder.dart';
 import 'package:flutter/material.dart';
 
 import 'package:daf_plus_plus/actions/progress.dart';
@@ -33,7 +34,7 @@ class _HomePageState extends State<HomePage> {
 
   bool isFirstRun() {
     // uncomment for testing
-    //hiveService.settings.setHasOpened(false);
+    hiveService.settings.setHasOpened(false);
     return !hiveService.settings.getHasOpened();
   }
 
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
         .setPreferredLanguage(Localizations.localeOf(context).languageCode);
     Navigator.of(context).push(
       TransparentRoute(
-        builder: (BuildContext context) => FirstUseDialogLanguage(),
+        builder: (BuildContext context) => FirstUseReminder(),
       ),
     );
   }

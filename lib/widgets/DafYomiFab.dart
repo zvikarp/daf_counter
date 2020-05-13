@@ -76,10 +76,7 @@ class DafYomiFabWidget extends StatelessWidget {
     return FloatingActionButton(
       onPressed: () => _checkIfFirstTime(context),
       backgroundColor: Theme.of(context).primaryColor,
-      child: Text(
-        "++",
-        style: Theme.of(context).textTheme.headline5,
-      ),
+      child:  Icon(Icons.check, color: Colors.white,),
     );
   }
 }
