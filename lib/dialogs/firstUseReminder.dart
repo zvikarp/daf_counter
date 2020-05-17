@@ -22,10 +22,33 @@ class FirstUseReminder extends StatefulWidget {
 class _FirstUseReminderState extends State<FirstUseReminder> {
   TimeOfDay timeOfDay;
   String formattedTime;
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   @override
   void initState() {
     super.initState();
+    // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
+    final initializationSettingsAndroid =
+    AndroidInitializationSettings('ic_launcher');
+    final initializationSettingsIOS = IOSInitializationSettings(
+        onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+    final initializationSettings = InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    final categories = [
+      NotificationCategory(
+        "MY_NOTIFICATION_CATEGORY",
+        [
+          NotificationAction("Yay", "ACTION_YAY"),
+          NotificationAction("Nay", "ACTION_NAY"),
+        ],
+      ),
+    ];
+    flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onSelectNotification: onSelectNotification,
+      onSelectNotificationAction: onSelectNotificationAction,
+      categories: categories,
+    );
     setState(() {
       formattedTime = localizationUtil.translate("select_time") + ":";
     });
@@ -39,7 +62,7 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
   }
 
   _set(BuildContext context) async {
-    await setNotification();
+    await _showNotificationWithActions();
     Navigator.pop(context);
     // TODO: Set all daf done till current
   }
@@ -107,57 +130,103 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
     );
   }
 
-  Future setNotification() async {
-    if (timeOfDay != null) {
-      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      new FlutterLocalNotificationsPlugin();
+//  Future setNotification() async {
+//   // if (timeOfDay != null) {
+//      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//      new FlutterLocalNotificationsPlugin();
+//
+//
+//      final initializationSettingsAndroid =
+//      AndroidInitializationSettings('ic_launcher');
+//      final initializationSettingsIOS = IOSInitializationSettings(
+//          onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+//      final initializationSettings = InitializationSettings(
+//          initializationSettingsAndroid, initializationSettingsIOS);
+//      final categories = [
+//        NotificationCategory(
+//          "Actions",
+//          [
+//            NotificationAction("Yay", "ACTION_YAY"),
+//            NotificationAction("Nay", "ACTION_NAY"),
+//          ],
+//        ),
+//      ];
+//      flutterLocalNotificationsPlugin.initialize(
+//        initializationSettings,
+//        onSelectNotification: onSelectNotification,
+//        onSelectNotificationAction: onSelectNotificationAction,
+//        categories: categories,
+//      );
+//
+//
+////      // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
+////      var initializationSettingsAndroid =
+////      new AndroidInitializationSettings('ic_launcher');
+////      var initializationSettingsIOS = new IOSInitializationSettings(
+////          onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+////      var initializationSettings = new InitializationSettings(
+////          initializationSettingsAndroid, initializationSettingsIOS);
+////
+////      final categories = [
+////        NotificationCategory(
+////          "Actions",
+////          [
+////            NotificationAction("Did it!", "ACTION_YAY"),
+////            NotificationAction("Skipped it", "ACTION_NAY"),
+////          ],
+////        ),
+////      ];
+//
+//
+//      var scheduledNotificationDateTime =
+//      DateTime.now().add(Duration(seconds: 5));
+//      var time = Time(timeOfDay.hour, timeOfDay.minute, 0);
+//      var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+//          'repeatDailyAtTime channel id',
+//          'repeatDailyAtTime channel name',
+//          'repeatDailyAtTime description');
+//      var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+//      var platformChannelSpecifics = NotificationDetails(
+//          androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+//
+////      await flutterLocalNotificationsPlugin.showDailyAtTime(
+////          0,
+////          localizationUtil.translate('did_you_daf'),
+////          'Hope you did',
+////          time,
+////          platformChannelSpecifics,
+////          categoryIdentifier: "Actions",
+////          payload: 'item x'
+////      );
+////    await flutterLocalNotificationsPlugin.schedule(0, "ffas", "dsadad", scheduledNotificationDateTime, platformChannelSpecifics,
+////      categoryIdentifier: "Actions",
+////          payload: 'item x');
+//    await flutterLocalNotificationsPlugin.show(2, "Hey", "body", androidPlatformChannelSpecifics.toMap(), categoryIdentifier: "Actions");
+////    } else {
+////      toastUtil.showInformation(localizationUtil.translate("select_time"));
+////    }
+//  }
 
-      // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
-      var initializationSettingsAndroid =
-      new AndroidInitializationSettings('ic_launcher');
-      var initializationSettingsIOS = new IOSInitializationSettings(
-          onDidReceiveLocalNotification: onDidReceiveLocalNotification);
-      var initializationSettings = new InitializationSettings(
-          initializationSettingsAndroid, initializationSettingsIOS);
-
-      final categories = [
-        NotificationCategory(
-          "Actions",
-          [
-            NotificationAction("Did it!", "ACTION_YAY"),
-            NotificationAction("Skipped it", "ACTION_NAY"),
-          ],
-        ),
-      ];
-
-      flutterLocalNotificationsPlugin.initialize(initializationSettings,
-          categories: categories,
-          onSelectNotificationAction: onSelectNotificationAction,
-          onSelectNotification: onSelectNotification);
-
-      var time = Time(timeOfDay.hour, timeOfDay.minute, 0);
-      var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-          'repeatDailyAtTime channel id',
-          'repeatDailyAtTime channel name',
-          'repeatDailyAtTime description');
-      var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-      var platformChannelSpecifics = NotificationDetails(
-          androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-
-      await flutterLocalNotificationsPlugin.showDailyAtTime(
-          0,
-          localizationUtil.translate('did_you_daf'),
-          'Hope you did',
-          time,
-          platformChannelSpecifics
-      );
-    } else {
-      toastUtil.showInformation(localizationUtil.translate("select_time"));
-    }
+  Future<void> _showNotificationWithActions() async {
+    var androidDetails = AndroidNotificationDetails(
+      'notification with actions channel id',
+      'notification with actions channel name',
+      'notification with actions channel description',
+    );
+    var iosDetails = IOSNotificationDetails();
+    var details = NotificationDetails(androidDetails, iosDetails);
+    await flutterLocalNotificationsPlugin.show(
+        0,
+        'notification with actions title',
+        'notification with actions body',
+        details,
+        categoryIdentifier: "MY_NOTIFICATION_CATEGORY",
+        payload: 'item x');
   }
 
   Future<void> onSelectNotificationAction(NotificationActionData data) async {
     debugPrint('notification action data: $data');
+    debugPrint('BKKDJDOSHJDHSJDHKJSHDKJHJKSDHJKHSHDKHDBK');
   }
 
   Future onSelectNotification(String payload) async {
