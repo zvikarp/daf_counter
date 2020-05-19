@@ -1,14 +1,14 @@
+import 'package:daf_plus_plus/pages/settings.dart';
 import 'package:flutter/material.dart';
 
 import 'package:daf_plus_plus/widgets/home/appBar.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
-import 'package:daf_plus_plus/dialogs/firstUseDialogLanguage.dart';
+import 'package:daf_plus_plus/pages/onboarding/welcome.dart';
 import 'package:daf_plus_plus/pages/allShas.dart';
 import 'package:daf_plus_plus/pages/dafYomi.dart';
 import 'package:daf_plus_plus/pages/todaysDaf.dart';
 import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
-import 'package:daf_plus_plus/widgets/home/dafYomiFab.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,7 +16,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool _isDafYomi = true;
   Map<String, Widget> _tabs = {};
 
   Future<void> _loadProgress() async {
@@ -37,7 +36,7 @@ class _HomePageState extends State<HomePage> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) => FirstUseDialogLanguage(),
+        builder: (BuildContext context) => WelcomeOnboardingPage(),
       ),
     );
   }
@@ -66,8 +65,8 @@ class _HomePageState extends State<HomePage> {
     else
       tabs['todays_daf'] = TodaysDafPage();
     tabs['all_shas'] = AllShasPage();
+    tabs['settings'] = SettingsPage();
     setState(() {
-      _isDafYomi = isDafYomi;
       _tabs = tabs;
     });
   }
@@ -79,14 +78,22 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: _tabs.length,
       child: WillPopScope(
           onWillPop: _exitApp,
           child: Scaffold(
-            appBar: AppBarWidget(tabs: _tabs.keys.toList()),
-            floatingActionButton: _isDafYomi ? DafYomiFabWidget() : Container(),
+            appBar: AppBarWidget(
+              tabs: _tabs.keys.toList(),
+            ),
             body: TabBarView(children: _tabs.values.toList()),
           )),
     );
