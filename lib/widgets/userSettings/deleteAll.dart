@@ -37,7 +37,6 @@ class _DeleteAllWidgetState extends State<DeleteAllWidget> {
         (int index, String masechetId) =>
             MapEntry(masechetId, ProgressModel.empty(0, masechetId)));
     progressAction.updateAll(progressMap);
-    Navigator.pop(context);
   }
 
   @override
