@@ -40,6 +40,7 @@
     "settings_backuped_subtext": "גובה לאחרונה ב",
     "settings_lang_text": "שנה שפה",
     "settings_calendar_text": "שנה לוח שנה",
+    "settings_theme_text": "שנה ערכת נושא",
     "settings_reset_text": "מוכן להתחיל מההתחלה?",
     "settings_reset_warning_text": "האם אתה בטוח רוצה למחוק הכל? לא ניתן לשחזר את המידע לאחר פעולה זו.",
     "reset_button": "אפס",
@@ -47,6 +48,11 @@
     "calendar_types": {
       "english_calendar": "לוח שנה לועזי",
       "hebrew_calendar": "לוח שנה עברי"
+    },
+    "theme_types": {
+      "default_theme": "ערכת נושא של המכשיר",
+      "light_theme": "ערכת נושא בהיר",
+      "dark_theme": "ערכת נושא כהה"
     },
     "about_us": [
       "הפרויקט נוצר על ידי מתכנתים מCAPSLOCK כקוד פתוח.",

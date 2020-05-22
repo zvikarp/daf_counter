@@ -1,5 +1,6 @@
-import 'package:daf_plus_plus/utils/toast.dart';
 import 'package:flutter/material.dart';
+import 'package:daf_plus_plus/utils/toast.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
 
 import 'package:daf_plus_plus/actions/progress.dart';
 import 'package:daf_plus_plus/models/progress.dart';
@@ -82,7 +83,7 @@ class _DafYomiFabWidgetState extends State<DafYomiFabWidget>
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(8.0))),
         onPressed: () => _onClick(context, MediaQuery.of(context).size.width),
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: DynamicTheme.of(context).data.primaryColor,
         child: Icon(
           Icons.check,
           color: Theme.of(context).textTheme.headline5.color,

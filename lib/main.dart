@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -53,16 +54,27 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Daf++',
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: Consts.LOCALES,
-      locale: _locale,
-      home: SplashPage(),
-      theme: themeUtil.getTheme(context),
-    );
+    return DynamicTheme(
+        defaultBrightness: Brightness.light,
+        data: (Brightness brightness) {
+          String currentTheme = hiveService.settings.getPreferredTheme() ??
+              Consts.DEFAULT_THEME_TYPE;
+              print(currentTheme);
+          return themeUtil.getTheme(context, currentTheme);
+        },
+        themedWidgetBuilder: (context, theme) {
+          print(theme);
+          return MaterialApp(
+            title: 'Daf++',
+            localizationsDelegates: [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: Consts.LOCALES,
+            locale: _locale,
+            home: SplashPage(),
+            theme: theme,
+          );
+        });
   }
 }

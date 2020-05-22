@@ -40,6 +40,7 @@
     "settings_backuped_subtext": "Latest backup at: ",
     "settings_lang_text": "Change a language",
     "settings_calendar_text": "Change the calendar",
+    "settings_theme_text": "Change the theme",
     "settings_reset_text": "Ready to start from the beginning?",
     "settings_reset_warning_text": "Are you sure you want to delete everything? This CANNOT be undone.",
     "reset_button": "Reset",
@@ -47,6 +48,11 @@
     "calendar_types": {
       "english_calendar": "English Calender",
       "hebrew_calendar": "Hebrew Calender"
+    },
+    "theme_types": {
+      "default_theme": "Phone Default Theme",
+      "light_theme": "Light Theme",
+      "dark_theme": "Dark Theme"
     },
     "about_us": [
       "This open source project was created by developers from CAPSLOCK.",
