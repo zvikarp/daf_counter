@@ -5,6 +5,7 @@ import 'package:daf_plus_plus/widgets/userSettings/about.dart';
 import 'package:daf_plus_plus/widgets/userSettings/deleteAll.dart';
 import 'package:daf_plus_plus/widgets/userSettings/googleAccount.dart';
 import 'package:daf_plus_plus/widgets/userSettings/setCalendar.dart';
+import 'package:daf_plus_plus/widgets/userSettings/setTheme.dart';
 import 'package:daf_plus_plus/widgets/userSettings/setLanguage.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -20,6 +21,7 @@ class _SettingsPageState extends State<SettingsPage> {
         GoogleAccountWidget(),
         SetLanguageWidget(),
         SetCalendarWidget(),
+        SetThemeWidget(),
         SetDafYomiWidget(),
         DeleteAllWidget(),
         Divider(),

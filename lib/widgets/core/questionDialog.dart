@@ -48,7 +48,10 @@ class QuestionDialogWidget extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Text(this.text),
+            child: Text(
+              this.text,
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
           ),
           _actionSection(context),
         ],

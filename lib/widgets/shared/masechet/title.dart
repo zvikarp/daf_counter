@@ -55,24 +55,31 @@ class MasechetTitleWidget extends StatelessWidget {
           ),
           child: Row(
             children: <Widget>[
-              inList ? Transform.rotate(
-                angle: this.isExpanded ? pi / 1 : 0,
-                child: IconButton(
-                  icon: Icon(Icons.keyboard_arrow_down),
-                  onPressed: _changeExpandedState,
-                ),
-              ) : Container(),
+              inList
+                  ? Transform.rotate(
+                      angle: this.isExpanded ? pi / 1 : 0,
+                      child: IconButton(
+                        icon: Icon(Icons.keyboard_arrow_down),
+                        onPressed: _changeExpandedState,
+                      ),
+                    )
+                  : Container(),
               Expanded(
-                  child: Text(localizationUtil.translate("general", "masechet") +
+                child: Text(
+                  localizationUtil.translate("general", "masechet") +
                       " " +
-                      localizationUtil.translate("shas", this.masechet.id))),
+                      localizationUtil.translate("shas", this.masechet.id),
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                    progress.countDone().toString() +
-                        "/" +
-                        progress.data.length.toString()
-                        ),
+                  progress.countDone().toString() +
+                      "/" +
+                      progress.data.length.toString(),
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
               ),
             ],
           ),

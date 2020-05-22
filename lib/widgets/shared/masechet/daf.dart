@@ -32,12 +32,13 @@ class DafWidget extends StatelessWidget {
   }
 
   String _theDate(dafDate) {
-    String calendarType = hiveService.settings.getPreferredCalendar() ?? Consts.DEFAULT_CALENDAR_TYPE;
+    String calendarType = hiveService.settings.getPreferredCalendar() ??
+        Consts.DEFAULT_CALENDAR_TYPE;
     if (calendarType == "english_calendar")
       return dateConverterUtil.toEnglishDate(dafDate);
     else if (calendarType == "hebrew_calendar")
       return dateConverterUtil.toHebrewDate(dafDate);
-    return ""; 
+    return "";
   }
 
   @override
@@ -46,18 +47,19 @@ class DafWidget extends StatelessWidget {
       child: ListTile(
         onTap: () => _onClickCheckbox(dafCount > 0 ? false : true),
         leading: Checkbox(
+          activeColor: Theme.of(context).accentColor,
           onChanged: _onClickCheckbox,
           value: dafCount > 0 ? true : false,
         ),
         trailing: Text(
-          dateConverterUtil.getDayInWeek(dafDate) +
-              ", " +
-              _theDate(dafDate),
-          style: TextStyle(color: Colors.blueGrey),
+          dateConverterUtil.getDayInWeek(dafDate) + ", " + _theDate(dafDate),
+          style: Theme.of(context).textTheme.bodyText2,
         ),
-        title: Text(localizationUtil.translate("general", "daf") +
-            " " +
-            _getDafNumber()),
+        title: Text(
+            localizationUtil.translate("general", "daf") +
+                " " +
+                _getDafNumber(),
+            style: Theme.of(context).textTheme.bodyText2),
       ),
     );
   }
