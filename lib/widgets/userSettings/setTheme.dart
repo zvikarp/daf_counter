@@ -25,8 +25,8 @@ class _SetThemeWidgetState extends State<SetThemeWidget> {
   void _getThemes() {
     List<String> themesList =
         localizationUtil.translate("settings", "theme_types").keys.toList();
-    String currentTheme = hiveService.settings.getPreferredTheme() ??
-        Consts.DEFAULT_THEME_TYPE;
+    String currentTheme =
+        hiveService.settings.getPreferredTheme() ?? Consts.DEFAULT_THEME_TYPE;
     setState(() {
       _currentTheme = currentTheme;
       _themesList = themesList;
@@ -45,7 +45,9 @@ class _SetThemeWidgetState extends State<SetThemeWidget> {
       padding: EdgeInsets.all(8),
       child: ListTile(
         title: Text(
-            localizationUtil.translate("settings", "settings_theme_text")),
+          localizationUtil.translate("settings", "settings_theme_text"),
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
         trailing: DropdownButton<String>(
           value: _currentTheme,
           underline: Container(
@@ -53,12 +55,13 @@ class _SetThemeWidgetState extends State<SetThemeWidget> {
             color: Theme.of(context).primaryColor,
           ),
           onChanged: _changeTheme,
-          items:
-              _themesList.map<DropdownMenuItem<String>>((String theme) {
+          items: _themesList.map<DropdownMenuItem<String>>((String theme) {
             return DropdownMenuItem<String>(
               value: theme,
-              child: Text(localizationUtil.translate(
-                  "settings", "theme_types")[theme]),
+              child: Text(
+                localizationUtil.translate("settings", "theme_types")[theme],
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
             );
           }).toList(),
         ),

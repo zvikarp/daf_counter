@@ -31,7 +31,10 @@ class _SetDafYomiWidgetState extends State<SetDafYomiWidget> {
     return Padding(
       padding: EdgeInsets.all(8),
       child: ListTile(
-        title: Text(localizationUtil.translate("settings", "do_you_daf")),
+        title: Text(
+          localizationUtil.translate("settings", "do_you_daf"),
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
         trailing: Checkbox(
           value: _doesDafYomi,
           activeColor: Theme.of(context).primaryColor,

@@ -25,6 +25,7 @@ class ThemeUtil {
         primaryColor: Colors.indigo[500],
         accentColor: Colors.teal[300],
         backgroundColor: Colors.blueGrey[50],
+        canvasColor: Colors.blueGrey[50],
 
         // typography
         textTheme: GoogleFonts.alefTextTheme(
@@ -33,6 +34,7 @@ class ThemeUtil {
           TextTheme(
             button: TextStyle(
               fontSize: 18,
+              color: Colors.black,
             ),
             bodyText1: TextStyle(
               fontSize: 18,
@@ -54,9 +56,11 @@ class ThemeUtil {
             ),
             headline6: TextStyle(
               fontSize: 24,
+              color: Colors.black,
             ),
             caption: TextStyle(
               fontSize: 14,
+              color: Colors.black,
             ),
           ),
         ),
@@ -66,9 +70,10 @@ class ThemeUtil {
       "dark_theme": ThemeData(
         // colors
         brightness: Brightness.dark,
-        primaryColor: Colors.red[500],
-        accentColor: Colors.yellow[300],
-        backgroundColor: Colors.blueGrey[50],
+        primaryColor: Colors.indigo[700],
+        accentColor: Colors.teal[700],
+        canvasColor: Colors.blueGrey[900],
+        backgroundColor: Colors.blueGrey[900],
 
         // typography
         textTheme: GoogleFonts.alefTextTheme(
@@ -77,6 +82,7 @@ class ThemeUtil {
           TextTheme(
             button: TextStyle(
               fontSize: 18,
+              color: Colors.white,
             ),
             bodyText1: TextStyle(
               fontSize: 18,
@@ -98,9 +104,11 @@ class ThemeUtil {
             ),
             headline6: TextStyle(
               fontSize: 24,
+              color: Colors.white,
             ),
             caption: TextStyle(
               fontSize: 14,
+              color: Colors.white,
             ),
           ),
         ),

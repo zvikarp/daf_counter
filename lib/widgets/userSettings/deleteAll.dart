@@ -21,7 +21,8 @@ class _DeleteAllWidgetState extends State<DeleteAllWidget> {
       TransparentRoute(
         builder: (BuildContext context) => QuestionDialogWidget(
           icon: Icons.warning,
-          text: localizationUtil.translate("settings", "settings_reset_warning_text"),
+          text: localizationUtil.translate(
+              "settings", "settings_reset_warning_text"),
           trueActionText: localizationUtil.translate("general", "yes"),
           falseActionText: localizationUtil.translate("general", "no"),
         ),
@@ -42,18 +43,21 @@ class _DeleteAllWidgetState extends State<DeleteAllWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(8),
-        child: ListTile(
-          title: Text(localizationUtil.translate("settings", "settings_reset_text")),
-          trailing: ButtonWidget(
-            text: localizationUtil.translate("settings", "reset_button"),
-            buttonType: ButtonType.Outline,
-            color: Theme.of(context).primaryColor,
-            loading: _deleteAllLoading,
-            disabled: _deleteAllLoading,
-            onPressed: () => _comfirmFormatProgress(context),
-          ),
+      padding: EdgeInsets.all(8),
+      child: ListTile(
+        title: Text(
+          localizationUtil.translate("settings", "settings_reset_text"),
+          style: Theme.of(context).textTheme.bodyText2,
         ),
-      );
+        trailing: ButtonWidget(
+          text: localizationUtil.translate("settings", "reset_button"),
+          buttonType: ButtonType.Outline,
+          color: Theme.of(context).primaryColor,
+          loading: _deleteAllLoading,
+          disabled: _deleteAllLoading,
+          onPressed: () => _comfirmFormatProgress(context),
+        ),
+      ),
+    );
   }
 }
