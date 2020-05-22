@@ -38,6 +38,20 @@ class MasechetTitleWidget extends StatelessWidget {
     );
   }
 
+  Widget _gapWidget(BuildContext context, int gaps) {
+    if (gaps > 0) {
+      return Container(
+        padding: EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+        decoration: BoxDecoration(
+          color: Theme.of(context).errorColor,
+          borderRadius: BorderRadius.circular(3),
+        ),
+        child: Text(gaps.toString()),
+      );
+    } else
+      return Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -81,6 +95,7 @@ class MasechetTitleWidget extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
               ),
+              _gapWidget(context, progress.countGaps()),
             ],
           ),
         ),

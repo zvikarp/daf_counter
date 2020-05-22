@@ -37,4 +37,18 @@ class ProgressModel {
       .join(Consts.DATA_DIVIDER);
 
   int countDone() => data.where((int daf) => daf > 0)?.length;
+
+  int countGaps() {
+    int gaps = 0;
+    int count = 0;
+    data.forEach((daf) {
+      if (daf > 0) {
+        gaps += count;
+        count = 0;
+      } else {
+        count++;
+      }
+    });
+    return gaps;
+  }
 }
