@@ -26,6 +26,7 @@ class ThemeUtil {
         accentColor: Colors.teal[300],
         backgroundColor: Colors.blueGrey[50],
         canvasColor: Colors.blueGrey[50],
+        errorColor: Color(0xFFED4337).withOpacity(0.7),
 
         // typography
         textTheme: GoogleFonts.alefTextTheme(
@@ -74,6 +75,7 @@ class ThemeUtil {
         accentColor: Colors.teal[700],
         canvasColor: Colors.blueGrey[900],
         backgroundColor: Colors.blueGrey[900],
+        errorColor: Color(0xFFED4337).withOpacity(0.7),
 
         // typography
         textTheme: GoogleFonts.alefTextTheme(
