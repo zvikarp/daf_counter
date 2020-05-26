@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
+import 'package:daf_plus_plus/utils/dateConverter.dart';
 import 'package:daf_plus_plus/consts/hive.dart';
 import 'package:daf_plus_plus/models/daf.dart';
 
@@ -57,9 +59,18 @@ class SettingsBox {
       _setByKey(HiveConsts.PREFERRED_THEME, preferredTheme);
   String getPreferredTheme() => _getByKey(HiveConsts.PREFERRED_THEME);
 
+  // show notifications
+  void setShowNotifications(bool showNotifications) =>
+      _setByKey(HiveConsts.SHOW_NOTIFICATIONS, showNotifications);
+  bool getShowNotifications() => _getByKey(HiveConsts.SHOW_NOTIFICATIONS);
+
+  // notifications time
+  void setNotificationsTime(TimeOfDay notificationsTime) =>
+      _setByKey(HiveConsts.NOTIFICATIONS_TIME, dateConverterUtil.timeToString(notificationsTime));
+  TimeOfDay getNotificationsTime() => dateConverterUtil.stringToTime(_getByKey(HiveConsts.NOTIFICATIONS_TIME));
+
   // is daf yomi
   void setIsDafYomi(bool isDaf) => _setByKey(HiveConsts.IS_DAF_YOMI, isDaf);
-
   bool getIsDafYomi() => _getByKey(HiveConsts.IS_DAF_YOMI) ?? false;
 
   Stream<bool> listenToIsDafYomi() {

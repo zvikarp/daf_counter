@@ -45,6 +45,8 @@
     "settings_reset_warning_text": "האם אתה בטוח רוצה למחוק הכל? לא ניתן לשחזר את המידע לאחר פעולה זו.",
     "reset_button": "אפס",
     "do_you_daf": "האם אתה לומד את הדף היומי?",
+    "should_show_notifications": "האם תרצה לקבל התראות יומיות?",
+    "notifications_time": "בחר שעה לקבלת ההתראות",
     "calendar_types": {
       "english_calendar": "לוח שנה לועזי",
       "hebrew_calendar": "לוח שנה עברי"

@@ -40,14 +40,14 @@ class ButtonWidget extends StatelessWidget {
   final ButtonType buttonType;
   final Color color;
 
-  ButtonColors _getButtonColors() {
+  ButtonColors _getButtonColors(BuildContext context) {
     Map<ButtonType, ButtonColors> typeMap = {
       ButtonType.Default: ButtonColors(
         textColor: this.color,
       ),
       ButtonType.Outline: ButtonColors(
         outlineColor: this.color,
-        textColor: this.color,
+        textColor: Theme.of(context).textTheme.button.color,
       ),
       ButtonType.Filled: ButtonColors(
         backgroundColor: this.color,
@@ -98,7 +98,7 @@ class ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ButtonColors buttonColors = _getButtonColors();
+    ButtonColors buttonColors = _getButtonColors(context);
     return Container(
       foregroundDecoration: BoxDecoration(
         color: disabled ? Theme.of(context).accentColor : Colors.transparent,

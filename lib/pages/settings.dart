@@ -19,10 +19,13 @@ class _SettingsPageState extends State<SettingsPage> {
     return ListView(
       children: <Widget>[
         GoogleAccountWidget(),
+        Divider(),
         SetLanguageWidget(),
         SetCalendarWidget(),
         SetThemeWidget(),
+        Divider(),
         SetDafYomiWidget(),
+        Divider(),
         DeleteAllWidget(),
         Divider(),
         AboutWidget(),
