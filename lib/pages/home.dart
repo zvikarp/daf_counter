@@ -47,13 +47,13 @@ class _HomePageState extends State<HomePage> {
     await _loadProgress();
     if (_isFirstRun()) {
       _loadFirstRun();
+    } else {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        backwardCompatibilityUtil.actUponBuildNumber(context);
+      });
     }
     _listenToIsDafYomiUpdate();
     progressAction.localToStore();
-
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      backwardCompatibilityUtil.actUponBuildNumber(context);
-    });
   }
 
   void _listenToIsDafYomiUpdate() {

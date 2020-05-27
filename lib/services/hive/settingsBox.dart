@@ -62,7 +62,7 @@ class SettingsBox {
   // show notifications
   void setShowNotifications(bool showNotifications) =>
       _setByKey(HiveConsts.SHOW_NOTIFICATIONS, showNotifications);
-  bool getShowNotifications() => _getByKey(HiveConsts.SHOW_NOTIFICATIONS);
+  bool getShowNotifications() => _getByKey(HiveConsts.SHOW_NOTIFICATIONS) ?? false;
 
   // notifications time
   void setNotificationsTime(TimeOfDay notificationsTime) => _setByKey(
