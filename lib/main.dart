@@ -59,11 +59,9 @@ class _MyAppState extends State<MyApp> {
         data: (Brightness brightness) {
           String currentTheme = hiveService.settings.getPreferredTheme() ??
               Consts.DEFAULT_THEME_TYPE;
-              print(currentTheme);
           return themeUtil.getTheme(context, currentTheme);
         },
         themedWidgetBuilder: (context, theme) {
-          print(theme);
           return MaterialApp(
             title: 'Daf++',
             localizationsDelegates: [

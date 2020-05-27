@@ -19,7 +19,8 @@
     "learned_masechet": "למדתי את כל המסכת",
     "daf_yomi_dialog_title": "קיצור חדש!",
     "daf_yomi_dialog_text": "לחץ על הכפתור כדי לסמן שלמדת את הדף היומי.",
-    "daf_yomi_toast": "סומן כנלמד"
+    "daf_yomi_toast": "סומן כנלמד",
+    "notifications_options_dialog_text": "הנך יכול לאפשר תזכורות יומיות בדף ההגדרות"
   },
 
   "settings": {

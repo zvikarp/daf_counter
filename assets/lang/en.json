@@ -19,7 +19,8 @@
     "learned_masechet": "I learned the masechet",
     "daf_yomi_dialog_title": "New Shortcut!",
     "daf_yomi_dialog_text": "Click this button to automatically check today's daf.",
-    "daf_yomi_toast": "marked as learned"
+    "daf_yomi_toast": "marked as learned",
+    "notifications_options_dialog_text": "You can now enable daily reminders in the settings tab."
   },
 
   "settings": {

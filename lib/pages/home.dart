@@ -1,6 +1,7 @@
-import 'package:daf_plus_plus/pages/settings.dart';
+import 'package:daf_plus_plus/utils/backwardCompatibility.dart';
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/pages/settings.dart';
 import 'package:daf_plus_plus/widgets/home/appBar.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
 import 'package:daf_plus_plus/pages/onboarding/welcome.dart';
@@ -9,6 +10,7 @@ import 'package:daf_plus_plus/pages/dafYomi.dart';
 import 'package:daf_plus_plus/pages/todaysDaf.dart';
 import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
+import 'package:flutter/scheduler.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -26,11 +28,11 @@ class _HomePageState extends State<HomePage> {
     return Future.value(true);
   }
 
-  bool isFirstRun() {
+  bool _isFirstRun() {
     return !hiveService.settings.getHasOpened();
   }
 
-  loadFirstRun() {
+  void _loadFirstRun() {
     localizationUtil
         .setPreferredLanguage(Localizations.localeOf(context).languageCode);
     Navigator.pushReplacement(
@@ -43,11 +45,15 @@ class _HomePageState extends State<HomePage> {
 
   void _loadApp() async {
     await _loadProgress();
-    if (isFirstRun()) {
-      loadFirstRun();
+    if (_isFirstRun()) {
+      _loadFirstRun();
     }
     _listenToIsDafYomiUpdate();
     progressAction.localToStore();
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      backwardCompatibilityUtil.actUponBuildNumber(context);
+    });
   }
 
   void _listenToIsDafYomiUpdate() {

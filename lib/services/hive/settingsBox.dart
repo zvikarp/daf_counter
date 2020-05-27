@@ -1,3 +1,4 @@
+import 'package:daf_plus_plus/consts/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -25,8 +26,7 @@ class SettingsBox {
   }
 
   // last daf
-  DafModel getLastDaf() =>
-      DafModel.fromString(_getByKey(HiveConsts.LAST_DAF));
+  DafModel getLastDaf() => DafModel.fromString(_getByKey(HiveConsts.LAST_DAF));
   void setLastDaf(DafModel lastDaf) {
     _setByKey(HiveConsts.LAST_DAF, lastDaf.toString());
     setLastUpdatedNow();
@@ -65,9 +65,11 @@ class SettingsBox {
   bool getShowNotifications() => _getByKey(HiveConsts.SHOW_NOTIFICATIONS);
 
   // notifications time
-  void setNotificationsTime(TimeOfDay notificationsTime) =>
-      _setByKey(HiveConsts.NOTIFICATIONS_TIME, dateConverterUtil.timeToString(notificationsTime));
-  TimeOfDay getNotificationsTime() => dateConverterUtil.stringToTime(_getByKey(HiveConsts.NOTIFICATIONS_TIME));
+  void setNotificationsTime(TimeOfDay notificationsTime) => _setByKey(
+      HiveConsts.NOTIFICATIONS_TIME,
+      dateConverterUtil.timeToString(notificationsTime));
+  TimeOfDay getNotificationsTime() =>
+      dateConverterUtil.stringToTime(_getByKey(HiveConsts.NOTIFICATIONS_TIME));
 
   // is daf yomi
   void setIsDafYomi(bool isDaf) => _setByKey(HiveConsts.IS_DAF_YOMI, isDaf);
@@ -75,7 +77,9 @@ class SettingsBox {
 
   Stream<bool> listenToIsDafYomi() {
     Box settingsBox = Hive.box(HiveConsts.SETTINGS_BOX);
-    return settingsBox.watch(key: HiveConsts.IS_DAF_YOMI).map((BoxEvent setting) => setting.value);
+    return settingsBox
+        .watch(key: HiveConsts.IS_DAF_YOMI)
+        .map((BoxEvent setting) => setting.value);
   }
 
   // has opened
@@ -86,6 +90,13 @@ class SettingsBox {
   // used fab
   void setUsedFab(bool usedFab) => _setByKey(HiveConsts.USED_FAB, usedFab);
   bool getUsedFab() => _getByKey(HiveConsts.USED_FAB) ?? false;
+
+  // used fab
+  void setLastUpdatedBuildNumber(int lastUpdatedBuildNumber) =>
+      _setByKey(HiveConsts.LAST_UPDATED_BUILD_NUMBER, lastUpdatedBuildNumber);
+  int getLastUpdatedBuildNumber() =>
+      _getByKey(HiveConsts.LAST_UPDATED_BUILD_NUMBER) ??
+      Consts.DEFAULT_BUILD_NUMBER;
 }
 
 final SettingsBox settingsBox = SettingsBox();

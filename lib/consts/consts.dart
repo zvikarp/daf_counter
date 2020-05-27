@@ -12,6 +12,7 @@ class Consts {
   static const int DEFAUT_DAF = 0;
   static const String DATA_DIVIDER = ',';
   static const int MAX_REVISIONS = 10000;
+  static const int DEFAULT_BUILD_NUMBER = 0;
 
   static const String PROJECT_URL =
       "https://github.com/capslock-bmdc/daf_plus_plus";
