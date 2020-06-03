@@ -26,7 +26,10 @@ dependencies:
   flutter_widgets: ^0.1.11
   flutter_sticky_header: 0.4.1
   cupertino_icons: ^0.1.2
-  flutter_local_notifications: ^1.2.2
+  flutter_local_notifications:
+    git:
+      url: https://github.com/chaimgross/flutter_local_notifications.git
+      ref: actions
   url_launcher: ^5.4.2
   provider: ^4.0.4
   dynamic_theme: ^1.0.1
