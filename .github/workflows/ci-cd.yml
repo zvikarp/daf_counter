@@ -49,12 +49,12 @@ jobs:
         file: build/app/outputs/apk/release/app-release.apk
 
     - name: Deploy Web Production
-    if: (github.base_ref == 'develop' && github.event_name == 'pull_request')
-    run: |
-      flutter build web --release
-      cp -R build/web/* public/
-    uses: w9jds/firebase-action@master
-    with:
-      args: deploy --only hosting
-    env:
-      FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN}}
+      if: (github.base_ref == 'develop' && github.event_name == 'pull_request')
+      run: |
+        flutter build web --release
+        cp -R build/web/* public/
+      uses: w9jds/firebase-action@master
+      with:
+        args: deploy --only hosting
+      env:
+        FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN}}
