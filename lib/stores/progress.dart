@@ -12,21 +12,21 @@ class ProgressStore = _ProgressStore with _$ProgressStore;
 // The store-class
 abstract class _ProgressStore with Store {
   @observable
-  ObservableMap<String, ProgressModel> _progressMap =
+  ObservableMap<String, ProgressModel> progressMap =
       ObservableMap<String, ProgressModel>.of({});
 
   @action
   void setProgress(String masechetId, ProgressModel progress) {
-    _progressMap.remove(masechetId);
-    _progressMap.putIfAbsent(masechetId, () => progress);
+    progressMap.remove(masechetId);
+    progressMap.putIfAbsent(masechetId, () => progress);
   }
 
   @action
   void setProgressMap(Map<String, ProgressModel> progressMap) {
-    _progressMap =
+    progressMap =
         ObservableMap<String, ProgressModel>.linkedHashMapFrom(progressMap);
   }
 
   @computed
-  ObservableMap<String, ProgressModel> get getProgressMap => _progressMap;
+  ObservableMap<String, ProgressModel> get getProgressMap => progressMap;
 }
