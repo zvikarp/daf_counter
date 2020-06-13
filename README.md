@@ -18,7 +18,11 @@ These instructions will get you a copy of the project up and running on your loc
 * Clone the project.
 * Add the `google-services.json` file to `android/app`.
 * Run `flutter get packages`.
+
+### Run
+
 * Run the project on your device.
+* To run on the web run `flutter run -d chrome --web-hostname localhost --web-port 7357`
 
 ## Contributing
 
