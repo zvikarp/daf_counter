@@ -28,10 +28,10 @@ void main() async {
   await hiveService.settings.open();
   await hiveService.progress.open();
   await localizationUtil.init();
-  runZoned(() {
+  runZonedGuarded(() {
     runApp(Provider<ProgressStore>(
         create: (_) => ProgressStore(), child: MyApp()));
-  }, onError: Crashlytics.instance.recordError);
+  }, Crashlytics.instance.recordError);
 }
 
 class MyApp extends StatefulWidget {
