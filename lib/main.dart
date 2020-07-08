@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:responsive_framework/responsive_framework.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 
 import 'package:daf_plus_plus/actions/progress.dart';
@@ -72,19 +71,6 @@ class _MyAppState extends State<MyApp> {
             ],
             supportedLocales: Consts.LOCALES,
             locale: _locale,
-            builder: (context, widget) => ResponsiveWrapper.builder(
-                BouncingScrollWrapper.builder(context, widget),
-                maxWidth: 750,
-                minWidth: 450,
-                // defaultScale: true,
-                breakpoints: [
-                  ResponsiveBreakpoint.resize(450, name: MOBILE),
-                  ResponsiveBreakpoint.autoScale(800, name: TABLET),
-                  ResponsiveBreakpoint.autoScale(1000, name: TABLET),
-                  ResponsiveBreakpoint.resize(1200, name: DESKTOP),
-                  ResponsiveBreakpoint.autoScale(2460, name: "4K"),
-                ],
-                background: Container(color: Color(0xFFF5F5F5))),
             initialRoute: RoutesConsts.INITIAL_PAGE,
             routes: routesUtil.routes,
             theme: theme,
