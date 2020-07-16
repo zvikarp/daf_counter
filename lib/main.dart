@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:daf_plus_plus/stores/navigatorKey.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,6 +41,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final GlobalKey<NavigatorState> navigatorKey =
+      new GlobalKey<NavigatorState>();
+
   Locale _locale = localizationUtil.locale;
 
   _onLocaleChanged() {
@@ -51,6 +55,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     progressAction.setProgressContext(context);
     localizationUtil.onLocaleChangedCallback = _onLocaleChanged;
+    navigatorKeyStore.setNavigatorKey(navigatorKey);
   }
 
   @override
@@ -73,6 +78,7 @@ class _MyAppState extends State<MyApp> {
             locale: _locale,
             initialRoute: RoutesConsts.INITIAL_PAGE,
             routes: routesUtil.routes,
+            navigatorKey: navigatorKey,
             theme: theme,
           );
         });
