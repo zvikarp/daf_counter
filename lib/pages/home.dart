@@ -1,9 +1,9 @@
-import 'package:daf_plus_plus/pages/settings.dart';
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/consts/routes.dart';
+import 'package:daf_plus_plus/pages/settings.dart';
 import 'package:daf_plus_plus/widgets/home/appBar.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
-import 'package:daf_plus_plus/pages/onboarding/welcome.dart';
 import 'package:daf_plus_plus/pages/allShas.dart';
 import 'package:daf_plus_plus/pages/dafYomi.dart';
 import 'package:daf_plus_plus/pages/todaysDaf.dart';
@@ -33,12 +33,7 @@ class _HomePageState extends State<HomePage> {
   loadFirstRun() {
     localizationUtil
         .setPreferredLanguage(Localizations.localeOf(context).languageCode);
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) => WelcomeOnboardingPage(),
-      ),
-    );
+    Navigator.of(context).pushReplacementNamed(RoutesConsts.WELCOME_PAGE);
   }
 
   void _loadApp() async {

@@ -22,9 +22,9 @@ abstract class _ProgressStore with Store {
   }
 
   @action
-  void setProgressMap(Map<String, ProgressModel> progressMap) {
+  void setProgressMap(Map<String, ProgressModel> updatedProgressMap) {
     progressMap =
-        ObservableMap<String, ProgressModel>.linkedHashMapFrom(progressMap);
+        ObservableMap<String, ProgressModel>.linkedHashMapFrom(updatedProgressMap);
   }
 
   @computed
