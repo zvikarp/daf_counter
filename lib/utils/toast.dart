@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class ToastUtil {
@@ -6,8 +7,8 @@ class ToastUtil {
         msg: text,
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.BOTTOM,
-        timeInSecForIos: 3,
-        fontSize: 16.0
+        timeInSecForIosWeb: 3,
+        fontSize: 16.0,
     );
   }
 }
