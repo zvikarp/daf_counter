@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'package:fluttertoast/fluttertoast.dart';
 
 class ToastUtil {
@@ -8,6 +10,8 @@ class ToastUtil {
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 3,
         fontSize: 16.0,
+        webBgColor: "#4DB6AC",
+        webPosition: "center"
     );
   }
 }
