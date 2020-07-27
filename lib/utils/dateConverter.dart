@@ -25,9 +25,9 @@ class DateConverterUtil {
     int day = date?.day ?? -1;
     if (month + day < 0) return "";
     JewishDate hebrewDate = JewishDate.fromDateTime(date);
-    int hebrewMonth = hebrewDate.jewishMonth;
+    int hebrewMonth = hebrewDate.getJewishMonth();
     bool useGematria = localizationUtil.translate("calendar", "display_hebrew_dates_as_gematria");
-    String hebrewDay = useGematria ? gematriaConverterUtil.toGematria(hebrewDate.jewishDay) : hebrewDate.jewishDay.toString();
+    String hebrewDay = useGematria ? gematriaConverterUtil.toGematria(hebrewDate.getJewishDayOfMonth()) : hebrewDate.getJewishDayOfMonth().toString();
     String monthName = localizationUtil.translate("calendar", "hebrew_months")[hebrewMonth - 1];
     return hebrewDay + " " +  monthName;
   }

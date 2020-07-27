@@ -27,6 +27,7 @@ class ThemeUtil {
         backgroundColor: Colors.blueGrey[50],
         canvasColor: Colors.blueGrey[50],
         errorColor: Color(0xFFED4337).withOpacity(0.7),
+        disabledColor: Colors.teal[300],
 
         // typography
         textTheme: GoogleFonts.alefTextTheme(
