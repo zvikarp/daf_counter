@@ -4,7 +4,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
 
 class AppBarWidget extends StatefulWidget with PreferredSizeWidget {
-  AppBarWidget({this.tabs});
+  AppBarWidget({
+    this.tabs = const [],
+  });
 
   final List<String> tabs;
 
@@ -12,7 +14,7 @@ class AppBarWidget extends StatefulWidget with PreferredSizeWidget {
   _AppBarWidgetState createState() => _AppBarWidgetState();
 
   @override
-  Size get preferredSize => Size.fromHeight(92);
+  Size get preferredSize => Size.fromHeight(tabs.isNotEmpty ? 92 : 48);
 }
 
 class _AppBarWidgetState extends State<AppBarWidget> {
@@ -96,7 +98,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       title: _appBarTitle(),
       centerTitle: true,
       leading: Container(),
-      bottom: _tabBar(),
+      bottom: widget.tabs.isNotEmpty ? _tabBar() : null,
     );
   }
 }

@@ -1,4 +1,7 @@
+import 'package:daf_plus_plus/enums/deviceScreenType.dart';
+import 'package:daf_plus_plus/pages/home/home_desktop.dart';
 import 'package:daf_plus_plus/pages/home/home_mobile.dart';
+import 'package:daf_plus_plus/widgets/shared/responsive/responsive.dart';
 import 'package:flutter/material.dart';
 
 import 'package:daf_plus_plus/consts/routes.dart';
@@ -66,9 +69,16 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _exitApp,
-      child: HomeMobile(
-        isDafYomi: _isDafYomi,
-      ),
+      child: ResponsiveWidget(builder: (context, sizingInformation) {
+        if (sizingInformation.deviceType == DeviceScreenType.Tablet) {
+          return HomeDesktop(
+          isDafYomi: _isDafYomi,
+          );
+        }
+        return HomeMobile(
+          isDafYomi: _isDafYomi,
+        );
+      }),
     );
   }
 }
