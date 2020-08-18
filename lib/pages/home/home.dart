@@ -1,12 +1,11 @@
+import 'package:daf_plus_plus/enums/deviceScreenType.dart';
+import 'package:daf_plus_plus/pages/home/home_desktop.dart';
+import 'package:daf_plus_plus/pages/home/home_mobile.dart';
+import 'package:daf_plus_plus/widgets/shared/responsive/responsive.dart';
 import 'package:flutter/material.dart';
 
 import 'package:daf_plus_plus/consts/routes.dart';
-import 'package:daf_plus_plus/pages/settings.dart';
-import 'package:daf_plus_plus/widgets/home/appBar.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
-import 'package:daf_plus_plus/pages/allShas.dart';
-import 'package:daf_plus_plus/pages/dafYomi.dart';
-import 'package:daf_plus_plus/pages/todaysDaf.dart';
 import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
 
@@ -16,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Map<String, Widget> _tabs = {};
+  bool _isDafYomi = true;
 
   Future<void> _loadProgress() async {
     progressAction.backup();
@@ -26,11 +25,11 @@ class _HomePageState extends State<HomePage> {
     return Future.value(true);
   }
 
-  bool isFirstRun() {
+  bool _isFirstRun() {
     return !hiveService.settings.getHasOpened();
   }
 
-  loadFirstRun() {
+  _loadFirstRun() {
     localizationUtil
         .setPreferredLanguage(Localizations.localeOf(context).languageCode);
     Navigator.of(context).pushReplacementNamed(RoutesConsts.WELCOME_PAGE);
@@ -38,8 +37,8 @@ class _HomePageState extends State<HomePage> {
 
   void _loadApp() async {
     await _loadProgress();
-    if (isFirstRun()) {
-      loadFirstRun();
+    if (_isFirstRun()) {
+      _loadFirstRun();
     }
     _listenToIsDafYomiUpdate();
     progressAction.localToStore();
@@ -47,22 +46,9 @@ class _HomePageState extends State<HomePage> {
 
   void _listenToIsDafYomiUpdate() {
     bool isDafYomi = hiveService.settings.getIsDafYomi();
-    _updateIsDafYomi(isDafYomi);
+    setState(() => _isDafYomi = isDafYomi);
     hiveService.settings.listenToIsDafYomi().listen((bool isDafYomi) {
-      _updateIsDafYomi(isDafYomi);
-    });
-  }
-
-  void _updateIsDafYomi(isDafYomi) {
-    Map<String, Widget> tabs = {};
-    if (isDafYomi)
-      tabs['daf_yomi'] = DafYomiPage();
-    else
-      tabs['todays_daf'] = TodaysDafPage();
-    tabs['all_shas'] = AllShasPage();
-    tabs['settings'] = SettingsPage();
-    setState(() {
-      _tabs = tabs;
+      setState(() => _isDafYomi = isDafYomi);
     });
   }
 
@@ -81,16 +67,18 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: _tabs.length,
-      child: WillPopScope(
-          onWillPop: _exitApp,
-          child: Scaffold(
-            appBar: AppBarWidget(
-              tabs: _tabs.keys.toList(),
-            ),
-            body: TabBarView(children: _tabs.values.toList()),
-          )),
+    return WillPopScope(
+      onWillPop: _exitApp,
+      child: ResponsiveWidget(builder: (context, sizingInformation) {
+        if (sizingInformation.deviceType == DeviceScreenType.Mobile) {
+          return HomeMobile(
+            isDafYomi: _isDafYomi,
+          );
+        }
+        return HomeDesktop(
+          isDafYomi: _isDafYomi,
+        );
+      }),
     );
   }
 }

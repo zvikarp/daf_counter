@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:daf_plus_plus/dialogs/masechetOptions.dart';
+import 'package:daf_plus_plus/enums/deviceScreenType.dart';
 import 'package:daf_plus_plus/models/progress.dart';
 import 'package:daf_plus_plus/utils/transparentRoute.dart';
+import 'package:daf_plus_plus/widgets/shared/responsive/responsive.dart';
 import 'package:flutter/material.dart';
 
 import 'package:daf_plus_plus/models/masechet.dart';
@@ -54,52 +56,63 @@ class MasechetTitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: inList ? _changeExpandedState : () {},
-      onLongPress: () => _openMasechetOptions(context),
-      child: Container(
-        padding: const EdgeInsets.only(top: 16),
-        margin: EdgeInsets.only(right: 8, left: 8, bottom: 8),
-        color: Theme.of(context).canvasColor,
+    return ResponsiveWidget(builder: (context, sizingInformation) {
+      bool isMobile = sizingInformation.deviceType == DeviceScreenType.Mobile;
+      return GestureDetector(
+        onTap: inList ? _changeExpandedState : () {},
+        onLongPress: () => _openMasechetOptions(context),
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: Theme.of(context).accentColor,
-          ),
-          child: Row(
-            children: <Widget>[
-              inList
-                  ? Transform.rotate(
-                      angle: this.isExpanded ? pi / 1 : 0,
-                      child: IconButton(
-                        icon: Icon(Icons.keyboard_arrow_down),
-                        onPressed: _changeExpandedState,
-                      ),
-                    )
-                  : Container(),
-              Expanded(
-                child: Text(
-                  localizationUtil.translate("general", "masechet") +
-                      " " +
-                      localizationUtil.translate("shas", this.masechet.id),
-                  style: Theme.of(context).textTheme.bodyText2,
+          padding: isMobile ? EdgeInsets.only(top: 16) : EdgeInsets.zero,
+          margin: isMobile
+              ? EdgeInsets.only(right: 8, left: 8, bottom: 8)
+              : EdgeInsets.zero,
+          child: Container(
+            padding: isMobile
+                ? EdgeInsets.symmetric(vertical: 8, horizontal: 12)
+                : !inList
+                    ? EdgeInsets.symmetric(vertical: 24, horizontal: 36)
+                    : EdgeInsets.symmetric(horizontal: 12),
+            decoration: BoxDecoration(
+              borderRadius:
+                  isMobile ? BorderRadius.circular(5) : BorderRadius.zero,
+              color: isMobile
+                  ? Theme.of(context).accentColor
+                  : Theme.of(context).cardColor.withOpacity(0.5),
+            ),
+            child: Row(
+              children: <Widget>[
+                inList
+                    ? Transform.rotate(
+                        angle: this.isExpanded ? pi / 1 : 0,
+                        child: IconButton(
+                          icon: Icon(Icons.keyboard_arrow_down),
+                          onPressed: _changeExpandedState,
+                        ),
+                      )
+                    : Container(),
+                Expanded(
+                  child: Text(
+                    localizationUtil.translate("general", "masechet") +
+                        " " +
+                        localizationUtil.translate("shas", this.masechet.id),
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  progress.countDone().toString() +
-                      "/" +
-                      progress.data.length.toString(),
-                  style: Theme.of(context).textTheme.bodyText2,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    progress.countDone().toString() +
+                        "/" +
+                        progress.data.length.toString(),
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
                 ),
-              ),
-              _gapWidget(context, progress.countGaps()),
-            ],
+                _gapWidget(context, progress.countGaps()),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

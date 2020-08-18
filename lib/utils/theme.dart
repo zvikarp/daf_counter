@@ -28,6 +28,7 @@ class ThemeUtil {
         canvasColor: Colors.blueGrey[50],
         errorColor: Color(0xFFED4337).withOpacity(0.7),
         disabledColor: Colors.teal[300],
+        cardColor: Colors.blueGrey[100],
 
         // typography
         textTheme: GoogleFonts.alefTextTheme(
@@ -77,6 +78,7 @@ class ThemeUtil {
         canvasColor: Colors.blueGrey[900],
         backgroundColor: Colors.blueGrey[900],
         errorColor: Color(0xFFED4337).withOpacity(0.7),
+        cardColor: Colors.blueGrey[800],
 
         // typography
         textTheme: GoogleFonts.alefTextTheme(
