@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
+import 'package:daf_plus_plus/pages/settings.dart';
+import 'package:daf_plus_plus/utils/transparentRoute.dart';
+import 'package:daf_plus_plus/widgets/core/dialog.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
 
 class AppBarWidget extends StatefulWidget with PreferredSizeWidget {
   AppBarWidget({
+    this.displaySettings = false,
     this.tabs = const [],
   });
 
+  final bool displaySettings;
   final List<String> tabs;
 
   @override
@@ -19,6 +24,17 @@ class AppBarWidget extends StatefulWidget with PreferredSizeWidget {
 
 class _AppBarWidgetState extends State<AppBarWidget> {
   double _plusPlusWidth = 0;
+
+  void _openSettings() {
+    Navigator.of(context).push(
+      TransparentRoute(
+        builder: (BuildContext context) => DialogWidget(
+          onTapBackground: () => Navigator.pop(context),
+          child: SettingsPage(),
+        ),
+      ),
+    );
+  }
 
   Widget _textTab(String text, double width) {
     return Container(
@@ -36,30 +52,28 @@ class _AppBarWidgetState extends State<AppBarWidget> {
   }
 
   Widget _appBarTitle() {
-    return SafeArea(
-      child: Row(
-        textDirection: TextDirection.rtl,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Image.asset(
-            "assets/icon/daf-white-on-transperant.png",
-            width: 30,
+    return Row(
+      textDirection: TextDirection.rtl,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Image.asset(
+          "assets/icon/daf-white-on-transperant.png",
+          width: 30,
+          height: 36,
+        ),
+        AnimatedContainer(
+          duration: Duration(milliseconds: 150),
+          width: _plusPlusWidth,
+          height: 36,
+          child: Image.asset(
+            "assets/icon/pp-white-on-transperant.png",
+            width: 36,
             height: 36,
+            fit: BoxFit.fitHeight,
+            alignment: Alignment.centerLeft,
           ),
-          AnimatedContainer(
-            duration: Duration(milliseconds: 150),
-            width: _plusPlusWidth,
-            height: 36,
-            child: Image.asset(
-              "assets/icon/pp-white-on-transperant.png",
-              width: 36,
-              height: 36,
-              fit: BoxFit.fitHeight,
-              alignment: Alignment.centerLeft,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -98,6 +112,10 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       title: _appBarTitle(),
       centerTitle: true,
       leading: Container(),
+      actions: [
+        if (widget.displaySettings)
+          IconButton(icon: Icon(Icons.settings), onPressed: _openSettings)
+      ],
       bottom: widget.tabs.isNotEmpty ? _tabBar() : null,
     );
   }

@@ -70,12 +70,12 @@ class _HomePageState extends State<HomePage> {
     return WillPopScope(
       onWillPop: _exitApp,
       child: ResponsiveWidget(builder: (context, sizingInformation) {
-        if (sizingInformation.deviceType == DeviceScreenType.Tablet) {
-          return HomeDesktop(
-          isDafYomi: _isDafYomi,
+        if (sizingInformation.deviceType == DeviceScreenType.Mobile) {
+          return HomeMobile(
+            isDafYomi: _isDafYomi,
           );
         }
-        return HomeMobile(
+        return HomeDesktop(
           isDafYomi: _isDafYomi,
         );
       }),

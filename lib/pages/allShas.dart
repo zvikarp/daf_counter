@@ -52,11 +52,9 @@ class AllShasPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: CustomScrollView(
-        shrinkWrap: true,
-        slivers: [..._generateList(), _bottomSpacer()],
-      ),
+    return CustomScrollView(
+      shrinkWrap: true,
+      slivers: [..._generateList(), _bottomSpacer()],
     );
   }
 }

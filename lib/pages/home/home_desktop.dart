@@ -13,18 +13,25 @@ class HomeDesktop extends StatelessWidget {
 
   final bool isDafYomi;
 
+  Widget _sideBar(BuildContext context, Widget child) {
+    return Container(
+        width: 300,
+        color: Theme.of(context).cardColor.withOpacity(0.5),
+        child: child);
+  }
+
   @override
   Widget build(BuildContext context) {
     Map<String, Widget> _widgets = {
+      'all_shas': _sideBar(context, AllShasPage()),
       if (isDafYomi) 'daf_yomi': DafYomiPage(),
       if (!isDafYomi) 'todays_daf': TodaysDafPage(),
-      'all_shas': AllShasPage(),
       // 'settings': SettingsPage()
     };
     return DefaultTabController(
       length: _widgets.length,
       child: Scaffold(
-        appBar: AppBarWidget(),
+        appBar: AppBarWidget(displaySettings: true),
         body: Row(
           children: _widgets.values.toList(),
         ),

@@ -25,6 +25,7 @@ class HomeMobile extends StatelessWidget {
       length: _tabs.length,
       child: Scaffold(
         appBar: AppBarWidget(
+          displaySettings: false,
           tabs: _tabs.keys.toList(),
         ),
         body: TabBarView(children: _tabs.values.toList()),

@@ -45,6 +45,7 @@ class DafWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: ListTile(
+        dense: true,
         onTap: () => _onClickCheckbox(dafCount > 0 ? false : true),
         leading: Checkbox(
           activeColor: Theme.of(context).accentColor,
