@@ -24,9 +24,8 @@ class HomeDesktop extends StatelessWidget {
   Widget build(BuildContext context) {
     Map<String, Widget> _widgets = {
       'all_shas': _sideBar(context, AllShasPage()),
-      if (isDafYomi) 'daf_yomi': DafYomiPage(),
-      if (!isDafYomi) 'todays_daf': TodaysDafPage(),
-      // 'settings': SettingsPage()
+      if (isDafYomi) 'daf_yomi': Flexible(child: DafYomiPage()),
+      if (!isDafYomi) 'todays_daf': Flexible(child: TodaysDafPage()),
     };
     return DefaultTabController(
       length: _widgets.length,
