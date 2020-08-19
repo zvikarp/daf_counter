@@ -50,7 +50,7 @@ class _WelcomeOnboardingPageState extends State<WelcomeOnboardingPage> {
                     padding: EdgeInsets.symmetric(vertical: 48, horizontal: 32),
                     color: Theme.of(context).primaryColor,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(

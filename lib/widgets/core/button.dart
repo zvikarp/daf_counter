@@ -99,14 +99,18 @@ class ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ButtonColors buttonColors = _getButtonColors();
-    return Container(
+    return Center(
       child: FlatButton(
         onPressed: disabled ? onPressedDisabled : onPressed,
         disabledColor: Theme.of(context).disabledColor,
         color: buttonColors.backgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
-          side: BorderSide(color: disabled ? Theme.of(context).disabledColor : buttonColors.outlineColor, width: 2),
+          side: BorderSide(
+              color: disabled
+                  ? Theme.of(context).disabledColor
+                  : buttonColors.outlineColor,
+              width: 2),
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
