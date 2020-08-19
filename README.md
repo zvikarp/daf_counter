@@ -32,7 +32,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### Run
 
 * Run the project on your device.
-* To run on the web run `flutter run -d chrome --web-hostname localhost --web-port 7357`
+* To run on the web run `flutter run -d chrome --web-hostname localhost --web-port 7357`.
 
 ## Contributing
 
