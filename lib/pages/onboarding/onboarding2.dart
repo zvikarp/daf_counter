@@ -98,11 +98,13 @@ class _Onboarding2PageState extends State<Onboarding2Page> {
             )),
             Container(
               padding: EdgeInsets.symmetric(vertical: 24, horizontal: 32),
-              child: ButtonWidget(
-                text: localizationUtil.translate("general", "done"),
-                buttonType: ButtonType.Outline,
-                color: Theme.of(context).primaryColor,
-                onPressed: _done,
+              child: Center(
+                child: ButtonWidget(
+                  text: localizationUtil.translate("general", "done"),
+                  buttonType: ButtonType.Outline,
+                  color: Theme.of(context).primaryColor,
+                  onPressed: _done,
+                ),
               ),
             ),
           ]),
