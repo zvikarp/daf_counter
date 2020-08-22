@@ -13,12 +13,11 @@ class DafYomiPage extends StatelessWidget {
     DafModel daf = dafsDatesStore.getDafByDate(today);
 
     return Scaffold(
-          body: MasechetWidget(
+      body: MasechetWidget(
         daf: daf,
         inList: false,
       ),
-      floatingActionButton:
-                DafYomiFabWidget(),
+      floatingActionButton: DafYomiFabWidget(),
     );
   }
 }

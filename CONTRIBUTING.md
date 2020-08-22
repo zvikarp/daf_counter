@@ -2,7 +2,7 @@
 
 :+1::tada: First off, thanks for taking the time to contribute! :tada::+1:
 
-The following is a set of guidelines for contributing to Daf++, which are hosted in the [CAPSLOCK Organization](https://github.com/capslock-bmdc) on GitHub. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
+The following is a set of guidelines for contributing to Daf++, which are hosted in the [CAPSLOCK Organization](https://github.com/capslock-bmdc) on GitHub. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document.
 
 ## Code of Conduct
 This project and everyone participating in it is governed by the [CAPSLOCK Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [capslock.bmdc@gmail.com](mailto:capslock.bmdc@gmail.com).
@@ -11,17 +11,19 @@ This project and everyone participating in it is governed by the [CAPSLOCK Code 
 
 ### Reporting Bugs
 
-Before creating bug reports, please check if the problem has already been reported. as you might find out that you don't need to create one. If it has **and the issue is still open**, add a comment to the existing issue instead of opening a new one. When you are creating a bug report, please include as many details as possible.
+Before creating bug reports, please check if the problem has already been reported. as you might find out that it has already been reported. If it has **and the issue is still open**, add a comment to the existing issue instead of opening a new one. When you are creating a bug report, please include as many details as possible.
 
 ### Suggesting Enhancements
 
-Before creating enhancement suggestions, please check  if the enhancement has already been suggested as you might find out that you don't need to create one. When you are creating an enhancement suggestion, please include as many details as possible.
+Before creating enhancement suggestions, please check  if the enhancement has already been suggested as you might find out that it has already been suggested. When you are creating an enhancement suggestion, please include as many details as possible.
 
 ### Your First Code Contribution
 
 Unsure where to begin contributing? You can start by looking through the `first-good-issue` issues.
 
 ## Coding conventions
+
+Most importantly, we are following the [commit message guidelines](https://github.com/dannyfritz/commit-message-emoji) from dannyfritz 🤩.
 
 All Dart code must adhere to [Dart Standard Style](https://dart.dev/guides/language/effective-dart/style).
 

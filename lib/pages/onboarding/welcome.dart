@@ -1,8 +1,8 @@
-import 'package:daf_plus_plus/widgets/core/spacer.dart';
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/consts/routes.dart';
+import 'package:daf_plus_plus/widgets/core/spacer.dart';
 import 'package:daf_plus_plus/consts/consts.dart';
-import 'package:daf_plus_plus/pages/onboarding/onboarding1.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
 import 'package:daf_plus_plus/widgets/core/button.dart';
 
@@ -16,12 +16,7 @@ class _WelcomeOnboardingPageState extends State<WelcomeOnboardingPage> {
 
   void _changeLanguage(BuildContext context, String language) async {
     await localizationUtil.setPreferredLanguage(language);
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (context, animation1, animation2) => Onboarding1Page(),
-      ),
-    );
+    Navigator.of(context).pushNamed(RoutesConsts.ONBOARDING1_PAGE);
   }
 
   void _getLanguages() {
@@ -55,7 +50,7 @@ class _WelcomeOnboardingPageState extends State<WelcomeOnboardingPage> {
                     padding: EdgeInsets.symmetric(vertical: 48, horizontal: 32),
                     color: Theme.of(context).primaryColor,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
@@ -80,15 +75,17 @@ class _WelcomeOnboardingPageState extends State<WelcomeOnboardingPage> {
             physics: NeverScrollableScrollPhysics(),
             padding: EdgeInsets.symmetric(vertical: 48, horizontal: 32),
             children: _listOfLanguages
-                .map((language) => ListTile(
-                      title: ButtonWidget(
-                        text: localizationUtil.translate(
-                            "onboarding", "choose_" + language),
-                        buttonType: ButtonType.Outline,
-                        color: Theme.of(context).primaryColor,
-                        onPressed: () => _changeLanguage(context, language),
-                      ),
-                    ))
+                .map(
+                  (language) => Center(
+                    child: ButtonWidget(
+                      text: localizationUtil.translate(
+                          "onboarding", "choose_" + language),
+                      buttonType: ButtonType.Outline,
+                      color: Theme.of(context).primaryColor,
+                      onPressed: () => _changeLanguage(context, language),
+                    ),
+                  ),
+                )
                 .toList(),
           )
         ],

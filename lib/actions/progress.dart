@@ -21,7 +21,7 @@ class ProgressAction {
       Provider.of<ProgressStore>(_progressContext, listen: listen);
 
   void update(String masechetId, ProgressModel progress,
-      [int incrementCounterBy = 1]) {
+      [int incrementCounterBy = 5]) {
     ProgressStore progressStore = _getProgressStore();
     actionCounterStore.increment(incrementCounterBy);
     hiveService.progress.setProgress(masechetId, progress);
@@ -53,7 +53,8 @@ class ProgressAction {
   Future<void> backup() async {
     Map<String, ProgressModel> progressMap =
         hiveService.progress.getProgressMap();
-    ResponseModel backupResponse = await firestoreService.progress.setProgressMap(progressMap);
+    ResponseModel backupResponse =
+        await firestoreService.progress.setProgressMap(progressMap);
     if (backupResponse.isSuccessful()) {
       hiveService.settings.setLastBackupNow();
     }
@@ -72,7 +73,8 @@ class ProgressAction {
   }
 
   void _checkIfShouldBackup() {
-    if (actionCounterStore.numberOfActions >= Consts.PROGRESS_BACKUP_THRESHOLD) {
+    if (actionCounterStore.numberOfActions >=
+        Consts.PROGRESS_BACKUP_THRESHOLD) {
       backup();
       actionCounterStore.clear();
     }

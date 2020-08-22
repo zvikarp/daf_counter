@@ -22,10 +22,12 @@ class AllShasPage extends StatelessWidget {
             header: SectionHeaderWidget(
               header: localizationUtil.translate("general", "seder") +
                   " " +
-                  localizationUtil.translate("shas", SedersData.THE_SEDERS
-                      .firstWhere(
-                          (SederModel seder) => seder.id == masechet.sederId)
-                      .id),
+                  localizationUtil.translate(
+                      "shas",
+                      SedersData.THE_SEDERS
+                          .firstWhere((SederModel seder) =>
+                              seder.id == masechet.sederId)
+                          .id),
             ),
           ),
         );
@@ -41,11 +43,18 @@ class AllShasPage extends StatelessWidget {
   }
 
   Widget _bottomSpacer() {
-    return SliverStickyHeader(header: Container(height: 100,),);
+    return SliverStickyHeader(
+      header: Container(
+        height: 100,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(slivers: [..._generateList(), _bottomSpacer()]);
+    return CustomScrollView(
+      shrinkWrap: true,
+      slivers: [..._generateList(), _bottomSpacer()],
+    );
   }
 }

@@ -1,13 +1,14 @@
+import 'package:flutter/material.dart';
+
 import 'package:daf_plus_plus/actions/progress.dart';
+import 'package:daf_plus_plus/consts/routes.dart';
 import 'package:daf_plus_plus/data/masechets.dart';
 import 'package:daf_plus_plus/models/masechet.dart';
 import 'package:daf_plus_plus/models/progress.dart';
-import 'package:daf_plus_plus/pages/home.dart';
 import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
 import 'package:daf_plus_plus/widgets/shared/simpleMesechetWidget.dart';
 import 'package:daf_plus_plus/widgets/core/button.dart';
-import 'package:flutter/material.dart';
 
 class Onboarding2Page extends StatefulWidget {
   @override
@@ -37,10 +38,8 @@ class _Onboarding2PageState extends State<Onboarding2Page> {
     }
 
     hiveService.settings.setHasOpened(true);
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (BuildContext context) => HomePage()),
-        ModalRoute.withName('/'));
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        RoutesConsts.HOME_PAGE, ModalRoute.withName('/'));
   }
 
   void _onClickDaf(int masechetIndex, bool state) {
@@ -99,11 +98,13 @@ class _Onboarding2PageState extends State<Onboarding2Page> {
             )),
             Container(
               padding: EdgeInsets.symmetric(vertical: 24, horizontal: 32),
-              child: ButtonWidget(
-                text: localizationUtil.translate("general", "done"),
-                buttonType: ButtonType.Outline,
-                color: Theme.of(context).primaryColor,
-                onPressed: _done,
+              child: Center(
+                child: ButtonWidget(
+                  text: localizationUtil.translate("general", "done"),
+                  buttonType: ButtonType.Outline,
+                  color: Theme.of(context).primaryColor,
+                  onPressed: _done,
+                ),
               ),
             ),
           ]),

@@ -42,7 +42,9 @@ class _SetCalendarWidgetState extends State<SetCalendarWidget> {
       padding: EdgeInsets.all(8),
       child: ListTile(
         title: Text(
-            localizationUtil.translate("settings", "settings_calendar_text")),
+          localizationUtil.translate("settings", "settings_calendar_text"),
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
         trailing: DropdownButton<String>(
           value: _currentCalendar,
           underline: Container(
@@ -54,8 +56,11 @@ class _SetCalendarWidgetState extends State<SetCalendarWidget> {
               _calendarsList.map<DropdownMenuItem<String>>((String calendar) {
             return DropdownMenuItem<String>(
               value: calendar,
-              child: Text(localizationUtil.translate(
-                  "settings", "calendar_types")[calendar]),
+              child: Text(
+                localizationUtil.translate(
+                    "settings", "calendar_types")[calendar],
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
             );
           }).toList(),
         ),

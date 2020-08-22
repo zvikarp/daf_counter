@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SimpleMesechetWidget extends StatelessWidget {
-  SimpleMesechetWidget({
-    @required this.name,
-    @required this.onChange,
-    @required this.checked
-  });
+  SimpleMesechetWidget(
+      {@required this.name, @required this.onChange, @required this.checked});
 
   final String name;
   final bool checked;
@@ -20,12 +17,14 @@ class SimpleMesechetWidget extends StatelessWidget {
     return Container(
       child: IntrinsicHeight(
           child: CheckboxListTile(
-            title: Text(name),
-            onChanged: _onClickCheckbox,
-            value: checked,
-            controlAffinity: ListTileControlAffinity.leading,
-          )
-      ),
+        title: Text(
+          name,
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+        onChanged: _onClickCheckbox,
+        value: checked,
+        controlAffinity: ListTileControlAffinity.leading,
+      )),
     );
   }
 }
