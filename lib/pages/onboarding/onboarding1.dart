@@ -70,7 +70,7 @@ class Onboarding1Page extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 48, horizontal: 32),
                     color: Theme.of(context).primaryColor,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
@@ -92,36 +92,29 @@ class Onboarding1Page extends StatelessWidget {
             ),
           ),
           SpacerWidget(height: 42),
-          ListTile(
-            title: ButtonWidget(
-              text: localizationUtil.translate(
-                  "onboarding", "learning_daf_in_sync"),
-              subtext: localizationUtil.translate(
-                  "onboarding", "learning_daf_in_sync_subtext"),
-              buttonType: ButtonType.Outline,
-              color: Theme.of(context).primaryColor,
-              onPressed: () => _yesAndFill(context),
-            ),
+          ButtonWidget(
+            text: localizationUtil.translate(
+                "onboarding", "learning_daf_in_sync"),
+            subtext: localizationUtil.translate(
+                "onboarding", "learning_daf_in_sync_subtext"),
+            buttonType: ButtonType.Outline,
+            color: Theme.of(context).primaryColor,
+            onPressed: () => _yesAndFill(context),
           ),
           SpacerWidget(height: 24),
-          ListTile(
-            title: ButtonWidget(
-              text: localizationUtil.translate(
-                  "onboarding", "learning_daf_alone"),
-              buttonType: ButtonType.Outline,
-              color: Theme.of(context).primaryColor,
-              onPressed: () => _justYes(context),
-            ),
+          ButtonWidget(
+            text:
+                localizationUtil.translate("onboarding", "learning_daf_alone"),
+            buttonType: ButtonType.Outline,
+            color: Theme.of(context).primaryColor,
+            onPressed: () => _justYes(context),
           ),
           SpacerWidget(height: 24),
-          ListTile(
-            title: ButtonWidget(
-              text:
-                  localizationUtil.translate("onboarding", "not_learning_daf"),
-              buttonType: ButtonType.Outline,
-              color: Theme.of(context).primaryColor,
-              onPressed: () => _no(context),
-            ),
+          ButtonWidget(
+            text: localizationUtil.translate("onboarding", "not_learning_daf"),
+            buttonType: ButtonType.Outline,
+            color: Theme.of(context).primaryColor,
+            onPressed: () => _no(context),
           ),
           SpacerWidget(height: 42),
         ],

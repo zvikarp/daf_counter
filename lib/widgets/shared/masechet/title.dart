@@ -63,6 +63,7 @@ class MasechetTitleWidget extends StatelessWidget {
         onLongPress: () => _openMasechetOptions(context),
         child: Container(
           padding: isMobile ? EdgeInsets.only(top: 16) : EdgeInsets.zero,
+          color: isMobile ? Theme.of(context).canvasColor : Colors.transparent,
           margin: isMobile
               ? EdgeInsets.only(right: 8, left: 8, bottom: 8)
               : EdgeInsets.zero,

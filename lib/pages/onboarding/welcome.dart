@@ -50,7 +50,7 @@ class _WelcomeOnboardingPageState extends State<WelcomeOnboardingPage> {
                     padding: EdgeInsets.symmetric(vertical: 48, horizontal: 32),
                     color: Theme.of(context).primaryColor,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
@@ -75,15 +75,17 @@ class _WelcomeOnboardingPageState extends State<WelcomeOnboardingPage> {
             physics: NeverScrollableScrollPhysics(),
             padding: EdgeInsets.symmetric(vertical: 48, horizontal: 32),
             children: _listOfLanguages
-                .map((language) => ListTile(
-                      title: ButtonWidget(
-                        text: localizationUtil.translate(
-                            "onboarding", "choose_" + language),
-                        buttonType: ButtonType.Outline,
-                        color: Theme.of(context).primaryColor,
-                        onPressed: () => _changeLanguage(context, language),
-                      ),
-                    ))
+                .map(
+                  (language) => Center(
+                    child: ButtonWidget(
+                      text: localizationUtil.translate(
+                          "onboarding", "choose_" + language),
+                      buttonType: ButtonType.Outline,
+                      color: Theme.of(context).primaryColor,
+                      onPressed: () => _changeLanguage(context, language),
+                    ),
+                  ),
+                )
                 .toList(),
           )
         ],
