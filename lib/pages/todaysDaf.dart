@@ -9,11 +9,9 @@ class TodaysDafPage extends StatelessWidget {
   Widget build(BuildContext context) {
     DafModel daf = hiveService.settings.getLastDaf();
 
-    return Flexible(
-      child: MasechetWidget(
-        daf: daf,
-        inList: false,
-      ),
+    return MasechetWidget(
+      daf: daf,
+      inList: false,
     );
   }
 }
