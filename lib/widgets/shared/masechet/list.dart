@@ -12,6 +12,7 @@ class MasechetListWidget extends StatefulWidget {
   MasechetListWidget({
     @required this.masechet,
     @required this.progress,
+    @required this.preferredCalendar,
     this.lastDafIndex = -1,
     this.onProgressChange = _dontChangeProgress,
     this.hasPadding = false,
@@ -24,6 +25,7 @@ class MasechetListWidget extends StatefulWidget {
   final int lastDafIndex;
   final Function(ProgressModel) onProgressChange;
   final bool hasPadding;
+  final String preferredCalendar;
 
   @override
   _MasechetListWidgetState createState() => _MasechetListWidgetState();
@@ -35,7 +37,8 @@ class _MasechetListWidgetState extends State<MasechetListWidget> {
   void _onClickDaf(int daf, int count) {
     ProgressModel progress = widget.progress;
     progress.data[daf] = count;
-    hiveService.settings.setLastDaf(DafModel(masechetId: widget.masechet.id, number: daf));
+    hiveService.settings
+        .setLastDaf(DafModel(masechetId: widget.masechet.id, number: daf));
     widget.onProgressChange(progress);
   }
 
@@ -67,6 +70,7 @@ class _MasechetListWidgetState extends State<MasechetListWidget> {
                 ? _dates[dafIndex]
                 : "",
             onChangeCount: (int count) => _onClickDaf(dafIndex, count),
+            preferredCalendar: widget.preferredCalendar,
           );
         },
       ),

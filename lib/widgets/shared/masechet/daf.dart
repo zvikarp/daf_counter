@@ -1,4 +1,3 @@
-import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:flutter/material.dart';
 
 import 'package:daf_plus_plus/utils/dateConverter.dart';
@@ -12,12 +11,14 @@ class DafWidget extends StatelessWidget {
     @required this.dafCount,
     @required this.onChangeCount,
     @required this.dafDate,
+    @required this.preferredCalendar,
   });
 
   final int dafNumber;
   final int dafCount;
   final Function(int) onChangeCount;
   final DateTime dafDate;
+  final String preferredCalendar;
 
   void _onClickCheckbox(bool state) {
     onChangeCount(state ? 1 : 0);
@@ -32,11 +33,9 @@ class DafWidget extends StatelessWidget {
   }
 
   String _theDate(dafDate) {
-    String calendarType = hiveService.settings.getPreferredCalendar() ??
-        Consts.DEFAULT_CALENDAR_TYPE;
-    if (calendarType == "english_calendar")
+    if (preferredCalendar == "english_calendar")
       return dateConverterUtil.toEnglishDate(dafDate);
-    else if (calendarType == "hebrew_calendar")
+    else if (preferredCalendar == "hebrew_calendar")
       return dateConverterUtil.toHebrewDate(dafDate);
     return "";
   }

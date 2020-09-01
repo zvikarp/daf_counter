@@ -4,6 +4,7 @@ import 'package:daf_plus_plus/pages/home/home_mobile.dart';
 import 'package:daf_plus_plus/widgets/shared/responsive/responsive.dart';
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/consts/hive.dart';
 import 'package:daf_plus_plus/consts/routes.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
 import 'package:daf_plus_plus/services/hive/index.dart';
@@ -16,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _isDafYomi = true;
+  String _preferredCalendar = HiveConsts.PREFERRED_CALENDAR;
 
   Future<void> _loadProgress() async {
     progressAction.backup();
@@ -41,6 +43,7 @@ class _HomePageState extends State<HomePage> {
       _loadFirstRun();
     }
     _listenToIsDafYomiUpdate();
+    _listenToPreferredCalendarState();
     progressAction.localToStore();
   }
 
@@ -49,6 +52,17 @@ class _HomePageState extends State<HomePage> {
     setState(() => _isDafYomi = isDafYomi);
     hiveService.settings.listenToIsDafYomi().listen((bool isDafYomi) {
       setState(() => _isDafYomi = isDafYomi);
+    });
+  }
+
+  void _listenToPreferredCalendarState() {
+    String preferredCalendar = hiveService.settings.getPreferredCalendar() ??
+        HiveConsts.PREFERRED_CALENDAR;
+    setState(() => _preferredCalendar = preferredCalendar);
+    hiveService.settings
+        .listenToPreferredCalendar()
+        .listen((String preferredCalendar) {
+      setState(() => _preferredCalendar = preferredCalendar);
     });
   }
 
@@ -73,10 +87,12 @@ class _HomePageState extends State<HomePage> {
         if (sizingInformation.deviceType == DeviceScreenType.Mobile) {
           return HomeMobile(
             isDafYomi: _isDafYomi,
+            preferredCalendar: _preferredCalendar,
           );
         }
         return HomeDesktop(
           isDafYomi: _isDafYomi,
+          preferredCalendar: _preferredCalendar,
         );
       }),
     );
