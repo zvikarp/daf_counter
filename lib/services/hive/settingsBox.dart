@@ -23,8 +23,7 @@ class SettingsBox {
   }
 
   // last daf
-  DafModel getLastDaf() =>
-      DafModel.fromString(_getByKey(HiveConsts.LAST_DAF));
+  DafModel getLastDaf() => DafModel.fromString(_getByKey(HiveConsts.LAST_DAF));
   void setLastDaf(DafModel lastDaf) {
     _setByKey(HiveConsts.LAST_DAF, lastDaf.toString());
     setLastUpdatedNow();
@@ -52,6 +51,13 @@ class SettingsBox {
       _setByKey(HiveConsts.PREFERRED_CALENDAR, preferredCalendar);
   String getPreferredCalendar() => _getByKey(HiveConsts.PREFERRED_CALENDAR);
 
+  Stream<String> listenToPreferredCalendar() {
+    Box settingsBox = Hive.box(HiveConsts.SETTINGS_BOX);
+    return settingsBox
+        .watch(key: HiveConsts.PREFERRED_CALENDAR)
+        .map((BoxEvent setting) => setting.value);
+  }
+
   // preferred theme
   void setPreferredTheme(String preferredTheme) =>
       _setByKey(HiveConsts.PREFERRED_THEME, preferredTheme);
@@ -64,7 +70,9 @@ class SettingsBox {
 
   Stream<bool> listenToIsDafYomi() {
     Box settingsBox = Hive.box(HiveConsts.SETTINGS_BOX);
-    return settingsBox.watch(key: HiveConsts.IS_DAF_YOMI).map((BoxEvent setting) => setting.value);
+    return settingsBox
+        .watch(key: HiveConsts.IS_DAF_YOMI)
+        .map((BoxEvent setting) => setting.value);
   }
 
   // has opened
