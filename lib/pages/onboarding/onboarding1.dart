@@ -1,25 +1,22 @@
-import 'package:flutter/material.dart';
-
-import 'package:daf_plus_plus/consts/routes.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
+import 'package:daf_plus_plus/consts/routes.dart';
 import 'package:daf_plus_plus/data/masechets.dart';
 import 'package:daf_plus_plus/models/daf.dart';
 import 'package:daf_plus_plus/models/masechet.dart';
 import 'package:daf_plus_plus/models/progress.dart';
+import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:daf_plus_plus/stores/dafsDates.dart';
 import 'package:daf_plus_plus/utils/dateConverter.dart';
-import 'package:daf_plus_plus/widgets/core/spacer.dart';
-import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
 import 'package:daf_plus_plus/widgets/core/button.dart';
+import 'package:daf_plus_plus/widgets/core/spacer.dart';
+import 'package:flutter/material.dart';
 
 class Onboarding1Page extends StatelessWidget {
   _yesAndFill(BuildContext context) {
     hiveService.settings.setIsDafYomi(true);
     _fillIn();
-    hiveService.settings.setHasOpened(true);
-    Navigator.of(context).pushNamedAndRemoveUntil(
-        RoutesConsts.HOME_PAGE, ModalRoute.withName('/'));
+    Navigator.of(context).pushNamed(RoutesConsts.REMINDER_PAGE);
   }
 
   _fillIn() {
@@ -104,9 +101,11 @@ class Onboarding1Page extends StatelessWidget {
           SpacerWidget(height: 24),
           ButtonWidget(
             text:
-                localizationUtil.translate("onboarding", "learning_daf_alone"),
+            localizationUtil.translate("onboarding", "learning_daf_alone"),
             buttonType: ButtonType.Outline,
-            color: Theme.of(context).primaryColor,
+            color: Theme
+                .of(context)
+                .primaryColor,
             onPressed: () => _justYes(context),
           ),
           SpacerWidget(height: 24),

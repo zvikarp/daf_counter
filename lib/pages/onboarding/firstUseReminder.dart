@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
 import 'package:daf_plus_plus/consts/consts.dart';
+import 'package:daf_plus_plus/consts/routes.dart';
 import 'package:daf_plus_plus/models/daf.dart';
 import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:daf_plus_plus/stores/dafsDates.dart';
@@ -11,8 +8,10 @@ import 'package:daf_plus_plus/utils/gematriaConverter.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
 import 'package:daf_plus_plus/utils/toast.dart';
 import 'package:daf_plus_plus/widgets/core/button.dart';
-import 'package:daf_plus_plus/widgets/core/dialog.dart';
-import 'package:daf_plus_plus/widgets/core/title.dart';
+import 'package:daf_plus_plus/widgets/core/spacer.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class FirstUseReminder extends StatefulWidget {
   @override
@@ -40,65 +39,96 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
 
   _set(BuildContext context) async {
     await setNotification();
-    Navigator.pop(context);
-    // TODO: Set all daf done till current
+    _done();
   }
 
   _no(BuildContext context) {
+    _done();
+  }
+
+  _done() {
     Navigator.pop(context);
+    hiveService.settings.setHasOpened(true);
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        RoutesConsts.HOME_PAGE, ModalRoute.withName('/'));
   }
 
   @override
   Widget build(BuildContext context) {
-    return DialogWidget(
-      hasShadow: false,
-      onTapBackground: () => Navigator.pop(context),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            TitleWidget(
-              title: localizationUtil.translate("onboarding", "welcome"),
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: Hero(
+              tag: "onboardingHero",
+              child: Container(
+                color: Theme.of(context).primaryColor,
+                child: SafeArea(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 48, horizontal: 32),
+                    color: Theme.of(context).primaryColor,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          localizationUtil.translate(
+                              "onboarding", "set_reminder_title"),
+                          style: Theme.of(context).textTheme.headline3,
+                        ),
+                        SpacerWidget(height: 24),
+                        Text(
+                          localizationUtil.translate(
+                              "onboarding", "set_reminder_description"),
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
-            ListView(
-              shrinkWrap: true,
-              padding: EdgeInsets.all(16),
-              children: <Widget>[
-                Padding(
-                    padding: EdgeInsets.only(top: 16),
-                    child: Text(localizationUtil.translate("onboarding", "set_reminder"))),
-                ListTile(
-                  title: Text(formattedTime),
-                  leading: Icon(Icons.access_time),
-                  onTap: () async {
-                    var pickedTime = await selectTime(context);
-                    if (pickedTime != null)
-                      setState(() {
-                        timeOfDay = pickedTime;
-                        formattedTime = timeFormat(timeOfDay);
-                      });
-                  },
+          ),
+          SpacerWidget(height: 42),
+          ListView(
+            shrinkWrap: true,
+            padding: EdgeInsets.all(16),
+            children: <Widget>[
+              Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: Text(localizationUtil.translate(
+                      "onboarding", "set_reminder"))),
+              ListTile(
+                title: Text(formattedTime),
+                leading: Icon(Icons.access_time),
+                onTap: () async {
+                  var pickedTime = await selectTime(context);
+                  if (pickedTime != null)
+                    setState(() {
+                      timeOfDay = pickedTime;
+                      formattedTime = timeFormat(timeOfDay);
+                    });
+                },
+              ),
+              ListTile(
+                title: ButtonWidget(
+                  text: localizationUtil.translate("onboarding", "set"),
+                  buttonType: ButtonType.Outline,
+                  color: Theme.of(context).primaryColor,
+                  onPressed: () => _set(context),
                 ),
-                ListTile(
-                  title: ButtonWidget(
-                    text: localizationUtil.translate("onboarding", "set"),
-                    buttonType: ButtonType.Outline,
-                    color: Theme.of(context).primaryColor,
-                    onPressed: () => _set(context),
-                  ),
+              ),
+              ListTile(
+                title: ButtonWidget(
+                  text: localizationUtil.translate("onboarding", "dont_set"),
+                  buttonType: ButtonType.Outline,
+                  color: Theme.of(context).primaryColor,
+                  onPressed: () => _no(context),
                 ),
-                ListTile(
-                  title: ButtonWidget(
-                    text: localizationUtil.translate("onboarding", "dont_set"),
-                    buttonType: ButtonType.Outline,
-                    color: Theme.of(context).primaryColor,
-                    onPressed: () => _no(context),
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
@@ -106,11 +136,11 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
   Future setNotification() async {
     if (timeOfDay != null) {
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-          new FlutterLocalNotificationsPlugin();
+      new FlutterLocalNotificationsPlugin();
 
       // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
       var initializationSettingsAndroid =
-          new AndroidInitializationSettings('ic_launcher');
+      new AndroidInitializationSettings('ic_launcher');
       var initializationSettingsIOS = new IOSInitializationSettings(
           onDidReceiveLocalNotification: onDidReceiveLocalNotification);
       var initializationSettings = new InitializationSettings(
@@ -130,7 +160,7 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
       await flutterLocalNotificationsPlugin.showDailyAtTime(
           0,
           localizationUtil.translate("onboarding", "did_you_daf"),
-          'd',
+          localizationUtil.translate("onboarding", "mark_daf"),
           time,
           platformChannelSpecifics);
     } else {

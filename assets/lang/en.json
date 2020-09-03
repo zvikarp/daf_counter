@@ -74,7 +74,11 @@
     "learning_daf_alone": "Learning the Daf Yomi at my own pace",
     "not_learning_daf": "Not learning as part of the Daf Yomi",
     "choose_masechets": "Select the Masechetas you learned and they will be marked in the app. You can always change it later.",
+    "set_reminder_title": "Set a Reminder",
+    "set_reminder_description": "Get a reminder daily to learn the day's Daf.",
     "set_reminder": "Set a time to be reminded to learn the daf every day",
+    "did_you_daf": "Reminder to learn today's Daf",
+    "mark_daf": "Mark today's Daf as learnt",
     "set": "Set",
     "select_time": "Select Time",
     "dont_set": "Don't remind me"
