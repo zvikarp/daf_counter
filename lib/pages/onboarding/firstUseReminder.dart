@@ -1,3 +1,7 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 import 'package:daf_plus_plus/consts/consts.dart';
 import 'package:daf_plus_plus/consts/routes.dart';
 import 'package:daf_plus_plus/models/daf.dart';
@@ -9,9 +13,6 @@ import 'package:daf_plus_plus/utils/localization.dart';
 import 'package:daf_plus_plus/utils/toast.dart';
 import 'package:daf_plus_plus/widgets/core/button.dart';
 import 'package:daf_plus_plus/widgets/core/spacer.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class FirstUseReminder extends StatefulWidget {
   @override
@@ -19,14 +20,15 @@ class FirstUseReminder extends StatefulWidget {
 }
 
 class _FirstUseReminderState extends State<FirstUseReminder> {
-  TimeOfDay timeOfDay;
-  String formattedTime;
+  TimeOfDay _timeOfDay;
+  String _formattedTime;
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      formattedTime = localizationUtil.translate("onboarding", "select_time") + ":";
+      _formattedTime =
+          localizationUtil.translate("onboarding", "select_time") + ":";
     });
   }
 
@@ -37,17 +39,12 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
     }
   }
 
-  _set(BuildContext context) async {
+  _set() async {
     await setNotification();
     _done();
   }
 
-  _no(BuildContext context) {
-    _done();
-  }
-
   _done() {
-    Navigator.pop(context);
     hiveService.settings.setHasOpened(true);
     Navigator.of(context).pushNamedAndRemoveUntil(
         RoutesConsts.HOME_PAGE, ModalRoute.withName('/'));
@@ -99,15 +96,17 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
                   child: Text(localizationUtil.translate(
                       "onboarding", "set_reminder"))),
               ListTile(
-                title: Text(formattedTime),
+                title: Text(_formattedTime),
                 leading: Icon(Icons.access_time),
                 onTap: () async {
-                  var pickedTime = await selectTime(context);
-                  if (pickedTime != null)
+                  TimeOfDay pickedTime = await selectTime();
+                  if (pickedTime != null) {
                     setState(() {
-                      timeOfDay = pickedTime;
-                      formattedTime = timeFormat(timeOfDay);
+                      _timeOfDay = pickedTime;
+                      _formattedTime =
+                          dateConverterUtil.timeOfDayToString(pickedTime);
                     });
+                  }
                 },
               ),
               ListTile(
@@ -115,7 +114,7 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
                   text: localizationUtil.translate("onboarding", "set"),
                   buttonType: ButtonType.Outline,
                   color: Theme.of(context).primaryColor,
-                  onPressed: () => _set(context),
+                  onPressed: () => _set(),
                 ),
               ),
               ListTile(
@@ -123,7 +122,7 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
                   text: localizationUtil.translate("onboarding", "dont_set"),
                   buttonType: ButtonType.Outline,
                   color: Theme.of(context).primaryColor,
-                  onPressed: () => _no(context),
+                  onPressed: () => _done(),
                 ),
               ),
             ],
@@ -134,27 +133,30 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
   }
 
   Future setNotification() async {
-    if (timeOfDay != null) {
+    if (_timeOfDay != null) {
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      new FlutterLocalNotificationsPlugin();
+          FlutterLocalNotificationsPlugin();
 
       // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
-      var initializationSettingsAndroid =
-      new AndroidInitializationSettings('ic_launcher');
-      var initializationSettingsIOS = new IOSInitializationSettings(
-          onDidReceiveLocalNotification: onDidReceiveLocalNotification);
-      var initializationSettings = new InitializationSettings(
+      AndroidInitializationSettings initializationSettingsAndroid =
+          AndroidInitializationSettings('ic_launcher');
+      IOSInitializationSettings initializationSettingsIOS =
+          IOSInitializationSettings(
+              onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+      InitializationSettings initializationSettings = InitializationSettings(
           initializationSettingsAndroid, initializationSettingsIOS);
       flutterLocalNotificationsPlugin.initialize(initializationSettings,
           onSelectNotification: onSelectNotification);
 
-      var time = Time(timeOfDay.hour, timeOfDay.minute, 0);
-      var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-          'repeatDailyAtTime channel id',
-          'repeatDailyAtTime channel name',
-          'repeatDailyAtTime description');
-      var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-      var platformChannelSpecifics = NotificationDetails(
+      Time time = Time(_timeOfDay.hour, _timeOfDay.minute, 0);
+      AndroidNotificationDetails androidPlatformChannelSpecifics =
+          AndroidNotificationDetails(
+              'repeatDailyAtTime channel id',
+              'repeatDailyAtTime channel name',
+              'repeatDailyAtTime description');
+      IOSNotificationDetails iOSPlatformChannelSpecifics =
+          IOSNotificationDetails();
+      NotificationDetails platformChannelSpecifics = NotificationDetails(
           androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
 
       await flutterLocalNotificationsPlugin.showDailyAtTime(
@@ -164,7 +166,8 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
           time,
           platformChannelSpecifics);
     } else {
-      toastUtil.showInformation(localizationUtil.translate("onboarding", "select_time"));
+      toastUtil.showInformation(
+          localizationUtil.translate("onboarding", "select_time"));
     }
   }
 
@@ -196,13 +199,14 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
     // display a dialog with the notification details, tap ok to go to another page
     showDialog(
       context: context,
-      builder: (BuildContext context) => new CupertinoAlertDialog(
-        title: new Text(title),
-        content: new Text(_getTodaysDaf()),
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: Text(title),
+        content: Text(_getTodaysDaf()),
         actions: [
           CupertinoDialogAction(
             isDefaultAction: true,
-            child: new Text(localizationUtil.translate("general", "confirm_button")),
+            child:
+                Text(localizationUtil.translate("general", "confirm_button")),
             onPressed: () async {
               Navigator.of(context, rootNavigator: true).pop();
             },
@@ -212,7 +216,7 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
     );
   }
 
-  Future<TimeOfDay> selectTime(BuildContext context) async {
+  Future<TimeOfDay> selectTime() async {
     final TimeOfDay picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
@@ -228,43 +232,5 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
     }
 
     return null;
-  }
-
-  String timeFormat(TimeOfDay picked) {
-    var hour = picked.hour;
-    var time = "";
-    if (hiveService.settings.getPreferredLanguage() == "en") {
-      if (picked.hour >= 12) {
-        time = "PM";
-        if (picked.hour > 12) {
-          hour = picked.hour - 12;
-        } else if (picked.hour == 00) {
-          hour = 12;
-        } else {
-          hour = picked.hour;
-        }
-      } else {
-        time = "AM";
-        if (picked.hour == 00) {
-          hour = 12;
-        } else {
-          hour = picked.hour;
-        }
-      }
-    }
-    var h, m;
-    if (hour % 100 < 10) {
-      h = "0" + hour.toString();
-    } else {
-      h = hour.toString();
-    }
-
-    int minute = picked.minute;
-    if (minute % 100 < 10)
-      m = "0" + minute.toString();
-    else
-      m = minute.toString();
-
-    return h + ":" + m + " " + time;
   }
 }

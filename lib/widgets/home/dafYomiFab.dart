@@ -60,10 +60,12 @@ class _DafYomiFabWidgetState extends State<DafYomiFabWidget>
     progress.data[todaysDaf.number] = 1; // TODO: really not ideal.
     progressAction.update(todaysDaf.masechetId, progress, 5);
     hiveService.settings.setLastDaf(todaysDaf);
-    String masechet = localizationUtil.translate("general", "masechet") + " " + localizationUtil.translate("shas", todaysDaf.masechetId);
-    String daf = localizationUtil.translate("general", "daf") + " " + _getDafNumber(todaysDaf.number);
-    toastUtil
-        .showInformation(masechet + " " + daf + " " + localizationUtil.translate("home", "daf_yomi_toast"));
+    String masechet =
+        '${localizationUtil.translate("general", "masechet")} ${localizationUtil.translate("shas", todaysDaf.masechetId)}';
+    String daf =
+        '${localizationUtil.translate("general", "daf")} ${_getDafNumber(todaysDaf.number)}';
+    toastUtil.showInformation(
+        '$masechet $daf ${localizationUtil.translate("home", "daf_yomi_toast")}');
   }
 
   void _onClick(BuildContext context, double width) async {

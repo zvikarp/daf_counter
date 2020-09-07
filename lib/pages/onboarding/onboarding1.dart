@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'package:daf_plus_plus/actions/progress.dart';
 import 'package:daf_plus_plus/consts/routes.dart';
 import 'package:daf_plus_plus/data/masechets.dart';
@@ -10,7 +12,6 @@ import 'package:daf_plus_plus/utils/dateConverter.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
 import 'package:daf_plus_plus/widgets/core/button.dart';
 import 'package:daf_plus_plus/widgets/core/spacer.dart';
-import 'package:flutter/material.dart';
 
 class Onboarding1Page extends StatelessWidget {
   _yesAndFill(BuildContext context) {
@@ -101,11 +102,9 @@ class Onboarding1Page extends StatelessWidget {
           SpacerWidget(height: 24),
           ButtonWidget(
             text:
-            localizationUtil.translate("onboarding", "learning_daf_alone"),
+                localizationUtil.translate("onboarding", "learning_daf_alone"),
             buttonType: ButtonType.Outline,
-            color: Theme
-                .of(context)
-                .primaryColor,
+            color: Theme.of(context).primaryColor,
             onPressed: () => _justYes(context),
           ),
           SpacerWidget(height: 24),
