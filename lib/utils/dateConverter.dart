@@ -52,6 +52,23 @@ class DateConverterUtil {
     DateFormat format = DateFormat.jm();
     return format.format(now);
   }
+
+  String timeToString(TimeOfDay time) {
+    String hour = time.hour.toString().padLeft(2, '0');
+    String minute = time.minute.toString().padLeft(2, '0');
+    return '$hour:$minute';
+  }
+
+  TimeOfDay stringToTime(String time, [TimeOfDay defaultTime]) {
+    try {
+      List<String> hourAndMinutes = time.split(':');
+      return TimeOfDay(
+          hour: int.parse(hourAndMinutes[0]),
+          minute: int.parse(hourAndMinutes[1]));
+    } catch (err) {
+      return defaultTime;
+    }
+  }
 }
 
 final DateConverterUtil dateConverterUtil = DateConverterUtil();

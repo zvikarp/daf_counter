@@ -1,14 +1,16 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+
 import 'package:daf_plus_plus/enums/deviceScreenType.dart';
 import 'package:daf_plus_plus/pages/home/home_desktop.dart';
 import 'package:daf_plus_plus/pages/home/home_mobile.dart';
 import 'package:daf_plus_plus/widgets/shared/responsive/responsive.dart';
-import 'package:flutter/material.dart';
-
 import 'package:daf_plus_plus/consts/hive.dart';
 import 'package:daf_plus_plus/consts/routes.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
 import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
+import 'package:daf_plus_plus/utils/backwardCompatibility.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -70,6 +72,10 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _loadApp();
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      backwardCompatibilityUtil.actUponBuildNumber(context);
+    });
   }
 
   @override
