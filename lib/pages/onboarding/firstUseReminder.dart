@@ -1,16 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 import 'package:daf_plus_plus/utils/platform.dart';
 import 'package:daf_plus_plus/utils/notifications.dart';
-import 'package:daf_plus_plus/consts/consts.dart';
 import 'package:daf_plus_plus/consts/routes.dart';
-import 'package:daf_plus_plus/models/daf.dart';
 import 'package:daf_plus_plus/services/hive/index.dart';
-import 'package:daf_plus_plus/stores/dafsDates.dart';
 import 'package:daf_plus_plus/utils/dateConverter.dart';
-import 'package:daf_plus_plus/utils/gematriaConverter.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
 import 'package:daf_plus_plus/widgets/core/button.dart';
 import 'package:daf_plus_plus/widgets/core/spacer.dart';
@@ -54,6 +49,26 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
     hiveService.settings.setHasOpened(true);
     Navigator.of(context).pushNamedAndRemoveUntil(
         RoutesConsts.HOME_PAGE, ModalRoute.withName('/'));
+  }
+
+  Future<TimeOfDay> _selectTime() async {
+    TimeOfDay pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      builder: (BuildContext context, Widget child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+          child: child,
+        );
+      },
+    );
+    if (pickedTime != null) {
+      setState(() {
+        _timeOfDay = pickedTime;
+        _formattedTime = dateConverterUtil.timeOfDayToString(pickedTime);
+      });
+    }
+    return null;
   }
 
   @override
@@ -108,94 +123,24 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
               ListTile(
                 title: Text(_formattedTime),
                 leading: Icon(Icons.access_time),
-                onTap: () async {
-                  TimeOfDay pickedTime = await selectTime();
-                  if (pickedTime != null) {
-                    setState(() {
-                      _timeOfDay = pickedTime;
-                      _formattedTime =
-                          dateConverterUtil.timeOfDayToString(pickedTime);
-                    });
-                  }
-                },
+                onTap: _selectTime,
               ),
-              ListTile(
-                title: ButtonWidget(
-                  text: localizationUtil.translate("onboarding", "set"),
-                  buttonType: ButtonType.Outline,
-                  color: Theme.of(context).primaryColor,
-                  onPressed: () => _set(),
-                ),
+              ButtonWidget(
+                text: localizationUtil.translate("onboarding", "set"),
+                buttonType: ButtonType.Outline,
+                color: Theme.of(context).primaryColor,
+                onPressed: () => _set(),
               ),
-              ListTile(
-                title: ButtonWidget(
-                  text: localizationUtil.translate("onboarding", "dont_set"),
-                  buttonType: ButtonType.Outline,
-                  color: Theme.of(context).primaryColor,
-                  onPressed: () => _done(),
-                ),
+              ButtonWidget(
+                text: localizationUtil.translate("onboarding", "dont_set"),
+                buttonType: ButtonType.Outline,
+                color: Theme.of(context).primaryColor,
+                onPressed: () => _done(),
               ),
             ],
           )
         ],
       ),
     );
-  }
-
-  String _getDafNumber(int daf) {
-    if (localizationUtil.translate("calendar", "display_dapim_as_gematria"))
-      return gematriaConverterUtil
-          .toGematria((daf + Consts.FIST_DAF))
-          .toString();
-    return (daf + Consts.FIST_DAF).toString();
-  }
-
-  String _getTodaysDaf() {
-    DateTime today = dateConverterUtil.getToday();
-    DafModel todaysDaf = dafsDatesStore.getDafByDate(today);
-
-    String masechet = localizationUtil.translate("shas", todaysDaf.masechetId);
-    String daf = _getDafNumber(todaysDaf.number);
-    return masechet + " " + daf;
-  }
-
-  Future onDidReceiveLocalNotification(
-      int id, String title, String body, String payload) async {
-    // display a dialog with the notification details, tap ok to go to another page
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => CupertinoAlertDialog(
-        title: Text(title),
-        content: Text(_getTodaysDaf()),
-        actions: [
-          CupertinoDialogAction(
-            isDefaultAction: true,
-            child:
-                Text(localizationUtil.translate("general", "confirm_button")),
-            onPressed: () async {
-              Navigator.of(context, rootNavigator: true).pop();
-            },
-          )
-        ],
-      ),
-    );
-  }
-
-  Future<TimeOfDay> selectTime() async {
-    final TimeOfDay picked = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-      builder: (BuildContext context, Widget child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
-          child: child,
-        );
-      },
-    );
-    if (picked != null) {
-      return picked;
-    }
-
-    return null;
   }
 }
