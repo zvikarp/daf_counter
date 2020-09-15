@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
+import 'package:daf_plus_plus/utils/platform.dart';
 import 'package:daf_plus_plus/utils/notifications.dart';
 import 'package:daf_plus_plus/consts/consts.dart';
 import 'package:daf_plus_plus/consts/routes.dart';
@@ -29,6 +31,11 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
       _formattedTime =
           localizationUtil.translate("onboarding", "select_time") + ":";
     });
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (platformUtil.isWeb()) {
+        _done();
+      }
+    });
   }
 
   @override
@@ -51,6 +58,10 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
 
   @override
   Widget build(BuildContext context) {
+    if (platformUtil.isWeb()) {
+      return Container();
+    }
+
     return Scaffold(
       body: Column(
         children: <Widget>[

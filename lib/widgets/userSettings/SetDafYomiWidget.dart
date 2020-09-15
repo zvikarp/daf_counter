@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/utils/platform.dart';
 import 'package:daf_plus_plus/utils/notifications.dart';
 import 'package:daf_plus_plus/consts/consts.dart';
 import 'package:daf_plus_plus/services/hive/index.dart';
@@ -89,7 +88,7 @@ class _SetDafYomiWidgetState extends State<SetDafYomiWidget> {
               onChanged: _changeDafYomi,
             ),
           ),
-          if (_doesDafYomi && Platform.isAndroid)
+          if (_doesDafYomi && platformUtil.isAndroid())
             ListTile(
               title: Text(
                 localizationUtil.translate(
