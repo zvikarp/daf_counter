@@ -1,3 +1,4 @@
+import 'package:daf_plus_plus/consts/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -5,7 +6,6 @@ import 'package:daf_plus_plus/enums/deviceScreenType.dart';
 import 'package:daf_plus_plus/pages/home/home_desktop.dart';
 import 'package:daf_plus_plus/pages/home/home_mobile.dart';
 import 'package:daf_plus_plus/widgets/shared/responsive/responsive.dart';
-import 'package:daf_plus_plus/consts/hive.dart';
 import 'package:daf_plus_plus/consts/routes.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
 import 'package:daf_plus_plus/services/hive/index.dart';
@@ -19,7 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _isDafYomi = true;
-  String _preferredCalendar = HiveConsts.PREFERRED_CALENDAR;
+  String _preferredCalendar = Consts.DEFAULT_CALENDAR_TYPE;
 
   Future<void> _loadProgress() async {
     progressAction.backup();
@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
 
   void _listenToPreferredCalendarState() {
     String preferredCalendar = hiveService.settings.getPreferredCalendar() ??
-        HiveConsts.PREFERRED_CALENDAR;
+        Consts.DEFAULT_CALENDAR_TYPE;
     setState(() => _preferredCalendar = preferredCalendar);
     hiveService.settings
         .listenToPreferredCalendar()
