@@ -23,7 +23,7 @@ dependencies:
   flutter_mobx: ^1.1.0+1
   fluttertoast: ^4.0.0
   google_fonts: ^0.3.9
-  flutter_widgets: ^0.1.11
+  scrollable_positioned_list: ^0.1.7
   flutter_sticky_header: 0.4.1
   cupertino_icons: ^0.1.2
   flutter_local_notifications: ^1.4.4+4
