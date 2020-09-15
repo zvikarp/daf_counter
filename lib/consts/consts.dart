@@ -23,4 +23,6 @@ class Consts {
   static const String DEFAULT_THEME_TYPE = "light_theme";
   static const TimeOfDay DEFAULT_NOTIFICATION_TIME =
       TimeOfDay(hour: 19, minute: 0);
+
+  static const int DAILY_REMINDER_NOTIFICATION_ID = 0;
 }

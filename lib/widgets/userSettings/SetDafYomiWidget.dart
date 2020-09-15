@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/utils/notifications.dart';
 import 'package:daf_plus_plus/consts/consts.dart';
 import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:daf_plus_plus/utils/dateConverter.dart';
@@ -26,6 +29,10 @@ class _SetDafYomiWidgetState extends State<SetDafYomiWidget> {
   }
 
   void _changeShowNotifications(bool showNotifications) async {
+    notificationsUtil.cancelDailyNotification();
+    if (showNotifications) {
+      notificationsUtil.setDailyNotification(_notificationsTime);
+    }
     hiveService.settings.setShowNotifications(showNotifications);
     _getShowNotifications();
   }
@@ -36,10 +43,16 @@ class _SetDafYomiWidgetState extends State<SetDafYomiWidget> {
   }
 
   void _changeNotificationsTime() async {
-    TimeOfDay time =
-        await showTimePicker(context: context, initialTime: _notificationsTime);
+    TimeOfDay time = await showTimePicker(
+      context: context,
+      initialTime: _notificationsTime,
+    );
     if (time != null) {
       hiveService.settings.setNotificationsTime(time);
+      notificationsUtil.cancelDailyNotification();
+      if (_shouldShowNotifications) {
+        notificationsUtil.setDailyNotification(time);
+      }
       _getNotificationsTime();
     }
   }
@@ -76,18 +89,19 @@ class _SetDafYomiWidgetState extends State<SetDafYomiWidget> {
               onChanged: _changeDafYomi,
             ),
           ),
-          if (_doesDafYomi) ListTile(
-            title: Text(
-              localizationUtil.translate(
-                  "settings", "should_show_notifications"),
-              style: Theme.of(context).textTheme.bodyText2,
+          if (_doesDafYomi && Platform.isAndroid)
+            ListTile(
+              title: Text(
+                localizationUtil.translate(
+                    "settings", "should_show_notifications"),
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+              trailing: Switch(
+                value: _shouldShowNotifications,
+                activeColor: Theme.of(context).primaryColor,
+                onChanged: _changeShowNotifications,
+              ),
             ),
-            trailing: Switch(
-              value: _shouldShowNotifications,
-              activeColor: Theme.of(context).primaryColor,
-              onChanged: _changeShowNotifications,
-            ),
-          ),
           if (_doesDafYomi && _shouldShowNotifications)
             ListTile(
               title: Text(

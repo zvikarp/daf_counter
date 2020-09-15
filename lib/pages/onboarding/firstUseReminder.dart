@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import 'package:daf_plus_plus/utils/notifications.dart';
 import 'package:daf_plus_plus/consts/consts.dart';
 import 'package:daf_plus_plus/consts/routes.dart';
 import 'package:daf_plus_plus/models/daf.dart';
@@ -10,7 +10,6 @@ import 'package:daf_plus_plus/stores/dafsDates.dart';
 import 'package:daf_plus_plus/utils/dateConverter.dart';
 import 'package:daf_plus_plus/utils/gematriaConverter.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
-import 'package:daf_plus_plus/utils/toast.dart';
 import 'package:daf_plus_plus/widgets/core/button.dart';
 import 'package:daf_plus_plus/widgets/core/spacer.dart';
 
@@ -40,7 +39,7 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
   }
 
   _set() async {
-    await setNotification();
+    await notificationsUtil.setDailyNotification(_timeOfDay);
     _done();
   }
 
@@ -130,51 +129,6 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
         ],
       ),
     );
-  }
-
-  Future setNotification() async {
-    if (_timeOfDay != null) {
-      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-          FlutterLocalNotificationsPlugin();
-
-      // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
-      AndroidInitializationSettings initializationSettingsAndroid =
-          AndroidInitializationSettings('ic_launcher');
-      IOSInitializationSettings initializationSettingsIOS =
-          IOSInitializationSettings(
-              onDidReceiveLocalNotification: onDidReceiveLocalNotification);
-      InitializationSettings initializationSettings = InitializationSettings(
-          initializationSettingsAndroid, initializationSettingsIOS);
-      flutterLocalNotificationsPlugin.initialize(initializationSettings,
-          onSelectNotification: onSelectNotification);
-
-      Time time = Time(_timeOfDay.hour, _timeOfDay.minute, 0);
-      AndroidNotificationDetails androidPlatformChannelSpecifics =
-          AndroidNotificationDetails(
-              'repeatDailyAtTime channel id',
-              'repeatDailyAtTime channel name',
-              'repeatDailyAtTime description');
-      IOSNotificationDetails iOSPlatformChannelSpecifics =
-          IOSNotificationDetails();
-      NotificationDetails platformChannelSpecifics = NotificationDetails(
-          androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-
-      await flutterLocalNotificationsPlugin.showDailyAtTime(
-          0,
-          localizationUtil.translate("onboarding", "did_you_daf"),
-          localizationUtil.translate("onboarding", "mark_daf"),
-          time,
-          platformChannelSpecifics);
-    } else {
-      toastUtil.showInformation(
-          localizationUtil.translate("onboarding", "select_time"));
-    }
-  }
-
-  Future onSelectNotification(String payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: ' + payload);
-    }
   }
 
   String _getDafNumber(int daf) {
