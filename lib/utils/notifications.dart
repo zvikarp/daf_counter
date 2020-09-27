@@ -20,7 +20,7 @@ class NotificationsUtil {
   Future<void> setDailyNotification(TimeOfDay time) async {
     if (platformUtil.isAndroid()) {
       AndroidInitializationSettings initializationSettingsAndroid =
-          AndroidInitializationSettings('ic_launcher');
+          AndroidInitializationSettings('ic_stat_white_logo');
       InitializationSettings initializationSettings = InitializationSettings(
           initializationSettingsAndroid, IOSInitializationSettings());
       _flutterLocalNotificationsPlugin.initialize(initializationSettings,
