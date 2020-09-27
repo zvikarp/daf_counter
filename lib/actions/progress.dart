@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:daf_plus_plus/models/daf.dart';
+import 'package:daf_plus_plus/stores/dafsDates.dart';
+import 'package:daf_plus_plus/utils/dateConverter.dart';
+import 'package:daf_plus_plus/utils/gematriaConverter.dart';
+import 'package:daf_plus_plus/utils/localization.dart';
+import 'package:daf_plus_plus/utils/toast.dart';
 import 'package:daf_plus_plus/consts/consts.dart';
 import 'package:daf_plus_plus/models/Response.dart';
 import 'package:daf_plus_plus/models/progress.dart';
@@ -11,6 +17,32 @@ import 'package:daf_plus_plus/stores/progress.dart';
 
 class ProgressAction {
   BuildContext _progressContext;
+
+  DafModel _getTodaysDaf() {
+    return dafsDatesStore.getDafByDate(dateConverterUtil.getToday());
+  }
+
+  String _getDafNumber(dafNumber) {
+    if (localizationUtil.translate("calendar", "display_dapim_as_gematria"))
+      return gematriaConverterUtil
+          .toGematria((dafNumber + Consts.FIST_DAF))
+          .toString();
+    return (dafNumber + Consts.FIST_DAF).toString();
+  }
+
+  void learnedTodaysDaf() {
+    DafModel todaysDaf = _getTodaysDaf();
+    ProgressModel progress = get(todaysDaf.masechetId);
+    progress.data[todaysDaf.number] = 1; // TODO: really not ideal.
+    update(todaysDaf.masechetId, progress, 5);
+    hiveService.settings.setLastDaf(todaysDaf);
+    String masechet =
+        '${localizationUtil.translate("general", "masechet")} ${localizationUtil.translate("shas", todaysDaf.masechetId)}';
+    String daf =
+        '${localizationUtil.translate("general", "daf")} ${_getDafNumber(todaysDaf.number)}';
+    toastUtil.showInformation(
+        '$masechet $daf ${localizationUtil.translate("home", "daf_yomi_toast")}');
+  }
 
   void setProgressContext(BuildContext progressContext) =>
       _progressContext = progressContext;

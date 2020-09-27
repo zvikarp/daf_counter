@@ -25,4 +25,6 @@ class Consts {
       TimeOfDay(hour: 19, minute: 0);
 
   static const int DAILY_REMINDER_NOTIFICATION_ID = 0;
+  static const String DAILY_REMINDER_NOTIFICATION_PAYLOAD = "daily_reminder";
+  static const String DAILY_REMINDER_NOTIFICATION_CHANNEL_ID = "daily_reminder";
 }

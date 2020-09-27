@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:daf_plus_plus/stores/navigatorKey.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 
+import 'package:daf_plus_plus/stores/navigatorKey.dart';
+import 'package:daf_plus_plus/utils/notifications.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
 import 'package:daf_plus_plus/consts/routes.dart';
 import 'package:daf_plus_plus/utils/routes.dart';
@@ -29,6 +30,7 @@ void main() async {
   await hiveService.settings.open();
   await hiveService.progress.open();
   await localizationUtil.init();
+  notificationsUtil.init();
   runZonedGuarded(() {
     runApp(Provider<ProgressStore>(
         create: (_) => ProgressStore(), child: MyApp()));
