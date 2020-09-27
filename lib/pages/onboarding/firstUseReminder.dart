@@ -128,12 +128,14 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
               ButtonWidget(
                 text: localizationUtil.translate("onboarding", "set"),
                 buttonType: ButtonType.Outline,
+                margin: EdgeInsets.symmetric(horizontal: 16),
                 color: Theme.of(context).primaryColor,
                 onPressed: () => _set(),
               ),
               ButtonWidget(
                 text: localizationUtil.translate("onboarding", "dont_set"),
                 buttonType: ButtonType.Outline,
+                margin: EdgeInsets.symmetric(horizontal: 16),
                 color: Theme.of(context).primaryColor,
                 onPressed: () => _done(),
               ),

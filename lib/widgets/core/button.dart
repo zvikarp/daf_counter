@@ -25,6 +25,7 @@ class ButtonWidget extends StatelessWidget {
     @required this.onPressed,
     this.subtext,
     this.onPressedDisabled,
+    this.margin = const EdgeInsets.all(0),
     this.disabled = false,
     this.loading = false,
     this.buttonType = ButtonType.Default,
@@ -37,6 +38,7 @@ class ButtonWidget extends StatelessWidget {
   final Function onPressedDisabled;
   final bool disabled;
   final bool loading;
+  final EdgeInsets margin;
   final ButtonType buttonType;
   final Color color;
 
@@ -99,23 +101,26 @@ class ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ButtonColors buttonColors = _getButtonColors();
-    return FlatButton(
-      onPressed: disabled ? onPressedDisabled : onPressed,
-      disabledColor: Theme.of(context).disabledColor,
-      color: buttonColors.backgroundColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5.0),
-        side: BorderSide(
-            color: disabled
-                ? Theme.of(context).disabledColor
-                : buttonColors.outlineColor,
-            width: 2),
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        child: loading
-            ? _loadingButton(buttonColors)
-            : _buttonContent(context, buttonColors),
+    return Padding(
+      padding: margin,
+      child: FlatButton(
+        onPressed: disabled ? onPressedDisabled : onPressed,
+        disabledColor: Theme.of(context).disabledColor,
+        color: buttonColors.backgroundColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0),
+          side: BorderSide(
+              color: disabled
+                  ? Theme.of(context).disabledColor
+                  : buttonColors.outlineColor,
+              width: 2),
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          child: loading
+              ? _loadingButton(buttonColors)
+              : _buttonContent(context, buttonColors),
+        ),
       ),
     );
   }

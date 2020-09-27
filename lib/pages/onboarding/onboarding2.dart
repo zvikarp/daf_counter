@@ -99,6 +99,7 @@ class _Onboarding2PageState extends State<Onboarding2Page> {
                 child: ButtonWidget(
                   text: localizationUtil.translate("general", "done"),
                   buttonType: ButtonType.Outline,
+                  margin: EdgeInsets.symmetric(horizontal: 16),
                   color: Theme.of(context).primaryColor,
                   onPressed: _done,
                 ),

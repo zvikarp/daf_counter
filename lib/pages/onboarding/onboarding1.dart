@@ -96,6 +96,7 @@ class Onboarding1Page extends StatelessWidget {
             subtext: localizationUtil.translate(
                 "onboarding", "learning_daf_in_sync_subtext"),
             buttonType: ButtonType.Outline,
+            margin: EdgeInsets.symmetric(horizontal: 16),
             color: Theme.of(context).primaryColor,
             onPressed: () => _yesAndFill(context),
           ),
@@ -104,6 +105,7 @@ class Onboarding1Page extends StatelessWidget {
             text:
                 localizationUtil.translate("onboarding", "learning_daf_alone"),
             buttonType: ButtonType.Outline,
+            margin: EdgeInsets.symmetric(horizontal: 16),
             color: Theme.of(context).primaryColor,
             onPressed: () => _justYes(context),
           ),
@@ -111,6 +113,7 @@ class Onboarding1Page extends StatelessWidget {
           ButtonWidget(
             text: localizationUtil.translate("onboarding", "not_learning_daf"),
             buttonType: ButtonType.Outline,
+            margin: EdgeInsets.symmetric(horizontal: 16),
             color: Theme.of(context).primaryColor,
             onPressed: () => _no(context),
           ),

@@ -80,6 +80,7 @@ class _WelcomeOnboardingPageState extends State<WelcomeOnboardingPage> {
                     child: ButtonWidget(
                       text: localizationUtil.translate(
                           "onboarding", "choose_" + language),
+                      margin: EdgeInsets.symmetric(horizontal: 16),
                       buttonType: ButtonType.Outline,
                       color: Theme.of(context).primaryColor,
                       onPressed: () => _changeLanguage(context, language),
