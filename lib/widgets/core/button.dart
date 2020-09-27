@@ -4,6 +4,7 @@ enum ButtonType {
   Default,
   Filled,
   Outline,
+  Underline,
 }
 
 class ButtonColors {
@@ -48,6 +49,10 @@ class ButtonWidget extends StatelessWidget {
         textColor: this.color,
       ),
       ButtonType.Outline: ButtonColors(
+        outlineColor: this.color,
+        textColor: this.color,
+      ),
+      ButtonType.Underline: ButtonColors(
         outlineColor: this.color,
         textColor: this.color,
       ),
@@ -107,14 +112,21 @@ class ButtonWidget extends StatelessWidget {
         onPressed: disabled ? onPressedDisabled : onPressed,
         disabledColor: Theme.of(context).disabledColor,
         color: buttonColors.backgroundColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
-          side: BorderSide(
-              color: disabled
-                  ? Theme.of(context).disabledColor
-                  : buttonColors.outlineColor,
-              width: 2),
-        ),
+        shape: buttonType == ButtonType.Underline
+            ? UnderlineInputBorder(
+                borderSide: BorderSide(
+                    color: disabled
+                        ? Theme.of(context).disabledColor
+                        : buttonColors.outlineColor,
+                    width: 2))
+            : RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+                side: BorderSide(
+                    color: disabled
+                        ? Theme.of(context).disabledColor
+                        : buttonColors.outlineColor,
+                    width: 2),
+              ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           child: loading

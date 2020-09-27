@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
+import 'package:daf_plus_plus/consts/consts.dart';
 import 'package:daf_plus_plus/utils/platform.dart';
 import 'package:daf_plus_plus/utils/notifications.dart';
 import 'package:daf_plus_plus/consts/routes.dart';
@@ -16,16 +17,11 @@ class FirstUseReminder extends StatefulWidget {
 }
 
 class _FirstUseReminderState extends State<FirstUseReminder> {
-  TimeOfDay _timeOfDay;
-  String _formattedTime;
+  TimeOfDay _notificationsTime = Consts.DEFAULT_NOTIFICATION_TIME;
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      _formattedTime =
-          localizationUtil.translate("onboarding", "select_time") + ":";
-    });
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (platformUtil.isWeb()) {
         _done();
@@ -41,7 +37,7 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
   }
 
   _set() async {
-    await notificationsUtil.setDailyNotification(_timeOfDay);
+    await notificationsUtil.setDailyNotification(_notificationsTime);
     _done();
   }
 
@@ -54,7 +50,7 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
   Future<TimeOfDay> _selectTime() async {
     TimeOfDay pickedTime = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: _notificationsTime,
       builder: (BuildContext context, Widget child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
@@ -63,10 +59,7 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
       },
     );
     if (pickedTime != null) {
-      setState(() {
-        _timeOfDay = pickedTime;
-        _formattedTime = dateConverterUtil.timeOfDayToString(pickedTime);
-      });
+      setState(() => _notificationsTime = pickedTime);
     }
     return null;
   }
@@ -117,13 +110,20 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
             padding: EdgeInsets.all(16),
             children: <Widget>[
               Padding(
-                  padding: EdgeInsets.only(top: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Text(localizationUtil.translate(
                       "onboarding", "set_reminder"))),
               ListTile(
-                title: Text(_formattedTime),
-                leading: Icon(Icons.access_time),
-                onTap: _selectTime,
+                title: Text(
+                  localizationUtil.translate("onboarding", "select_time") + ":",
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+                trailing: ButtonWidget(
+                  onPressed: _selectTime,
+                  text: dateConverterUtil.timeToString(_notificationsTime),
+                  buttonType: ButtonType.Underline,
+                  color: Theme.of(context).primaryColor,
+                ),
               ),
               ButtonWidget(
                 text: localizationUtil.translate("onboarding", "set"),

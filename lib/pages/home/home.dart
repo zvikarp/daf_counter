@@ -1,7 +1,7 @@
-import 'package:daf_plus_plus/consts/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
+import 'package:daf_plus_plus/consts/consts.dart';
 import 'package:daf_plus_plus/enums/deviceScreenType.dart';
 import 'package:daf_plus_plus/pages/home/home_desktop.dart';
 import 'package:daf_plus_plus/pages/home/home_mobile.dart';
@@ -43,10 +43,14 @@ class _HomePageState extends State<HomePage> {
     await _loadProgress();
     if (_isFirstRun()) {
       _loadFirstRun();
+    } else {
+      _listenToIsDafYomiUpdate();
+      _listenToPreferredCalendarState();
+      progressAction.localToStore();
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        backwardCompatibilityUtil.actUponBuildNumber(context);
+      });
     }
-    _listenToIsDafYomiUpdate();
-    _listenToPreferredCalendarState();
-    progressAction.localToStore();
   }
 
   void _listenToIsDafYomiUpdate() {
@@ -72,10 +76,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _loadApp();
-
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      backwardCompatibilityUtil.actUponBuildNumber(context);
-    });
   }
 
   @override

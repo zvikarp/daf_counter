@@ -110,7 +110,7 @@ class _SetDafYomiWidgetState extends State<SetDafYomiWidget> {
               trailing: ButtonWidget(
                 onPressed: _changeNotificationsTime,
                 text: dateConverterUtil.timeToString(_notificationsTime),
-                buttonType: ButtonType.Outline,
+                buttonType: ButtonType.Underline,
                 color: Theme.of(context).primaryColor,
               ),
             ),
