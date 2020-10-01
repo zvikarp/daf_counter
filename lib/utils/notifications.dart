@@ -19,14 +19,14 @@ class NotificationsUtil {
     }
   }
 
-  void init() {
+  Future<void> init() async {
     if (platformUtil.isAndroid()) {
       _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
       AndroidInitializationSettings initializationSettingsAndroid =
           AndroidInitializationSettings('ic_stat_white_logo');
       InitializationSettings initializationSettings = InitializationSettings(
           initializationSettingsAndroid, IOSInitializationSettings());
-      _flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      await _flutterLocalNotificationsPlugin.initialize(initializationSettings,
           onSelectNotification: _onSelectNotification);
     }
   }

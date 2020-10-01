@@ -34,7 +34,7 @@ void main() async {
   await hiveService.settings.open();
   await hiveService.progress.open();
   await localizationUtil.init();
-  notificationsUtil.init();
+  await notificationsUtil.init();
   runZonedGuarded(() {
     runApp(Provider<ProgressStore>(
         create: (_) => ProgressStore(), child: MyApp()));

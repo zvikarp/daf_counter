@@ -27,10 +27,10 @@ class _SetDafYomiWidgetState extends State<SetDafYomiWidget> {
     setState(() => _doesDafYomi = hiveService.settings.getIsDafYomi());
   }
 
-  void _changeShowNotifications(bool showNotifications) async {
-    notificationsUtil.cancelDailyNotification();
+  Future<void> _changeShowNotifications(bool showNotifications) async {
+    await notificationsUtil.cancelDailyNotification();
     if (showNotifications) {
-      notificationsUtil.setDailyNotification(_notificationsTime);
+      await notificationsUtil.setDailyNotification(_notificationsTime);
     }
     hiveService.settings.setShowNotifications(showNotifications);
     _getShowNotifications();
@@ -48,9 +48,9 @@ class _SetDafYomiWidgetState extends State<SetDafYomiWidget> {
     );
     if (time != null) {
       hiveService.settings.setNotificationsTime(time);
-      notificationsUtil.cancelDailyNotification();
+      await notificationsUtil.cancelDailyNotification();
       if (_shouldShowNotifications) {
-        notificationsUtil.setDailyNotification(time);
+        await notificationsUtil.setDailyNotification(time);
       }
       _getNotificationsTime();
     }
