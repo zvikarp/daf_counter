@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:daf_plus_plus/stores/navigatorKey.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,8 +24,11 @@ void main() async {
     final license = await rootBundle.loadString('assets/fonts/OFL.txt');
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
   });
-  Crashlytics.instance.enableInDevMode = false;
-  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   await hiveService.initHive();
   await hiveService.settings.open();
   await hiveService.progress.open();
@@ -32,7 +36,7 @@ void main() async {
   runZonedGuarded(() {
     runApp(Provider<ProgressStore>(
         create: (_) => ProgressStore(), child: MyApp()));
-  }, Crashlytics.instance.recordError);
+  }, FirebaseCrashlytics.instance.recordError);
 }
 
 class MyApp extends StatefulWidget {
