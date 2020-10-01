@@ -119,6 +119,10 @@ class ThemeUtil {
               fontSize: 14,
               color: Colors.white,
             ),
+            overline: TextStyle(
+              fontSize: 20,
+              color: Colors.white,
+            ),
           ),
         ),
       ),
