@@ -36,8 +36,10 @@ class NotificationsUtil {
       AndroidNotificationDetails androidPlatformChannelSpecifics =
           AndroidNotificationDetails(
         Consts.DAILY_REMINDER_NOTIFICATION_CHANNEL_ID,
-        'repeatDailyAtTime channel name',
-        'repeatDailyAtTime description',
+        localizationUtil.translate(
+            "app_info", "daily_notifications_channal_name"),
+        localizationUtil.translate(
+            "app_info", "daily_notifications_channal_description"),
       );
       NotificationDetails platformChannelSpecifics = NotificationDetails(
           androidPlatformChannelSpecifics, IOSNotificationDetails());
