@@ -38,6 +38,8 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
   }
 
   _set() async {
+    hiveService.settings.setShowNotifications(true);
+    hiveService.settings.setNotificationsTime(_notificationsTime);
     await notificationsUtil.setDailyNotification(_notificationsTime);
     _done();
   }
