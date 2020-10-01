@@ -7,17 +7,17 @@ import 'package:daf_plus_plus/models/progress.dart';
 import 'package:daf_plus_plus/services/auth.dart';
 
 class ProgressCollection {
-  final Firestore _db = Firestore.instance;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<ResponseModel> getProgressMap() async {
     String userId = await authService.getUserId();
     if (userId == null) return ResponsesConst.NOT_AUTHED;
     DocumentSnapshot progressDoc = await _db
         .collection(FirestoreConsts.PROGRESS_COLLECTION)
-        .document(userId)
+        .doc(userId)
         .get();
     if (!progressDoc.exists) return ResponsesConst.DOCUMENT_NOT_FOUND;
-    return ResponsesConst.GENERAL_SUCCESS.withData(progressDoc.data);
+    return ResponsesConst.GENERAL_SUCCESS.withData(progressDoc.data());
   }
 
   Future<ResponseModel> setProgressMap(
@@ -29,8 +29,8 @@ class ProgressCollection {
             MapEntry(masechetId, progress.toString()));
     await _db
         .collection(FirestoreConsts.PROGRESS_COLLECTION)
-        .document(userId)
-        .setData(progressData);
+        .doc(userId)
+        .set(progressData);
     // TODO: handel error
     return ResponsesConst.GENERAL_SUCCESS;
   }
