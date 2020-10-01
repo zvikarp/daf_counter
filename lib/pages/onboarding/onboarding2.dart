@@ -5,10 +5,9 @@ import 'package:daf_plus_plus/consts/routes.dart';
 import 'package:daf_plus_plus/data/masechets.dart';
 import 'package:daf_plus_plus/models/masechet.dart';
 import 'package:daf_plus_plus/models/progress.dart';
-import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
-import 'package:daf_plus_plus/widgets/shared/simpleMesechetWidget.dart';
 import 'package:daf_plus_plus/widgets/core/button.dart';
+import 'package:daf_plus_plus/widgets/shared/simpleMesechetWidget.dart';
 
 class Onboarding2Page extends StatefulWidget {
   @override
@@ -37,9 +36,7 @@ class _Onboarding2PageState extends State<Onboarding2Page> {
       }
     }
 
-    hiveService.settings.setHasOpened(true);
-    Navigator.of(context).pushNamedAndRemoveUntil(
-        RoutesConsts.HOME_PAGE, ModalRoute.withName('/'));
+    Navigator.of(context).pushNamed(RoutesConsts.REMINDER_PAGE);
   }
 
   void _onClickDaf(int masechetIndex, bool state) {
@@ -102,6 +99,7 @@ class _Onboarding2PageState extends State<Onboarding2Page> {
                 child: ButtonWidget(
                   text: localizationUtil.translate("general", "done"),
                   buttonType: ButtonType.Outline,
+                  margin: EdgeInsets.symmetric(horizontal: 16),
                   color: Theme.of(context).primaryColor,
                   onPressed: _done,
                 ),

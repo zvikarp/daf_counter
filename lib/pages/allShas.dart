@@ -11,6 +11,9 @@ import 'package:daf_plus_plus/widgets/shared/masechet/masechet.dart';
 import 'package:daf_plus_plus/widgets/core/sectionHeader.dart';
 
 class AllShasPage extends StatelessWidget {
+  AllShasPage({@required this.preferredCalendar});
+  final String preferredCalendar;
+
   List<Widget> _generateList() {
     String prevSederId;
     List<Widget> list = [];
@@ -36,6 +39,7 @@ class AllShasPage extends StatelessWidget {
       list.add(
         MasechetWidget(
           daf: DafModel(masechetId: masechet.id),
+          preferredCalendar: preferredCalendar,
         ),
       );
     });
