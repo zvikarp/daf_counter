@@ -5,6 +5,7 @@ import 'package:daf_plus_plus/widgets/core/spacer.dart';
 import 'package:daf_plus_plus/consts/consts.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
 import 'package:daf_plus_plus/widgets/core/button.dart';
+import 'package:daf_plus_plus/widgets/onboarding/pageTemplate.dart';
 
 class WelcomeOnboardingPage extends StatefulWidget {
   @override
@@ -35,62 +36,30 @@ class _WelcomeOnboardingPageState extends State<WelcomeOnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Expanded(
-            child: Hero(
-              tag: "onboardingHero",
-              child: Container(
-                color: Theme.of(context).primaryColor,
-                child: SafeArea(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 48, horizontal: 32),
-                    color: Theme.of(context).primaryColor,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          localizationUtil.translate("onboarding", "welcome"),
-                          style: Theme.of(context).textTheme.headline3,
-                        ),
-                        SpacerWidget(height: 24),
-                        Text(
-                          localizationUtil.translate(
-                              "onboarding", "welcome_subtitle"),
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          ListView(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.symmetric(vertical: 48, horizontal: 32),
-            children: _listOfLanguages
-                .map(
-                  (language) => Center(
-                    child: ButtonWidget(
-                      text: localizationUtil.translate(
-                          "onboarding", "choose_" + language),
-                      margin: EdgeInsets.symmetric(horizontal: 16),
-                      buttonType: ButtonType.Outline,
-                      color: Theme.of(context).primaryColor,
-                      onPressed: () => _changeLanguage(context, language),
-                    ),
-                  ),
-                )
-                .toList(),
-          )
-        ],
+    List<Widget> headerChildren = [
+      Text(
+        localizationUtil.translate("onboarding", "welcome"),
+        style: Theme.of(context).textTheme.headline3,
       ),
-    );
+      SpacerWidget(height: 24),
+      Text(
+        localizationUtil.translate("onboarding", "welcome_subtitle"),
+        style: Theme.of(context).textTheme.bodyText1,
+      ),
+    ];
+    List<Widget> actionChildren = _listOfLanguages
+        .map(
+          (language) => ButtonWidget(
+            text:
+                localizationUtil.translate("onboarding", "choose_" + language),
+            margin: EdgeInsets.symmetric(horizontal: 16),
+            buttonType: ButtonType.Outline,
+            color: Theme.of(context).primaryColor,
+            onPressed: () => _changeLanguage(context, language),
+          ),
+        )
+        .toList();
+    return OnboardingPageTemplate(
+        headerChildren: headerChildren, actionChildren: actionChildren);
   }
 }

@@ -1,4 +1,9 @@
 {
+  "app_info": {
+    "daily_notifications_channal_name": "תזכורת יומית",
+    "daily_notifications_channal_description": "קבל תזכורת כל יום ללמוד את הדף היומי"
+  },
+
   "general": {
     "app_name": "דף++",
     "seder": "סדר",

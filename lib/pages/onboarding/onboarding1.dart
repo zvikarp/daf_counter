@@ -12,6 +12,7 @@ import 'package:daf_plus_plus/utils/dateConverter.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
 import 'package:daf_plus_plus/widgets/core/button.dart';
 import 'package:daf_plus_plus/widgets/core/spacer.dart';
+import 'package:daf_plus_plus/widgets/onboarding/pageTemplate.dart';
 
 class Onboarding1Page extends StatelessWidget {
   _yesAndFill(BuildContext context) {
@@ -55,71 +56,45 @@ class Onboarding1Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: Hero(
-              tag: "onboardingHero",
-              child: Container(
-                color: Theme.of(context).primaryColor,
-                child: SafeArea(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 48, horizontal: 32),
-                    color: Theme.of(context).primaryColor,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          localizationUtil.translate(
-                              "onboarding", "onboarding1_title"),
-                          style: Theme.of(context).textTheme.headline3,
-                        ),
-                        SpacerWidget(height: 24),
-                        Text(
-                          localizationUtil.translate(
-                              "onboarding", "onboarding1_subtitle"),
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SpacerWidget(height: 42),
-          ButtonWidget(
-            text: localizationUtil.translate(
-                "onboarding", "learning_daf_in_sync"),
-            subtext: localizationUtil.translate(
-                "onboarding", "learning_daf_in_sync_subtext"),
-            buttonType: ButtonType.Outline,
-            margin: EdgeInsets.symmetric(horizontal: 16),
-            color: Theme.of(context).primaryColor,
-            onPressed: () => _yesAndFill(context),
-          ),
-          SpacerWidget(height: 24),
-          ButtonWidget(
-            text:
-                localizationUtil.translate("onboarding", "learning_daf_alone"),
-            buttonType: ButtonType.Outline,
-            margin: EdgeInsets.symmetric(horizontal: 16),
-            color: Theme.of(context).primaryColor,
-            onPressed: () => _justYes(context),
-          ),
-          SpacerWidget(height: 24),
-          ButtonWidget(
-            text: localizationUtil.translate("onboarding", "not_learning_daf"),
-            buttonType: ButtonType.Outline,
-            margin: EdgeInsets.symmetric(horizontal: 16),
-            color: Theme.of(context).primaryColor,
-            onPressed: () => _no(context),
-          ),
-          SpacerWidget(height: 42),
-        ],
+    List<Widget> headerChildren = [
+      Text(
+        localizationUtil.translate("onboarding", "onboarding1_title"),
+        style: Theme.of(context).textTheme.headline3,
       ),
-    );
+      SpacerWidget(height: 24),
+      Text(
+        localizationUtil.translate("onboarding", "onboarding1_subtitle"),
+        style: Theme.of(context).textTheme.bodyText1,
+      ),
+    ];
+    List<Widget> actionChildren = [
+      ButtonWidget(
+        text: localizationUtil.translate("onboarding", "learning_daf_in_sync"),
+        subtext: localizationUtil.translate(
+            "onboarding", "learning_daf_in_sync_subtext"),
+        buttonType: ButtonType.Outline,
+        margin: EdgeInsets.symmetric(horizontal: 16),
+        color: Theme.of(context).primaryColor,
+        onPressed: () => _yesAndFill(context),
+      ),
+      SpacerWidget(height: 24),
+      ButtonWidget(
+        text: localizationUtil.translate("onboarding", "learning_daf_alone"),
+        buttonType: ButtonType.Outline,
+        margin: EdgeInsets.symmetric(horizontal: 16),
+        color: Theme.of(context).primaryColor,
+        onPressed: () => _justYes(context),
+      ),
+      SpacerWidget(height: 24),
+      ButtonWidget(
+        text: localizationUtil.translate("onboarding", "not_learning_daf"),
+        buttonType: ButtonType.Outline,
+        margin: EdgeInsets.symmetric(horizontal: 16),
+        color: Theme.of(context).primaryColor,
+        onPressed: () => _no(context),
+      ),
+    ];
+    return OnboardingPageTemplate(
+        headerChildren: headerChildren, actionChildren: actionChildren);
   }
 }

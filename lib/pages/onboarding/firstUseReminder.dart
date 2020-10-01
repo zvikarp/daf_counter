@@ -10,6 +10,7 @@ import 'package:daf_plus_plus/utils/dateConverter.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
 import 'package:daf_plus_plus/widgets/core/button.dart';
 import 'package:daf_plus_plus/widgets/core/spacer.dart';
+import 'package:daf_plus_plus/widgets/onboarding/pageTemplate.dart';
 
 class FirstUseReminder extends StatefulWidget {
   @override
@@ -69,80 +70,50 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
     if (platformUtil.isWeb()) {
       return Container();
     }
-
-    return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: Hero(
-              tag: "onboardingHero",
-              child: Container(
-                color: Theme.of(context).primaryColor,
-                child: SafeArea(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 48, horizontal: 32),
-                    color: Theme.of(context).primaryColor,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          localizationUtil.translate(
-                              "onboarding", "set_reminder_title"),
-                          style: Theme.of(context).textTheme.headline3,
-                        ),
-                        SpacerWidget(height: 24),
-                        Text(
-                          localizationUtil.translate(
-                              "onboarding", "set_reminder_description"),
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SpacerWidget(height: 42),
-          ListView(
-            shrinkWrap: true,
-            padding: EdgeInsets.all(16),
-            children: <Widget>[
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(localizationUtil.translate(
-                      "onboarding", "set_reminder"))),
-              ListTile(
-                title: Text(
-                  localizationUtil.translate("onboarding", "select_time") + ":",
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-                trailing: ButtonWidget(
-                  onPressed: _selectTime,
-                  text: dateConverterUtil.timeToString(_notificationsTime),
-                  buttonType: ButtonType.Underline,
-                  color: Theme.of(context).primaryColor,
-                ),
-              ),
-              ButtonWidget(
-                text: localizationUtil.translate("onboarding", "set"),
-                buttonType: ButtonType.Outline,
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                color: Theme.of(context).primaryColor,
-                onPressed: () => _set(),
-              ),
-              ButtonWidget(
-                text: localizationUtil.translate("onboarding", "dont_set"),
-                buttonType: ButtonType.Outline,
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                color: Theme.of(context).primaryColor,
-                onPressed: () => _done(),
-              ),
-            ],
-          )
-        ],
+    List<Widget> headerChildren = [
+      Text(
+        localizationUtil.translate("onboarding", "set_reminder_title"),
+        style: Theme.of(context).textTheme.headline3,
       ),
-    );
+      SpacerWidget(height: 24),
+      Text(
+        localizationUtil.translate("onboarding", "set_reminder_description"),
+        style: Theme.of(context).textTheme.bodyText1,
+      ),
+    ];
+    List<Widget> actionChildren = [
+      Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child:
+              Text(localizationUtil.translate("onboarding", "set_reminder"))),
+      ListTile(
+        title: Text(
+          localizationUtil.translate("onboarding", "select_time") + ":",
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+        trailing: ButtonWidget(
+          onPressed: _selectTime,
+          text: dateConverterUtil.timeToString(_notificationsTime),
+          buttonType: ButtonType.Underline,
+          color: Theme.of(context).primaryColor,
+        ),
+      ),
+      ButtonWidget(
+        text: localizationUtil.translate("onboarding", "set"),
+        buttonType: ButtonType.Outline,
+        margin: EdgeInsets.symmetric(horizontal: 16),
+        color: Theme.of(context).primaryColor,
+        onPressed: () => _set(),
+      ),
+      ButtonWidget(
+        text: localizationUtil.translate("onboarding", "dont_set"),
+        buttonType: ButtonType.Outline,
+        margin: EdgeInsets.symmetric(horizontal: 16),
+        color: Theme.of(context).primaryColor,
+        onPressed: () => _done(),
+      ),
+    ];
+    return OnboardingPageTemplate(
+        headerChildren: headerChildren, actionChildren: actionChildren);
   }
 }

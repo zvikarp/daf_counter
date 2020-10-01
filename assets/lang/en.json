@@ -1,4 +1,9 @@
 {
+  "app_info": {
+    "daily_notifications_channal_name": "Daily Reminder",
+    "daily_notifications_channal_description": "Get daily reminder to learn the Daf yomi"
+  },
+
   "general": {
     "app_name": "Daf++",
     "seder": "Seder",
