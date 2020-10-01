@@ -1,5 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
+import 'package:daf_plus_plus/consts/consts.dart';
+import 'package:daf_plus_plus/utils/dateConverter.dart';
 import 'package:daf_plus_plus/consts/hive.dart';
 import 'package:daf_plus_plus/models/daf.dart';
 
@@ -63,9 +66,21 @@ class SettingsBox {
       _setByKey(HiveConsts.PREFERRED_THEME, preferredTheme);
   String getPreferredTheme() => _getByKey(HiveConsts.PREFERRED_THEME);
 
+  // show notifications
+  void setShowNotifications(bool showNotifications) =>
+      _setByKey(HiveConsts.SHOW_NOTIFICATIONS, showNotifications);
+  bool getShowNotifications() =>
+      _getByKey(HiveConsts.SHOW_NOTIFICATIONS) ?? false;
+
+  // notifications time
+  void setNotificationsTime(TimeOfDay notificationsTime) => _setByKey(
+      HiveConsts.NOTIFICATIONS_TIME,
+      dateConverterUtil.timeToString(notificationsTime));
+  TimeOfDay getNotificationsTime() =>
+      dateConverterUtil.stringToTime(_getByKey(HiveConsts.NOTIFICATIONS_TIME));
+
   // is daf yomi
   void setIsDafYomi(bool isDaf) => _setByKey(HiveConsts.IS_DAF_YOMI, isDaf);
-
   bool getIsDafYomi() => _getByKey(HiveConsts.IS_DAF_YOMI) ?? false;
 
   Stream<bool> listenToIsDafYomi() {
@@ -83,6 +98,13 @@ class SettingsBox {
   // used fab
   void setUsedFab(bool usedFab) => _setByKey(HiveConsts.USED_FAB, usedFab);
   bool getUsedFab() => _getByKey(HiveConsts.USED_FAB) ?? false;
+
+  // last updated build number
+  void setLastUpdatedBuildNumber(int lastUpdatedBuildNumber) =>
+      _setByKey(HiveConsts.LAST_UPDATED_BUILD_NUMBER, lastUpdatedBuildNumber);
+  int getLastUpdatedBuildNumber() =>
+      _getByKey(HiveConsts.LAST_UPDATED_BUILD_NUMBER) ??
+      Consts.DEFAULT_BUILD_NUMBER;
 }
 
 final SettingsBox settingsBox = SettingsBox();

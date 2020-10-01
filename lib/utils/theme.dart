@@ -65,6 +65,10 @@ class ThemeUtil {
               fontSize: 14,
               color: Colors.black,
             ),
+            overline: TextStyle(
+              fontSize: 20,
+              color: Colors.black,
+            ),
           ),
         ),
       ),
@@ -113,6 +117,10 @@ class ThemeUtil {
             ),
             caption: TextStyle(
               fontSize: 14,
+              color: Colors.white,
+            ),
+            overline: TextStyle(
+              fontSize: 20,
               color: Colors.white,
             ),
           ),

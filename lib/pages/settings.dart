@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:daf_plus_plus/widgets/userSettings/SetDafYomiWidget.dart';
+import 'package:daf_plus_plus/widgets/userSettings/setDafYomiWidget.dart';
 import 'package:daf_plus_plus/widgets/userSettings/about.dart';
 import 'package:daf_plus_plus/widgets/userSettings/deleteAll.dart';
 import 'package:daf_plus_plus/widgets/userSettings/googleAccount.dart';
@@ -19,10 +19,13 @@ class _SettingsPageState extends State<SettingsPage> {
     return ListView(
       children: <Widget>[
         GoogleAccountWidget(),
+        Divider(),
         SetLanguageWidget(),
         SetCalendarWidget(),
         SetThemeWidget(),
+        Divider(),
         SetDafYomiWidget(),
+        Divider(),
         DeleteAllWidget(),
         Divider(),
         AboutWidget(),
