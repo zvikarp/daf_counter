@@ -14,6 +14,7 @@ import 'package:daf_plus_plus/services/firestore/index.dart';
 import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:daf_plus_plus/stores/actionCounter.dart';
 import 'package:daf_plus_plus/stores/progress.dart';
+import 'package:daf_plus_plus/enums/learnType.dart';
 
 class ProgressAction {
   BuildContext _progressContext;
@@ -32,9 +33,7 @@ class ProgressAction {
 
   void learnedTodaysDaf() {
     DafModel todaysDaf = _getTodaysDaf();
-    ProgressModel progress = get(todaysDaf.masechetId);
-    progress.data[todaysDaf.number] = 1; // TODO: really not ideal.
-    update(todaysDaf.masechetId, progress, 5);
+    update(todaysDaf.masechetId, LearnType.LearnedDafOnce, todaysDaf.number, 5);
     hiveService.settings.setLastDaf(todaysDaf);
     String masechet =
         '${localizationUtil.translate("general", "masechet")} ${localizationUtil.translate("shas", todaysDaf.masechetId)}';
@@ -52,19 +51,27 @@ class ProgressAction {
   ProgressStore _getProgressStore([bool listen = false]) =>
       Provider.of<ProgressStore>(_progressContext, listen: listen);
 
-  void update(String masechetId, ProgressModel progress,
-      [int incrementCounterBy = 5]) {
+  void update(String masechetId, LearnType learnType,
+      [int daf = 0, int incrementCounterBy = 5]) {
     ProgressStore progressStore = _getProgressStore();
     actionCounterStore.increment(incrementCounterBy);
+    ProgressModel progress = hiveService.progress.getProgress(masechetId);
+    progress.updateByLearnType(learnType, daf);
     hiveService.progress.setProgress(masechetId, progress);
     progressStore.setProgress(masechetId, progress);
     _checkIfShouldBackup();
   }
 
-  void updateAll(Map<String, ProgressModel> progressMap,
+  void updateAll(Map<String, LearnType> learnMap,
       [int incrementCounterBy = 5]) {
     ProgressStore progressStore = _getProgressStore();
     actionCounterStore.increment(incrementCounterBy);
+    Map<String, ProgressModel> progressMap = {};
+    learnMap.forEach((String masechetId, LearnType learnType) {
+      ProgressModel progress = hiveService.progress.getProgress(masechetId);
+      progress.updateByLearnType(learnType);
+      progressMap[masechetId] = progress;
+    });
     hiveService.progress.setProgressMap(progressMap);
     progressStore.setProgressMap(progressMap);
     _checkIfShouldBackup();
