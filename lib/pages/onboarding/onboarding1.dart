@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/enums/learnType.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
 import 'package:daf_plus_plus/consts/routes.dart';
 import 'package:daf_plus_plus/data/masechets.dart';
 import 'package:daf_plus_plus/models/daf.dart';
-import 'package:daf_plus_plus/models/masechet.dart';
-import 'package:daf_plus_plus/models/progress.dart';
 import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:daf_plus_plus/stores/dafsDates.dart';
 import 'package:daf_plus_plus/utils/dateConverter.dart';
@@ -24,24 +23,21 @@ class Onboarding1Page extends StatelessWidget {
   _fillIn() {
     DafModel todaysDaf =
         dafsDatesStore.getDafByDate(dateConverterUtil.getToday());
-    int mesechtIndex = MasechetsData.THE_MASECHETS[todaysDaf.masechetId].index;
-    if (mesechtIndex > 0) {
-      for (int index = 0; index < mesechtIndex; index++) {
-        MasechetModel masechet = MasechetsData.THE_MASECHETS.values
-            .firstWhere((MasechetModel masechet) => masechet.index == index);
-        ProgressModel progress =
-            ProgressModel(data: List.filled(masechet.numOfDafs, 1));
-        progressAction.update(masechet.id, progress);
-      }
+    int masechetIndex = MasechetsData.THE_MASECHETS[todaysDaf.masechetId].index;
+    if (masechetIndex > 0) {
+      Map<String, LearnType> learnMap = {};
+      MasechetsData.THE_MASECHETS.keys
+          .toList()
+          .asMap()
+          .forEach((int index, String masechetId) {
+        if (index < masechetIndex) {
+          learnMap[masechetId] = LearnType.LearnedMasechetExactlyOnce;
+        }
+        progressAction.updateAll(learnMap);
+      });
     }
-    MasechetModel currentMasechet =
-        MasechetsData.THE_MASECHETS[todaysDaf.masechetId];
-    ProgressModel progress =
-        ProgressModel(data: List.filled(currentMasechet.numOfDafs, 0));
-    for (int i = 0; i < todaysDaf.number; i++) {
-      progress.data[i] = 1;
-    }
-    progressAction.update(currentMasechet.id, progress);
+    progressAction.update(todaysDaf.masechetId,
+        LearnType.LearnedUntilDafExactlyOnce, todaysDaf.number);
   }
 
   _justYes(BuildContext context) {

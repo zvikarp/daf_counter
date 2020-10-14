@@ -1,10 +1,10 @@
-import 'package:daf_plus_plus/actions/progress.dart';
-import 'package:daf_plus_plus/data/masechets.dart';
-import 'package:daf_plus_plus/models/progress.dart';
-import 'package:daf_plus_plus/utils/transparentRoute.dart';
-import 'package:daf_plus_plus/widgets/core/questionDialog.dart';
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/actions/progress.dart';
+import 'package:daf_plus_plus/data/masechets.dart';
+import 'package:daf_plus_plus/enums/learnType.dart';
+import 'package:daf_plus_plus/utils/transparentRoute.dart';
+import 'package:daf_plus_plus/widgets/core/questionDialog.dart';
 import 'package:daf_plus_plus/widgets/core/button.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
 
@@ -34,10 +34,10 @@ class _DeleteAllWidgetState extends State<DeleteAllWidget> {
   void _formatProgress() {
     List<String> masechetsIdsMap = MasechetsData.THE_MASECHETS.keys.toList();
 
-    Map<String, ProgressModel> progressMap = masechetsIdsMap.asMap().map(
+    Map<String, LearnType> learnMap = masechetsIdsMap.asMap().map(
         (int index, String masechetId) =>
-            MapEntry(masechetId, ProgressModel.empty(0, masechetId)));
-    progressAction.updateAll(progressMap);
+            MapEntry(masechetId, LearnType.UnlearndMasechetExactlyZero));
+    progressAction.updateAll(learnMap);
   }
 
   @override

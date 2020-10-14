@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:daf_plus_plus/utils/platform.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -28,17 +29,22 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   await hiveService.initHive();
   await hiveService.settings.open();
   await hiveService.progress.open();
   await localizationUtil.init();
   await notificationsUtil.init();
-  runZonedGuarded(() {
+  if (platformUtil.isAndroid()) {
+    FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    runZonedGuarded(() {
+      runApp(Provider<ProgressStore>(
+          create: (_) => ProgressStore(), child: MyApp()));
+    }, FirebaseCrashlytics.instance.recordError);
+  } else {
     runApp(Provider<ProgressStore>(
         create: (_) => ProgressStore(), child: MyApp()));
-  }, FirebaseCrashlytics.instance.recordError);
+  }
 }
 
 class MyApp extends StatefulWidget {

@@ -1,7 +1,8 @@
-import 'package:daf_plus_plus/actions/progress.dart';
-import 'package:daf_plus_plus/models/progress.dart';
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/actions/progress.dart';
+import 'package:daf_plus_plus/enums/learnType.dart';
+import 'package:daf_plus_plus/models/progress.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
 import 'package:daf_plus_plus/widgets/core/button.dart';
 import 'package:daf_plus_plus/widgets/core/dialog.dart';
@@ -17,10 +18,7 @@ class MasechetOptionsDialog extends StatelessWidget {
   final ProgressModel progress;
 
   _learnMasechet(BuildContext context) {
-    // TODO: this is probably the worst code i have written in this project.
-    // but this needs to change to a counter and not a bool...
-    ProgressModel progress = ProgressModel(data: this.progress.data.map((daf) => 1).toList());
-    progressAction.update(masechetId, progress);
+    progressAction.update(masechetId, LearnType.LearnedMasechetAtLeastOnce);
     Navigator.pop(context);
   }
 
@@ -33,14 +31,16 @@ class MasechetOptionsDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             TitleWidget(
-              title: localizationUtil.translate("home", "masechet_options_title"),
+              title:
+                  localizationUtil.translate("home", "masechet_options_title"),
             ),
             ListView(
               shrinkWrap: true,
               children: <Widget>[
                 ListTile(
                   title: ButtonWidget(
-                    text: localizationUtil.translate("home", "learned_masechet"),
+                    text:
+                        localizationUtil.translate("home", "learned_masechet"),
                     buttonType: ButtonType.Outline,
                     color: Theme.of(context).primaryColor,
                     onPressed: () => _learnMasechet(context),
