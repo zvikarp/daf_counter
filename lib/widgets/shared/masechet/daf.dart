@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/enums/learnType.dart';
+import 'package:daf_plus_plus/widgets/shared/masechet/checkbox.dart';
 import 'package:daf_plus_plus/utils/dateConverter.dart';
 import 'package:daf_plus_plus/consts/consts.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
@@ -16,12 +18,16 @@ class DafWidget extends StatelessWidget {
 
   final int dafNumber;
   final int dafCount;
-  final Function(int) onChangeCount;
+  final Function(LearnType) onChangeCount;
   final DateTime dafDate;
   final String preferredCalendar;
 
-  void _onClickCheckbox(bool state) {
-    onChangeCount(state ? 1 : 0);
+  void _onPressCheckbox() {
+    onChangeCount(LearnType.LearnedDafOnce);
+  }
+
+  void _onLongPressCheckbox() {
+    onChangeCount(LearnType.UnlearnedDafOnce);
   }
 
   String _getDafNumber() {
@@ -45,11 +51,13 @@ class DafWidget extends StatelessWidget {
     return Container(
       child: ListTile(
         dense: true,
-        onTap: () => _onClickCheckbox(dafCount > 0 ? false : true),
-        leading: Checkbox(
-          activeColor: Theme.of(context).accentColor,
-          onChanged: _onClickCheckbox,
-          value: dafCount > 0 ? true : false,
+        onTap: _onPressCheckbox,
+        onLongPress: _onLongPressCheckbox,
+        leading: CheckboxWidget(
+          onPress: _onPressCheckbox,
+          onLongPress: _onLongPressCheckbox,
+          value: dafCount,
+          selected: dafCount > 0 ? true : false,
         ),
         trailing: Text(
           dateConverterUtil.getDayInWeek(dafDate) + ", " + _theDate(dafDate),

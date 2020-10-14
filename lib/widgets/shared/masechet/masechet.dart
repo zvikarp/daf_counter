@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:provider/provider.dart';
 
+import 'package:daf_plus_plus/enums/learnType.dart';
 import 'package:daf_plus_plus/models/daf.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
 import 'package:daf_plus_plus/consts/consts.dart';
@@ -35,8 +36,8 @@ class _MasechetWidgetState extends State<MasechetWidget> {
     setState(() => _isExpanded = state);
   }
 
-  void _onProgressChange(ProgressModel progress) {
-    progressAction.update(widget.daf.masechetId, progress);
+  void _onProgressChange(LearnType learnType, int daf) {
+    progressAction.update(widget.daf.masechetId, learnType, daf);
   }
 
   @override
