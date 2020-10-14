@@ -7,7 +7,7 @@ class GematriaConverterUtil {
     ['', 'ק', 'ר', 'ש', 'ת'],
   ];
 
-  Map<String, String> _exceptions = {"יה": "טו", "יו": "טז"};
+  Map<String, String> _exceptions = {"קיה": "קטו", "קיו": "קטז", "יה": "טו", "יו": "טז"};
 
   String _solveExceptions(String letter) {
     if (_exceptions.containsKey(letter)) return _exceptions[letter];

@@ -4,32 +4,32 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  FirebaseUser _firebaseUser;
+  User _firebaseUser;
 
   Future<String> loginWithGoogle() async {
-    GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    if (googleUser == null) return null;
-    GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
     try {
-      AuthResult authResult = await _auth.signInWithCredential(credential);
-      FirebaseUser user = authResult.user;
-      if (user != null) {
-        _firebaseUser = user;
-        return user.uid;
-      }
-    } catch (e) {
+      GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) return null;
+      GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+      final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
       try {
-        _auth.signOut();
+        UserCredential userCredential =
+            await _auth.signInWithCredential(credential);
+        User user = userCredential.user;
+        if (user != null) {
+          _firebaseUser = user;
+          return user.uid;
+        }
       } catch (e) {
-        print(e);
+        try {
+          _auth.signOut();
+        } catch (e) {}
       }
-      return null;
-    }
+    } catch (e) {}
     return null;
   }
 
@@ -37,7 +37,7 @@ class AuthService {
     if (_firebaseUser != null)
       return _firebaseUser.uid;
     else {
-      await refreshUser();
+      refreshUser();
       return _firebaseUser?.uid;
     }
   }
@@ -54,8 +54,8 @@ class AuthService {
     return true;
   }
 
-  Future<FirebaseUser> refreshUser() async {
-    FirebaseUser user = await _auth.currentUser();
+  User refreshUser() {
+    User user = _auth.currentUser;
     _firebaseUser = user;
     return user;
   }

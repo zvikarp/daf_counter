@@ -1,6 +1,7 @@
-import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/enums/learnType.dart';
+import 'package:daf_plus_plus/widgets/shared/masechet/checkbox.dart';
 import 'package:daf_plus_plus/utils/dateConverter.dart';
 import 'package:daf_plus_plus/consts/consts.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
@@ -12,15 +13,21 @@ class DafWidget extends StatelessWidget {
     @required this.dafCount,
     @required this.onChangeCount,
     @required this.dafDate,
+    @required this.preferredCalendar,
   });
 
   final int dafNumber;
   final int dafCount;
-  final Function(int) onChangeCount;
+  final Function(LearnType) onChangeCount;
   final DateTime dafDate;
+  final String preferredCalendar;
 
-  void _onClickCheckbox(bool state) {
-    onChangeCount(state ? 1 : 0);
+  void _onPressCheckbox() {
+    onChangeCount(LearnType.LearnedDafOnce);
+  }
+
+  void _onLongPressCheckbox() {
+    onChangeCount(LearnType.UnlearnedDafOnce);
   }
 
   String _getDafNumber() {
@@ -32,32 +39,35 @@ class DafWidget extends StatelessWidget {
   }
 
   String _theDate(dafDate) {
-    String calendarType = hiveService.settings.getPreferredCalendar() ?? Consts.DEFAULT_CALENDAR_TYPE;
-    if (calendarType == "english_calendar")
+    if (preferredCalendar == "english_calendar")
       return dateConverterUtil.toEnglishDate(dafDate);
-    else if (calendarType == "hebrew_calendar")
+    else if (preferredCalendar == "hebrew_calendar")
       return dateConverterUtil.toHebrewDate(dafDate);
-    return ""; 
+    return "";
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: ListTile(
-        onTap: () => _onClickCheckbox(dafCount > 0 ? false : true),
-        leading: Checkbox(
-          onChanged: _onClickCheckbox,
-          value: dafCount > 0 ? true : false,
+        dense: true,
+        onTap: _onPressCheckbox,
+        onLongPress: _onLongPressCheckbox,
+        leading: CheckboxWidget(
+          onPress: _onPressCheckbox,
+          onLongPress: _onLongPressCheckbox,
+          value: dafCount,
+          selected: dafCount > 0 ? true : false,
         ),
         trailing: Text(
-          dateConverterUtil.getDayInWeek(dafDate) +
-              ", " +
-              _theDate(dafDate),
-          style: TextStyle(color: Colors.blueGrey),
+          dateConverterUtil.getDayInWeek(dafDate) + ", " + _theDate(dafDate),
+          style: Theme.of(context).textTheme.bodyText2,
         ),
-        title: Text(localizationUtil.translate("general", "daf") +
-            " " +
-            _getDafNumber()),
+        title: Text(
+            localizationUtil.translate("general", "daf") +
+                " " +
+                _getDafNumber(),
+            style: Theme.of(context).textTheme.bodyText2),
       ),
     );
   }

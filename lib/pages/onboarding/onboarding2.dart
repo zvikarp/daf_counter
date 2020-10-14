@@ -1,13 +1,12 @@
-import 'package:daf_plus_plus/actions/progress.dart';
-import 'package:daf_plus_plus/data/masechets.dart';
-import 'package:daf_plus_plus/models/masechet.dart';
-import 'package:daf_plus_plus/models/progress.dart';
-import 'package:daf_plus_plus/pages/home.dart';
-import 'package:daf_plus_plus/services/hive/index.dart';
-import 'package:daf_plus_plus/utils/localization.dart';
-import 'package:daf_plus_plus/widgets/shared/simpleMesechetWidget.dart';
-import 'package:daf_plus_plus/widgets/core/button.dart';
 import 'package:flutter/material.dart';
+
+import 'package:daf_plus_plus/actions/progress.dart';
+import 'package:daf_plus_plus/consts/routes.dart';
+import 'package:daf_plus_plus/data/masechets.dart';
+import 'package:daf_plus_plus/utils/localization.dart';
+import 'package:daf_plus_plus/widgets/core/button.dart';
+import 'package:daf_plus_plus/widgets/shared/simpleMesechetWidget.dart';
+import 'package:daf_plus_plus/enums/learnType.dart';
 
 class Onboarding2Page extends StatefulWidget {
   @override
@@ -15,98 +14,77 @@ class Onboarding2Page extends StatefulWidget {
 }
 
 class _Onboarding2PageState extends State<Onboarding2Page> {
-  List<bool> _progress = [];
-
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      _progress = List.filled(MasechetsData.THE_MASECHETS.length, false);
-    });
-  }
+  List<String> _selectedMasechets = [];
 
   _done() {
-    for (int index = 0; index < _progress.length; index++) {
-      if (_progress[index]) {
-        MasechetModel masechet = MasechetsData.THE_MASECHETS.values
-            .firstWhere((MasechetModel masechet) => masechet.index == index);
-        ProgressModel progress =
-            ProgressModel(data: List.filled(masechet.numOfDafs, 1));
-        progressAction.update(masechet.id, progress);
-      }
-    }
-
-    hiveService.settings.setHasOpened(true);
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (BuildContext context) => HomePage()),
-        ModalRoute.withName('/'));
+    Map<String, LearnType> learnMap = _selectedMasechets.asMap().map(
+        (int index, String masechetId) =>
+            MapEntry(masechetId, LearnType.LearnedMasechetExactlyOnce));
+    progressAction.updateAll(learnMap);
+    Navigator.of(context).pushNamed(RoutesConsts.REMINDER_PAGE);
   }
 
-  void _onClickDaf(int masechetIndex, bool state) {
-    _updateDafCount(masechetIndex, state);
-  }
-
-  void _updateDafCount(int masechetIndex, bool state) {
-    setState(() {
-      _progress[masechetIndex] = state;
-    });
-  }
-
-  @override
-  void setState(fn) {
-    if (mounted) {
-      super.setState(fn);
-    }
+  void _onClickMasechet(String masechetId, bool selected) {
+    List selectedMasechets = _selectedMasechets;
+    selected
+        ? selectedMasechets.add(masechetId)
+        : selectedMasechets.remove(masechetId);
+    setState(() => _selectedMasechets = selectedMasechets);
   }
 
   @override
   Widget build(BuildContext context) {
-    List<MasechetModel> masechetsList =
-        MasechetsData.THE_MASECHETS.values.toList();
+    List<String> masechetsList = MasechetsData.THE_MASECHETS.keys.toList();
     return Scaffold(
       body: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Hero(
-              tag: "onboardingHero",
-              child: Container(
-                color: Theme.of(context).primaryColor,
-                child: SafeArea(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 48, horizontal: 32),
-                    child: Text(
-                      localizationUtil.translate(
-                          "onboarding", "choose_masechets"),
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Hero(
+            tag: "onboardingHero",
+            child: Container(
+              color: Theme.of(context).primaryColor,
+              child: SafeArea(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 48, horizontal: 32),
+                  child: Text(
+                    localizationUtil.translate(
+                        "onboarding", "choose_masechets"),
+                    style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
               ),
             ),
-            Expanded(
-                child: ListView.builder(
+          ),
+          Expanded(
+            child: ListView.builder(
               shrinkWrap: true,
               itemCount: masechetsList.length,
-              itemBuilder: (context, dafIndex) => SimpleMesechetWidget(
+              itemBuilder: (context, masechetIndex) => SimpleMesechetWidget(
                 name: localizationUtil.translate(
-                    "shas", masechetsList[dafIndex].id),
-                checked: _progress[dafIndex],
-                onChange: (bool state) => _onClickDaf(dafIndex, state),
+                    "shas", masechetsList[masechetIndex]),
+                checked:
+                    _selectedMasechets.contains(masechetsList[masechetIndex]),
+                onChange: (bool state) =>
+                    _onClickMasechet(masechetsList[masechetIndex], state),
               ),
-            )),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 24, horizontal: 32),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 24, horizontal: 32),
+            child: Center(
               child: ButtonWidget(
                 text: localizationUtil.translate("general", "done"),
                 buttonType: ButtonType.Outline,
+                margin: EdgeInsets.symmetric(horizontal: 16),
                 color: Theme.of(context).primaryColor,
                 onPressed: _done,
               ),
             ),
-          ]),
+          ),
+        ],
+      ),
     );
   }
 }

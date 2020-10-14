@@ -5,25 +5,29 @@ import 'package:daf_plus_plus/models/Response.dart';
 import 'package:daf_plus_plus/services/auth.dart';
 
 class SettingsCollection {
-  final Firestore _db = Firestore.instance;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<ResponseModel> getSettings() async {
     String userId = await authService.getUserId();
     if (userId == null) return ResponsesConst.NOT_AUTHED;
-    DocumentSnapshot settingsDoc =
-        await _db.collection(FirestoreConsts.SETTINGS_COLLECTION).document(userId).get();
+    DocumentSnapshot settingsDoc = await _db
+        .collection(FirestoreConsts.SETTINGS_COLLECTION)
+        .doc(userId)
+        .get();
     if (!settingsDoc.exists) return ResponsesConst.DOCUMENT_NOT_FOUND;
-    return ResponsesConst.GENERAL_SUCCESS.withData(settingsDoc.data);
+    return ResponsesConst.GENERAL_SUCCESS.withData(settingsDoc.data());
   }
 
   Future<ResponseModel> updateSettings(Map<String, dynamic> settings) async {
     String userId = await authService.getUserId();
     if (userId == null) return ResponsesConst.NOT_AUTHED;
-    await _db.collection(FirestoreConsts.SETTINGS_COLLECTION).document(userId).setData(settings, merge: true);
+    await _db
+        .collection(FirestoreConsts.SETTINGS_COLLECTION)
+        .doc(userId)
+        .set(settings, SetOptions(merge: true));
     // TODO: handel error
     return ResponsesConst.GENERAL_SUCCESS;
   }
-  
 }
 
 final SettingsCollection settingsCollection = SettingsCollection();

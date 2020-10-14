@@ -4,13 +4,16 @@
 <head>
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="Keep track of your Daf Yomi learning with the only English Daf Yomi tracker!">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="daf_plus_plus">
-  <link rel="apple-touch-icon" href="/icons/Icon-192.png">
+  <meta name="google-signin-client_id" content="528104545477-4g7a8gbovkjh27rblhted3vt8i1ov0lg.apps.googleusercontent.com">
+
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 
   <title>Daf++</title>
   <link rel="manifest" href="/manifest.json">
@@ -27,9 +30,14 @@
       });
     }
   </script>
-  <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+  <!-- <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-firestore.js"></script> -->
+
+    <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-firestore.js"></script>
 
   <script>
     var firebaseConfig = {

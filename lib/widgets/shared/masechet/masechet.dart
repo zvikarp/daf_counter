@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:provider/provider.dart';
 
+import 'package:daf_plus_plus/enums/learnType.dart';
 import 'package:daf_plus_plus/models/daf.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
 import 'package:daf_plus_plus/consts/consts.dart';
@@ -16,10 +17,12 @@ import 'package:daf_plus_plus/widgets/shared/masechet/title.dart';
 class MasechetWidget extends StatefulWidget {
   MasechetWidget({
     @required this.daf,
+    @required this.preferredCalendar,
     this.inList = true,
   });
 
   final DafModel daf;
+  final String preferredCalendar;
   final bool inList;
 
   @override
@@ -33,8 +36,8 @@ class _MasechetWidgetState extends State<MasechetWidget> {
     setState(() => _isExpanded = state);
   }
 
-  void _onProgressChange(ProgressModel progress) {
-    progressAction.update(widget.daf.masechetId, progress);
+  void _onProgressChange(LearnType learnType, int daf) {
+    progressAction.update(widget.daf.masechetId, learnType, daf);
   }
 
   @override
@@ -64,6 +67,7 @@ class _MasechetWidgetState extends State<MasechetWidget> {
               progress: progress,
               onProgressChange: _onProgressChange,
               lastDafIndex: widget.daf.number,
+              preferredCalendar: widget.preferredCalendar,
             )),
         childCount: _isExpanded ? 1 : 0,
       ),
@@ -78,6 +82,7 @@ class _MasechetWidgetState extends State<MasechetWidget> {
         onProgressChange: _onProgressChange,
         lastDafIndex: widget.daf.number,
         hasPadding: true,
+        preferredCalendar: widget.preferredCalendar,
       ),
     );
   }

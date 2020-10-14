@@ -1,6 +1,9 @@
-import 'package:daf_plus_plus/consts/consts.dart';
-import 'package:daf_plus_plus/utils/localization.dart';
 import 'package:flutter/material.dart';
+
+import 'package:daf_plus_plus/consts/consts.dart';
+import 'package:daf_plus_plus/services/hive/index.dart';
+import 'package:daf_plus_plus/utils/localization.dart';
+import 'package:daf_plus_plus/utils/notifications.dart';
 
 class SetLanguageWidget extends StatefulWidget {
   @override
@@ -16,6 +19,15 @@ class _SetLanguageWidgetState extends State<SetLanguageWidget> {
     setState(() {
       _currentLanguage = localizationUtil.locale.languageCode;
     });
+    if (hiveService.settings.getShowNotifications()) {
+      await _updateNotificationLanguage();
+    }
+  }
+
+  Future<void> _updateNotificationLanguage() async {
+    TimeOfDay notificationsTime = hiveService.settings.getNotificationsTime();
+    await notificationsUtil.cancelDailyNotification();
+    await notificationsUtil.setDailyNotification(notificationsTime);
   }
 
   void _getLanguages() {
@@ -38,8 +50,10 @@ class _SetLanguageWidgetState extends State<SetLanguageWidget> {
     return Padding(
       padding: EdgeInsets.all(8),
       child: ListTile(
-        title:
-            Text(localizationUtil.translate("settings", "settings_lang_text")),
+        title: Text(
+          localizationUtil.translate("settings", "settings_lang_text"),
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
         trailing: DropdownButton<String>(
           value: _currentLanguage,
           underline: Container(
@@ -51,7 +65,10 @@ class _SetLanguageWidgetState extends State<SetLanguageWidget> {
               _listOfLanguages.map<DropdownMenuItem<String>>((String language) {
             return DropdownMenuItem<String>(
               value: language,
-              child: Text(localizationUtil.translate("settings", language)),
+              child: Text(
+                localizationUtil.translate("settings", language),
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
             );
           }).toList(),
         ),

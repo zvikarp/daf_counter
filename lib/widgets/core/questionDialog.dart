@@ -20,17 +20,20 @@ class QuestionDialogWidget extends StatelessWidget {
   final String falseActionText;
 
   Widget _actionSection(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        ButtonWidget(
-          onPressed: () => Navigator.pop(context, true),
-          text: this.trueActionText,
-        ),
-        ButtonWidget(
-          onPressed: () => Navigator.pop(context, false),
-          text: this.falseActionText,
-        ),
-      ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: <Widget>[
+          ButtonWidget(
+            onPressed: () => Navigator.pop(context, true),
+            text: this.trueActionText,
+          ),
+          ButtonWidget(
+            onPressed: () => Navigator.pop(context, false),
+            text: this.falseActionText,
+          ),
+        ],
+      ),
     );
   }
 
@@ -48,7 +51,10 @@ class QuestionDialogWidget extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Text(this.text),
+            child: Text(
+              this.text,
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
           ),
           _actionSection(context),
         ],

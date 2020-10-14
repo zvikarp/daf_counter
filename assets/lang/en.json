@@ -1,4 +1,9 @@
 {
+  "app_info": {
+    "daily_notifications_channal_name": "Daily Reminder",
+    "daily_notifications_channal_description": "Get daily reminder to learn the Daf yomi"
+  },
+
   "general": {
     "app_name": "Daf++",
     "seder": "Seder",
@@ -19,7 +24,8 @@
     "learned_masechet": "I learned the masechet",
     "daf_yomi_dialog_title": "New Shortcut!",
     "daf_yomi_dialog_text": "Click this button to automatically check today's daf.",
-    "daf_yomi_toast": "marked as learned"
+    "daf_yomi_toast": "marked as learned",
+    "notifications_options_dialog_text": "You can now enable daily reminders in the settings tab."
   },
 
   "settings": {
@@ -40,13 +46,21 @@
     "settings_backuped_subtext": "Latest backup at: ",
     "settings_lang_text": "Change a language",
     "settings_calendar_text": "Change the calendar",
+    "settings_theme_text": "Change the theme",
     "settings_reset_text": "Ready to start from the beginning?",
     "settings_reset_warning_text": "Are you sure you want to delete everything? This CANNOT be undone.",
     "reset_button": "Reset",
     "do_you_daf": "Do you learn Daf Yomi?",
+    "should_show_notifications": "Do you want to receive daily notifications?",
+    "notifications_time": "Select a time to receive the notifications",
     "calendar_types": {
       "english_calendar": "English Calender",
       "hebrew_calendar": "Hebrew Calender"
+    },
+    "theme_types": {
+      "default_theme": "Phone Default Theme",
+      "light_theme": "Light Theme",
+      "dark_theme": "Dark Theme"
     },
     "about_us": [
       "This open source project was created by developers from CAPSLOCK.",
@@ -68,7 +82,11 @@
     "learning_daf_alone": "Learning the Daf Yomi at my own pace",
     "not_learning_daf": "Not learning as part of the Daf Yomi",
     "choose_masechets": "Select the Masechetas you learned and they will be marked in the app. You can always change it later.",
+    "set_reminder_title": "Set a Reminder",
+    "set_reminder_description": "Get a reminder daily to learn the day's Daf.",
     "set_reminder": "Set a time to be reminded to learn the daf every day",
+    "did_you_daf": "Reminder to learn today's Daf",
+    "mark_daf": "Mark today's Daf as learnt",
     "set": "Set",
     "select_time": "Select Time",
     "dont_set": "Don't remind me"

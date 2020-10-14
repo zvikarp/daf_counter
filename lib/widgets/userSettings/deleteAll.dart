@@ -1,10 +1,10 @@
-import 'package:daf_plus_plus/actions/progress.dart';
-import 'package:daf_plus_plus/data/masechets.dart';
-import 'package:daf_plus_plus/models/progress.dart';
-import 'package:daf_plus_plus/utils/transparentRoute.dart';
-import 'package:daf_plus_plus/widgets/core/questionDialog.dart';
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/actions/progress.dart';
+import 'package:daf_plus_plus/data/masechets.dart';
+import 'package:daf_plus_plus/enums/learnType.dart';
+import 'package:daf_plus_plus/utils/transparentRoute.dart';
+import 'package:daf_plus_plus/widgets/core/questionDialog.dart';
 import 'package:daf_plus_plus/widgets/core/button.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
 
@@ -21,7 +21,8 @@ class _DeleteAllWidgetState extends State<DeleteAllWidget> {
       TransparentRoute(
         builder: (BuildContext context) => QuestionDialogWidget(
           icon: Icons.warning,
-          text: localizationUtil.translate("settings", "settings_reset_warning_text"),
+          text: localizationUtil.translate(
+              "settings", "settings_reset_warning_text"),
           trueActionText: localizationUtil.translate("general", "yes"),
           falseActionText: localizationUtil.translate("general", "no"),
         ),
@@ -33,27 +34,30 @@ class _DeleteAllWidgetState extends State<DeleteAllWidget> {
   void _formatProgress() {
     List<String> masechetsIdsMap = MasechetsData.THE_MASECHETS.keys.toList();
 
-    Map<String, ProgressModel> progressMap = masechetsIdsMap.asMap().map(
+    Map<String, LearnType> learnMap = masechetsIdsMap.asMap().map(
         (int index, String masechetId) =>
-            MapEntry(masechetId, ProgressModel.empty(0, masechetId)));
-    progressAction.updateAll(progressMap);
+            MapEntry(masechetId, LearnType.UnlearndMasechetExactlyZero));
+    progressAction.updateAll(learnMap);
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(8),
-        child: ListTile(
-          title: Text(localizationUtil.translate("settings", "settings_reset_text")),
-          trailing: ButtonWidget(
-            text: localizationUtil.translate("settings", "reset_button"),
-            buttonType: ButtonType.Outline,
-            color: Theme.of(context).primaryColor,
-            loading: _deleteAllLoading,
-            disabled: _deleteAllLoading,
-            onPressed: () => _comfirmFormatProgress(context),
-          ),
+      padding: EdgeInsets.all(8),
+      child: ListTile(
+        title: Text(
+          localizationUtil.translate("settings", "settings_reset_text"),
+          style: Theme.of(context).textTheme.bodyText2,
         ),
-      );
+        trailing: ButtonWidget(
+          text: localizationUtil.translate("settings", "reset_button"),
+          buttonType: ButtonType.Outline,
+          color: Theme.of(context).primaryColor,
+          loading: _deleteAllLoading,
+          disabled: _deleteAllLoading,
+          onPressed: () => _comfirmFormatProgress(context),
+        ),
+      ),
+    );
   }
 }

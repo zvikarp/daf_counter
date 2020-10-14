@@ -11,6 +11,9 @@ import 'package:daf_plus_plus/widgets/shared/masechet/masechet.dart';
 import 'package:daf_plus_plus/widgets/core/sectionHeader.dart';
 
 class AllShasPage extends StatelessWidget {
+  AllShasPage({@required this.preferredCalendar});
+  final String preferredCalendar;
+
   List<Widget> _generateList() {
     String prevSederId;
     List<Widget> list = [];
@@ -22,10 +25,12 @@ class AllShasPage extends StatelessWidget {
             header: SectionHeaderWidget(
               header: localizationUtil.translate("general", "seder") +
                   " " +
-                  localizationUtil.translate("shas", SedersData.THE_SEDERS
-                      .firstWhere(
-                          (SederModel seder) => seder.id == masechet.sederId)
-                      .id),
+                  localizationUtil.translate(
+                      "shas",
+                      SedersData.THE_SEDERS
+                          .firstWhere((SederModel seder) =>
+                              seder.id == masechet.sederId)
+                          .id),
             ),
           ),
         );
@@ -34,6 +39,7 @@ class AllShasPage extends StatelessWidget {
       list.add(
         MasechetWidget(
           daf: DafModel(masechetId: masechet.id),
+          preferredCalendar: preferredCalendar,
         ),
       );
     });
@@ -41,11 +47,18 @@ class AllShasPage extends StatelessWidget {
   }
 
   Widget _bottomSpacer() {
-    return SliverStickyHeader(header: Container(height: 100,),);
+    return SliverStickyHeader(
+      header: Container(
+        height: 100,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(slivers: [..._generateList(), _bottomSpacer()]);
+    return CustomScrollView(
+      shrinkWrap: true,
+      slivers: [..._generateList(), _bottomSpacer()],
+    );
   }
 }

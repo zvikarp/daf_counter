@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_widgets/flutter_widgets.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
+import 'package:daf_plus_plus/enums/learnType.dart';
 import 'package:daf_plus_plus/models/daf.dart';
 import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:daf_plus_plus/models/progress.dart';
@@ -12,18 +13,20 @@ class MasechetListWidget extends StatefulWidget {
   MasechetListWidget({
     @required this.masechet,
     @required this.progress,
+    @required this.preferredCalendar,
     this.lastDafIndex = -1,
     this.onProgressChange = _dontChangeProgress,
     this.hasPadding = false,
   });
 
-  static dynamic _dontChangeProgress(ProgressModel progress) {}
+  static dynamic _dontChangeProgress(LearnType learnType, int daf) {}
 
   final MasechetModel masechet;
   final ProgressModel progress;
   final int lastDafIndex;
-  final Function(ProgressModel) onProgressChange;
+  final Function(LearnType, int) onProgressChange;
   final bool hasPadding;
+  final String preferredCalendar;
 
   @override
   _MasechetListWidgetState createState() => _MasechetListWidgetState();
@@ -32,11 +35,10 @@ class MasechetListWidget extends StatefulWidget {
 class _MasechetListWidgetState extends State<MasechetListWidget> {
   List<DateTime> _dates = [];
 
-  void _onClickDaf(int daf, int count) {
-    ProgressModel progress = widget.progress;
-    progress.data[daf] = count;
-    hiveService.settings.setLastDaf(DafModel(masechetId: widget.masechet.id, number: daf));
-    widget.onProgressChange(progress);
+  void _onClickDaf(int daf, LearnType learnType) {
+    hiveService.settings
+        .setLastDaf(DafModel(masechetId: widget.masechet.id, number: daf));
+    widget.onProgressChange(learnType, daf);
   }
 
   @override
@@ -66,7 +68,8 @@ class _MasechetListWidgetState extends State<MasechetListWidget> {
                     _dates[dafIndex] != null
                 ? _dates[dafIndex]
                 : "",
-            onChangeCount: (int count) => _onClickDaf(dafIndex, count),
+            onChangeCount: (learnType) => _onClickDaf(dafIndex, learnType),
+            preferredCalendar: widget.preferredCalendar,
           );
         },
       ),

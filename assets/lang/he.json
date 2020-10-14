@@ -1,4 +1,9 @@
 {
+  "app_info": {
+    "daily_notifications_channal_name": "תזכורת יומית",
+    "daily_notifications_channal_description": "קבל תזכורת כל יום ללמוד את הדף היומי"
+  },
+
   "general": {
     "app_name": "דף++",
     "seder": "סדר",
@@ -19,7 +24,8 @@
     "learned_masechet": "למדתי את כל המסכת",
     "daf_yomi_dialog_title": "קיצור חדש!",
     "daf_yomi_dialog_text": "לחץ על הכפתור כדי לסמן שלמדת את הדף היומי.",
-    "daf_yomi_toast": "סומן כנלמד"
+    "daf_yomi_toast": "סומן כנלמד",
+    "notifications_options_dialog_text": "הנך יכול לאפשר תזכורות יומיות בדף ההגדרות"
   },
 
   "settings": {
@@ -40,13 +46,21 @@
     "settings_backuped_subtext": "גובה לאחרונה ב",
     "settings_lang_text": "שנה שפה",
     "settings_calendar_text": "שנה לוח שנה",
+    "settings_theme_text": "שנה ערכת נושא",
     "settings_reset_text": "מוכן להתחיל מההתחלה?",
     "settings_reset_warning_text": "האם אתה בטוח רוצה למחוק הכל? לא ניתן לשחזר את המידע לאחר פעולה זו.",
     "reset_button": "אפס",
     "do_you_daf": "האם אתה לומד את הדף היומי?",
+    "should_show_notifications": "האם תרצה לקבל התראות יומיות?",
+    "notifications_time": "בחר שעה לקבלת ההתראות",
     "calendar_types": {
       "english_calendar": "לוח שנה לועזי",
       "hebrew_calendar": "לוח שנה עברי"
+    },
+    "theme_types": {
+      "default_theme": "ערכת נושא של המכשיר",
+      "light_theme": "ערכת נושא בהיר",
+      "dark_theme": "ערכת נושא כהה"
     },
     "about_us": [
       "הפרויקט נוצר על ידי מתכנתים מCAPSLOCK כקוד פתוח.",
@@ -68,7 +82,11 @@
     "learning_daf_alone": "לומד את הדף היומי בקצב שלי",
     "not_learning_daf": "לא לומד במסגרת הדף היומי",
     "choose_masechets": "בחר את המסכתות שלמדת, כדי שיסומנו באפליקציה. תמיד תוכל לשנות את זה אחר כך.",
-    "set_reminder": "תבחר שעה לתזכורת ללמוד הדף של היום",
+    "set_reminder": "בחר שעה לתזכורת ללמוד הדף של היום",
+    "set_reminder_title": "תקבע תזכורת",
+    "set_reminder_description": "תקבל תזכורת יומי ללמוד הדף של אותו היום",
+    "did_you_daf": "תזכורת ללמוד הדף היומי",
+    "mark_daf": "תלחץ לכנס ולסמן את הדף כנלמד",
     "set": "קבע",
     "dont_set": "אל תזכיר לי",
     "select_time": "תבחר שעה"

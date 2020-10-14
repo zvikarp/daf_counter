@@ -18,21 +18,21 @@ mixin _$ProgressStore on _ProgressStore, Store {
                   () => super.getProgressMap))
           .value;
 
-  final _$_progressMapAtom = Atom(name: '_ProgressStore._progressMap');
+  final _$progressMapAtom = Atom(name: '_ProgressStore.progressMap');
 
   @override
-  ObservableMap<String, ProgressModel> get _progressMap {
-    _$_progressMapAtom.context.enforceReadPolicy(_$_progressMapAtom);
-    _$_progressMapAtom.reportObserved();
-    return super._progressMap;
+  ObservableMap<String, ProgressModel> get progressMap {
+    _$progressMapAtom.context.enforceReadPolicy(_$progressMapAtom);
+    _$progressMapAtom.reportObserved();
+    return super.progressMap;
   }
 
   @override
-  set _progressMap(ObservableMap<String, ProgressModel> value) {
-    _$_progressMapAtom.context.conditionallyRunInAction(() {
-      super._progressMap = value;
-      _$_progressMapAtom.reportChanged();
-    }, _$_progressMapAtom, name: '${_$_progressMapAtom.name}_set');
+  set progressMap(ObservableMap<String, ProgressModel> value) {
+    _$progressMapAtom.context.conditionallyRunInAction(() {
+      super.progressMap = value;
+      _$progressMapAtom.reportChanged();
+    }, _$progressMapAtom, name: '${_$progressMapAtom.name}_set');
   }
 
   final _$_ProgressStoreActionController =

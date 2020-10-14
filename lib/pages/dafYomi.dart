@@ -7,18 +7,21 @@ import 'package:daf_plus_plus/widgets/shared/masechet/masechet.dart';
 import 'package:daf_plus_plus/models/daf.dart';
 
 class DafYomiPage extends StatelessWidget {
+  DafYomiPage({@required this.preferredCalendar});
+  final String preferredCalendar;
+
   @override
   Widget build(BuildContext context) {
     DateTime today = dateConverterUtil.getToday();
     DafModel daf = dafsDatesStore.getDafByDate(today);
 
     return Scaffold(
-          body: MasechetWidget(
+      body: MasechetWidget(
         daf: daf,
         inList: false,
+        preferredCalendar: preferredCalendar,
       ),
-      floatingActionButton:
-                DafYomiFabWidget(),
+      floatingActionButton: DafYomiFabWidget(),
     );
   }
 }

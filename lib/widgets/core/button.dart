@@ -4,6 +4,7 @@ enum ButtonType {
   Default,
   Filled,
   Outline,
+  Underline,
 }
 
 class ButtonColors {
@@ -25,6 +26,7 @@ class ButtonWidget extends StatelessWidget {
     @required this.onPressed,
     this.subtext,
     this.onPressedDisabled,
+    this.margin = const EdgeInsets.all(0),
     this.disabled = false,
     this.loading = false,
     this.buttonType = ButtonType.Default,
@@ -37,6 +39,7 @@ class ButtonWidget extends StatelessWidget {
   final Function onPressedDisabled;
   final bool disabled;
   final bool loading;
+  final EdgeInsets margin;
   final ButtonType buttonType;
   final Color color;
 
@@ -46,6 +49,10 @@ class ButtonWidget extends StatelessWidget {
         textColor: this.color,
       ),
       ButtonType.Outline: ButtonColors(
+        outlineColor: this.color,
+        textColor: this.color,
+      ),
+      ButtonType.Underline: ButtonColors(
         outlineColor: this.color,
         textColor: this.color,
       ),
@@ -99,18 +106,27 @@ class ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ButtonColors buttonColors = _getButtonColors();
-    return Container(
-      foregroundDecoration: BoxDecoration(
-        color: disabled ? Theme.of(context).accentColor : Colors.transparent,
-        backgroundBlendMode: BlendMode.saturation,
-      ),
+    return Padding(
+      padding: margin,
       child: FlatButton(
-        onPressed: !disabled ? onPressed : (onPressedDisabled ?? () => {}),
+        onPressed: disabled ? onPressedDisabled : onPressed,
+        disabledColor: Theme.of(context).disabledColor,
         color: buttonColors.backgroundColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
-          side: BorderSide(color: buttonColors.outlineColor, width: 2),
-        ),
+        shape: buttonType == ButtonType.Underline
+            ? UnderlineInputBorder(
+                borderSide: BorderSide(
+                    color: disabled
+                        ? Theme.of(context).disabledColor
+                        : buttonColors.outlineColor,
+                    width: 2))
+            : RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+                side: BorderSide(
+                    color: disabled
+                        ? Theme.of(context).disabledColor
+                        : buttonColors.outlineColor,
+                    width: 2),
+              ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           child: loading
