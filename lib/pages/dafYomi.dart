@@ -20,6 +20,7 @@ class DafYomiPage extends StatelessWidget {
         daf: daf,
         inList: false,
         preferredCalendar: preferredCalendar,
+        dafYomi: daf.number,
       ),
       floatingActionButton: DafYomiFabWidget(),
     );

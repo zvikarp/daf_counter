@@ -17,6 +17,7 @@ class MasechetListWidget extends StatefulWidget {
     this.lastDafIndex = -1,
     this.onProgressChange = _dontChangeProgress,
     this.hasPadding = false,
+    this.dafYomi = -1,
   });
 
   static dynamic _dontChangeProgress(LearnType learnType, int daf) {}
@@ -27,6 +28,7 @@ class MasechetListWidget extends StatefulWidget {
   final Function(LearnType, int) onProgressChange;
   final bool hasPadding;
   final String preferredCalendar;
+  final int dafYomi;
 
   @override
   _MasechetListWidgetState createState() => _MasechetListWidgetState();
@@ -70,6 +72,7 @@ class _MasechetListWidgetState extends State<MasechetListWidget> {
                 : "",
             onChangeCount: (learnType) => _onClickDaf(dafIndex, learnType),
             preferredCalendar: widget.preferredCalendar,
+            isDafYomi: widget.dafYomi == dafIndex,
           );
         },
       ),
