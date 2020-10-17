@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 
+import 'package:daf_plus_plus/enums/learnType.dart';
+import 'package:daf_plus_plus/models/daf.dart';
+import 'package:daf_plus_plus/models/progress.dart';
+import 'package:daf_plus_plus/stores/progress.dart';
+import 'package:daf_plus_plus/widgets/shared/masechet/checkbox.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
 import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
@@ -15,15 +22,17 @@ import 'package:daf_plus_plus/widgets/core/infoDialog.dart';
 // 5. if not doing the daf yomi, dont show
 
 class DafYomiFabWidget extends StatefulWidget {
+  DafYomiFabWidget({
+    @required this.dafYomi,
+  });
+
+  final DafModel dafYomi;
+
   @override
   _DafYomiFabWidgetState createState() => _DafYomiFabWidgetState();
 }
 
-class _DafYomiFabWidgetState extends State<DafYomiFabWidget>
-    with SingleTickerProviderStateMixin {
-  double _scale;
-  AnimationController _controller;
-
+class _DafYomiFabWidgetState extends State<DafYomiFabWidget> {
   void _displayInfo(BuildContext context) async {
     Navigator.of(context).push(
       TransparentRoute(
@@ -35,8 +44,7 @@ class _DafYomiFabWidgetState extends State<DafYomiFabWidget>
     );
   }
 
-  void _onClick(BuildContext context, double width) async {
-    _controller.reverse();
+  void _onPress() async {
     bool isFirst = !hiveService.settings.getUsedFab();
     if (isFirst) {
       _displayInfo(context);
@@ -46,54 +54,54 @@ class _DafYomiFabWidgetState extends State<DafYomiFabWidget>
     }
   }
 
-  Widget button() {
+  void _onLongPress() async {
+    progressAction.update(widget.dafYomi.masechetId, LearnType.UnlearnedDafOnce,
+        widget.dafYomi.number);
+  }
+
+  Widget button(int dafYomiProgress) {
     return Container(
-      child: FloatingActionButton(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8.0))),
-        onPressed: () => _onClick(context, MediaQuery.of(context).size.width),
-        backgroundColor: DynamicTheme.of(context).data.primaryColor,
-        child: Icon(
-          Icons.check,
-          color: Theme.of(context).textTheme.headline5.color,
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black54,
+            blurRadius: 10.0,
+            spreadRadius: 2.0,
+            offset: Offset(0, 0),
+          )
+        ],
+      ),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: CheckboxWidget(
+          onPress: _onPress,
+          onLongPress: _onLongPress,
+          selectedColor: Theme.of(context).primaryColor,
+          borderColor: Theme.of(context).accentColor,
+          size: 56,
+          value: dafYomiProgress,
+          emptyState: Icon(
+            Icons.check,
+            color: Theme.of(context).accentColor,
+          ),
         ),
       ),
     );
   }
 
   @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 200),
-      lowerBound: 0.0,
-      upperBound: 0.05,
-    )..addListener(() {
-        setState(() {});
-      });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _onTapDown(TapDownDetails details) {
-    _controller.forward();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    _scale = 1 - _controller.value;
-
-    return GestureDetector(
-      onTapDown: _onTapDown,
-      child: Transform.scale(
-        scale: _scale,
-        child: button(),
-      ),
-    );
+    BuildContext progressContext = progressAction.getProgressContext();
+    return Observer(builder: (context) {
+      ProgressStore progressStore = Provider.of<ProgressStore>(progressContext);
+      ProgressModel progress =
+          progressStore.getProgressMap[widget.dafYomi.masechetId];
+      if (progress != null) {
+        int dafYomiProgress = progress.data[widget.dafYomi.number];
+        return button(dafYomiProgress);
+      } else {
+        return Container();
+      }
+    });
   }
 }

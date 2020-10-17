@@ -1,6 +1,6 @@
-import 'package:daf_plus_plus/widgets/home/dafYomiFab.dart';
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/widgets/home/dafYomiFab.dart';
 import 'package:daf_plus_plus/stores/dafsDates.dart';
 import 'package:daf_plus_plus/utils/dateConverter.dart';
 import 'package:daf_plus_plus/widgets/shared/masechet/masechet.dart';
@@ -20,8 +20,9 @@ class DafYomiPage extends StatelessWidget {
         daf: daf,
         inList: false,
         preferredCalendar: preferredCalendar,
+        dafYomi: daf.number,
       ),
-      floatingActionButton: DafYomiFabWidget(),
+      floatingActionButton: DafYomiFabWidget(dafYomi: daf),
     );
   }
 }

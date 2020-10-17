@@ -19,11 +19,13 @@ class MasechetWidget extends StatefulWidget {
     @required this.daf,
     @required this.preferredCalendar,
     this.inList = true,
+    this.dafYomi = -1,
   });
 
   final DafModel daf;
   final String preferredCalendar;
   final bool inList;
+  final int dafYomi;
 
   @override
   _MasechetWidgetState createState() => _MasechetWidgetState();
@@ -74,16 +76,17 @@ class _MasechetWidgetState extends State<MasechetWidget> {
     );
   }
 
-  Widget _masechetList(MasechetModel masechet, ProgressModel progress) {
+  Widget _masechetList(
+      MasechetModel masechet, ProgressModel progress, int dafYomi) {
     return Expanded(
       child: MasechetListWidget(
-        masechet: masechet,
-        progress: progress,
-        onProgressChange: _onProgressChange,
-        lastDafIndex: widget.daf.number,
-        hasPadding: true,
-        preferredCalendar: widget.preferredCalendar,
-      ),
+          masechet: masechet,
+          progress: progress,
+          onProgressChange: _onProgressChange,
+          lastDafIndex: widget.daf.number,
+          hasPadding: true,
+          preferredCalendar: widget.preferredCalendar,
+          dafYomi: dafYomi),
     );
   }
 
@@ -107,7 +110,7 @@ class _MasechetWidgetState extends State<MasechetWidget> {
           mainAxisSize: MainAxisSize.min,
           children: [
             _masechetTitle(masechet, progress),
-            _masechetList(masechet, progress),
+            _masechetList(masechet, progress, widget.dafYomi),
           ],
         );
       }

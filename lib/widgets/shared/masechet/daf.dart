@@ -14,6 +14,7 @@ class DafWidget extends StatelessWidget {
     @required this.onChangeCount,
     @required this.dafDate,
     @required this.preferredCalendar,
+    this.isDafYomi = false,
   });
 
   final int dafNumber;
@@ -21,6 +22,7 @@ class DafWidget extends StatelessWidget {
   final Function(LearnType) onChangeCount;
   final DateTime dafDate;
   final String preferredCalendar;
+  final bool isDafYomi;
 
   void _onPressCheckbox() {
     onChangeCount(LearnType.LearnedDafOnce);
@@ -49,6 +51,9 @@ class DafWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: isDafYomi
+          ? Theme.of(context).accentColor.withOpacity(0.3)
+          : Colors.transparent,
       child: ListTile(
         dense: true,
         onTap: _onPressCheckbox,
@@ -56,8 +61,8 @@ class DafWidget extends StatelessWidget {
         leading: CheckboxWidget(
           onPress: _onPressCheckbox,
           onLongPress: _onLongPressCheckbox,
+          selectedColor: Theme.of(context).accentColor,
           value: dafCount,
-          selected: dafCount > 0 ? true : false,
         ),
         trailing: Text(
           dateConverterUtil.getDayInWeek(dafDate) + ", " + _theDate(dafDate),
