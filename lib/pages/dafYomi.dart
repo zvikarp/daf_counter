@@ -1,12 +1,15 @@
-import 'package:daf_plus_plus/widgets/home/dafYomiFab.dart';
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/widgets/home/dafYomiFab.dart';
 import 'package:daf_plus_plus/stores/dafsDates.dart';
 import 'package:daf_plus_plus/utils/dateConverter.dart';
 import 'package:daf_plus_plus/widgets/shared/masechet/masechet.dart';
 import 'package:daf_plus_plus/models/daf.dart';
 
 class DafYomiPage extends StatelessWidget {
+  DafYomiPage({@required this.preferredCalendar});
+  final String preferredCalendar;
+
   @override
   Widget build(BuildContext context) {
     DateTime today = dateConverterUtil.getToday();
@@ -16,8 +19,10 @@ class DafYomiPage extends StatelessWidget {
       body: MasechetWidget(
         daf: daf,
         inList: false,
+        preferredCalendar: preferredCalendar,
+        dafYomi: daf.number,
       ),
-      floatingActionButton: DafYomiFabWidget(),
+      floatingActionButton: DafYomiFabWidget(dafYomi: daf),
     );
   }
 }

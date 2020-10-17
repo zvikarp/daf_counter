@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:provider/provider.dart';
 
+import 'package:daf_plus_plus/enums/learnType.dart';
 import 'package:daf_plus_plus/models/daf.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
 import 'package:daf_plus_plus/consts/consts.dart';
@@ -16,11 +17,15 @@ import 'package:daf_plus_plus/widgets/shared/masechet/title.dart';
 class MasechetWidget extends StatefulWidget {
   MasechetWidget({
     @required this.daf,
+    @required this.preferredCalendar,
     this.inList = true,
+    this.dafYomi = -1,
   });
 
   final DafModel daf;
+  final String preferredCalendar;
   final bool inList;
+  final int dafYomi;
 
   @override
   _MasechetWidgetState createState() => _MasechetWidgetState();
@@ -33,8 +38,8 @@ class _MasechetWidgetState extends State<MasechetWidget> {
     setState(() => _isExpanded = state);
   }
 
-  void _onProgressChange(ProgressModel progress) {
-    progressAction.update(widget.daf.masechetId, progress);
+  void _onProgressChange(LearnType learnType, int daf) {
+    progressAction.update(widget.daf.masechetId, learnType, daf);
   }
 
   @override
@@ -64,21 +69,24 @@ class _MasechetWidgetState extends State<MasechetWidget> {
               progress: progress,
               onProgressChange: _onProgressChange,
               lastDafIndex: widget.daf.number,
+              preferredCalendar: widget.preferredCalendar,
             )),
         childCount: _isExpanded ? 1 : 0,
       ),
     );
   }
 
-  Widget _masechetList(MasechetModel masechet, ProgressModel progress) {
+  Widget _masechetList(
+      MasechetModel masechet, ProgressModel progress, int dafYomi) {
     return Expanded(
       child: MasechetListWidget(
-        masechet: masechet,
-        progress: progress,
-        onProgressChange: _onProgressChange,
-        lastDafIndex: widget.daf.number,
-        hasPadding: true,
-      ),
+          masechet: masechet,
+          progress: progress,
+          onProgressChange: _onProgressChange,
+          lastDafIndex: widget.daf.number,
+          hasPadding: true,
+          preferredCalendar: widget.preferredCalendar,
+          dafYomi: dafYomi),
     );
   }
 
@@ -102,7 +110,7 @@ class _MasechetWidgetState extends State<MasechetWidget> {
           mainAxisSize: MainAxisSize.min,
           children: [
             _masechetTitle(masechet, progress),
-            _masechetList(masechet, progress),
+            _masechetList(masechet, progress, widget.dafYomi),
           ],
         );
       }
