@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
@@ -70,16 +71,19 @@ class _DafYomiFabWidgetState extends State<DafYomiFabWidget> {
           )
         ],
       ),
-      child: CheckboxWidget(
-        onPress: _onPress,
-        onLongPress: _onLongPress,
-        selectedColor: Theme.of(context).primaryColor,
-        borderColor: Theme.of(context).accentColor,
-        size: 56,
-        value: dafYomiProgress,
-        emptyState: Icon(
-          Icons.check,
-          color: Theme.of(context).accentColor,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: CheckboxWidget(
+          onPress: _onPress,
+          onLongPress: _onLongPress,
+          selectedColor: Theme.of(context).primaryColor,
+          borderColor: Theme.of(context).accentColor,
+          size: 56,
+          value: dafYomiProgress,
+          emptyState: Icon(
+            Icons.check,
+            color: Theme.of(context).accentColor,
+          ),
         ),
       ),
     );

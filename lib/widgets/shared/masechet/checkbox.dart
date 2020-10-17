@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class CheckboxWidget extends StatelessWidget {
@@ -35,28 +36,33 @@ class CheckboxWidget extends StatelessWidget {
       ),
       duration: Duration(milliseconds: 100),
       child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
         onTap: onPress,
         onLongPress: onLongPress,
-        child: selected
-            ? Center(
-                child: value != 1
-                    ? Text(
-                        value.toString(),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            height: 1.2,
-                            fontWeight: FontWeight.bold),
-                      )
-                    : Icon(
-                        Icons.check,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-              )
-            : emptyState != null
-                ? emptyState
-                : Container(),
+        child: Container(
+          width: size,
+          height: size,
+          child: selected
+              ? Center(
+                  child: value != 1
+                      ? Text(
+                          value.toString(),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              height: 1.2,
+                              fontWeight: FontWeight.bold),
+                        )
+                      : Icon(
+                          Icons.check,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                )
+              : emptyState != null
+                  ? emptyState
+                  : Container(),
+        ),
       ),
     );
   }
