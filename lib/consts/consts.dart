@@ -7,6 +7,7 @@ class Consts {
 
   static const int PROGRESS_BACKUP_THRESHOLD = 5;
   static const int FIST_DAF = 2;
+  static const int FIST_PEREK = 1;
   static const String DAF_YOMI_START_DATE = '2020-01-05';
   static const String DEFAUT_MASECHET = 'brachos';
   static const int DEFAUT_DAF = 0;

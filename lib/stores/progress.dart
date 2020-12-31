@@ -12,21 +12,42 @@ class ProgressStore = _ProgressStore with _$ProgressStore;
 // The store-class
 abstract class _ProgressStore with Store {
   @observable
-  ObservableMap<String, ProgressModel> progressMap =
+  ObservableMap<String, ProgressModel> progressTBMap =
+      ObservableMap<String, ProgressModel>.of({});
+
+  @observable
+  ObservableMap<String, ProgressModel> progressMishnaMap =
       ObservableMap<String, ProgressModel>.of({});
 
   @action
-  void setProgress(String masechetId, ProgressModel progress) {
-    progressMap.remove(masechetId);
-    progressMap.putIfAbsent(masechetId, () => progress);
+  void setProgressTB(String masechetId, ProgressModel progressTB) {
+    progressTBMap.remove(masechetId);
+    progressTBMap.putIfAbsent(masechetId, () => progressTB);
   }
 
   @action
-  void setProgressMap(Map<String, ProgressModel> updatedProgressMap) {
-    progressMap =
-        ObservableMap<String, ProgressModel>.linkedHashMapFrom(updatedProgressMap);
+  void setProgressMishna(String masechetId, ProgressModel progressMishna) {
+    progressMishnaMap.remove(masechetId);
+    progressMishnaMap.putIfAbsent(masechetId, () => progressMishna);
+  }
+
+  @action
+  void setProgressTBMap(Map<String, ProgressModel> updatedProgressTBMap) {
+    progressTBMap = ObservableMap<String, ProgressModel>.linkedHashMapFrom(
+        updatedProgressTBMap);
+  }
+
+  @action
+  void setProgressMishnaMap(
+      Map<String, ProgressModel> updatedProgressMishnaMap) {
+    progressMishnaMap = ObservableMap<String, ProgressModel>.linkedHashMapFrom(
+        updatedProgressMishnaMap);
   }
 
   @computed
-  ObservableMap<String, ProgressModel> get getProgressMap => progressMap;
+  ObservableMap<String, ProgressModel> get getProgressTBMap => progressTBMap;
+
+  @computed
+  ObservableMap<String, ProgressModel> get getProgressMishnaMap =>
+      progressMishnaMap;
 }

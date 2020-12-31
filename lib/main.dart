@@ -31,7 +31,8 @@ void main() async {
 
   await hiveService.initHive();
   await hiveService.settings.open();
-  await hiveService.progress.open();
+  await hiveService.progressTB.open();
+  await hiveService.progressMishna.open();
   await localizationUtil.init();
   await notificationsUtil.init();
   if (platformUtil.isAndroid()) {

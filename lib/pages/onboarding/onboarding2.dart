@@ -20,7 +20,7 @@ class _Onboarding2PageState extends State<Onboarding2Page> {
     Map<String, LearnType> learnMap = _selectedMasechets.asMap().map(
         (int index, String masechetId) =>
             MapEntry(masechetId, LearnType.LearnedMasechetExactlyOnce));
-    progressAction.updateAll(learnMap);
+    progressAction.updateAllTB(learnMap);
     Navigator.of(context).pushNamed(RoutesConsts.REMINDER_PAGE);
   }
 

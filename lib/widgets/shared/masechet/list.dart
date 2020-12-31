@@ -7,14 +7,14 @@ import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:daf_plus_plus/models/progress.dart';
 import 'package:daf_plus_plus/models/masechet.dart';
 import 'package:daf_plus_plus/stores/dafsDates.dart';
-import 'package:daf_plus_plus/widgets/shared/masechet/daf.dart';
+import 'package:daf_plus_plus/widgets/shared/masechet/position.dart';
 
 class MasechetListWidget extends StatefulWidget {
   MasechetListWidget({
     @required this.masechet,
     @required this.progress,
     @required this.preferredCalendar,
-    this.lastDafIndex = -1,
+    this.lastPositionIndex = -1,
     this.onProgressChange = _dontChangeProgress,
     this.hasPadding = false,
     this.dafYomi = -1,
@@ -24,7 +24,7 @@ class MasechetListWidget extends StatefulWidget {
 
   final MasechetModel masechet;
   final ProgressModel progress;
-  final int lastDafIndex;
+  final int lastPositionIndex;
   final Function(LearnType, int) onProgressChange;
   final bool hasPadding;
   final String preferredCalendar;
@@ -46,9 +46,11 @@ class _MasechetListWidgetState extends State<MasechetListWidget> {
   @override
   void initState() {
     super.initState();
-    List<DateTime> dates =
-        dafsDatesStore.getAllMasechetDates(widget.masechet.id);
-    setState(() => _dates = dates);
+    if (widget.progress.isTBType()) {
+      List<DateTime> dates =
+          dafsDatesStore.getAllMasechetDates(widget.masechet.id);
+      setState(() => _dates = dates);
+    }
   }
 
   @override
@@ -57,22 +59,25 @@ class _MasechetListWidgetState extends State<MasechetListWidget> {
     count = widget.hasPadding ? count + 1 : count;
     return Scrollbar(
       child: ScrollablePositionedList.builder(
-        initialScrollIndex: widget.lastDafIndex != -1 ? widget.lastDafIndex : 0,
+        initialScrollIndex:
+            widget.lastPositionIndex != -1 ? widget.lastPositionIndex : 0,
         itemCount: count,
         itemBuilder: (context, dafIndex) {
           if (widget.hasPadding && count == dafIndex + 1)
             return Container(height: 100);
-          return DafWidget(
+          return PositionWidget(
+            displayDate: widget.progress.isTBType(),
             dafNumber: dafIndex,
             dafCount: widget.progress?.data[dafIndex] ?? 0,
             dafDate: _dates != null &&
                     _dates.length > dafIndex &&
                     _dates[dafIndex] != null
                 ? _dates[dafIndex]
-                : "",
+                : DateTime.now(),
             onChangeCount: (learnType) => _onClickDaf(dafIndex, learnType),
             preferredCalendar: widget.preferredCalendar,
             isDafYomi: widget.dafYomi == dafIndex,
+            progressType: widget.progress.type,
           );
         },
       ),

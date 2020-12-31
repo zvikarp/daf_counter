@@ -11,13 +11,15 @@ class DafsDatesStore {
   void _getMasechetDates() {
     Map<String, List<DateTime>> masechetsDates = {};
     DateTime nextDate = DateTime.parse(Consts.DAF_YOMI_START_DATE);
-    MasechetsData.THE_MASECHETS.values.forEach((MasechetModel masechet) {
+    MasechetsData.THE_MASECHETS.values
+        .where((MasechetModel masechet) => (masechet.inTB()))
+        .forEach((MasechetModel masechet) {
       masechetsDates[masechet.id] = List.generate(
-        masechet.numOfDafs,
+        masechet.numOfDafsTB,
         ((int dafIndex) =>
             DateTime(nextDate.year, nextDate.month, nextDate.day + dafIndex)),
       );
-      nextDate = nextDate.add(Duration(days: masechet.numOfDafs));
+      nextDate = nextDate.add(Duration(days: masechet.numOfDafsTB));
     });
     _masechetsDates = masechetsDates;
   }

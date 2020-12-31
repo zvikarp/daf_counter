@@ -37,7 +37,7 @@ class _DeleteAllWidgetState extends State<DeleteAllWidget> {
     Map<String, LearnType> learnMap = masechetsIdsMap.asMap().map(
         (int index, String masechetId) =>
             MapEntry(masechetId, LearnType.UnlearndMasechetExactlyZero));
-    progressAction.updateAll(learnMap);
+    progressAction.updateAllTB(learnMap);
   }
 
   @override

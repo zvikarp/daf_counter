@@ -18,7 +18,8 @@ class MasechetOptionsDialog extends StatelessWidget {
   final ProgressModel progress;
 
   _learnMasechet(BuildContext context) {
-    progressAction.update(masechetId, LearnType.LearnedMasechetAtLeastOnce);
+    progressAction.update(
+        masechetId, LearnType.LearnedMasechetAtLeastOnce, progress.type);
     Navigator.pop(context);
   }
 
