@@ -1,7 +1,6 @@
 class HiveConsts {
   // progress consts
-  static const String PROGRESS_TB_BOX = "progressBox";
-  static const String PROGRESS_MISHNA_BOX = "progressMishnaBox";
+  static const String PROGRESS_BOX = "progressBox";
 
   // settings consts
   static const String SETTINGS_BOX = "settingsBox";

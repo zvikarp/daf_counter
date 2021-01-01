@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
-import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 import 'package:daf_plus_plus/enums/progressType.dart';
@@ -96,11 +95,8 @@ class _MasechetWidgetState extends State<MasechetWidget> {
     BuildContext progressContext = progressAction.getProgressContext();
     return Observer(builder: (context) {
       ProgressStore progressStore = Provider.of<ProgressStore>(progressContext);
-      ObservableMap<String, ProgressModel> progressMap =
-          widget.progressType == ProgressType.PROGRESS_TB
-              ? progressStore.getProgressTBMap
-              : progressStore.getProgressMishnaMap;
-      ProgressModel progress = progressMap[widget.position.masechetId];
+      ProgressModel progress = progressStore.getProgress(
+          widget.position.masechetId, widget.progressType);
       MasechetModel masechet =
           MasechetsData.THE_MASECHETS[widget.position.masechetId];
       if (progress == null)

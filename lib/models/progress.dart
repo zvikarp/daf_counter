@@ -29,6 +29,23 @@ class ProgressModel {
     return ProgressModel(data: dataAsList, type: type);
   }
 
+  factory ProgressModel.fromEncodedString(
+      String data, String encodedTypeAndMasechetId) {
+    List<String> encodedTypeAndMasechetIdAsList =
+        encodedTypeAndMasechetId.split(Consts.PROGRESS_PREFIX_DIVIDER);
+    ProgressType progressType = Consts.DEFAULT_PROGRESS_TYPE;
+    String masechetId = encodedTypeAndMasechetId.toString();
+    if (encodedTypeAndMasechetIdAsList.length > 1) {
+      progressType = Consts.PROGRESS_PREFIXES.keys.firstWhere(
+          (ProgressType progressType) =>
+              Consts.PROGRESS_PREFIXES[progressType] ==
+              (encodedTypeAndMasechetIdAsList[0] +
+                  Consts.PROGRESS_PREFIX_DIVIDER));
+      masechetId = encodedTypeAndMasechetIdAsList[1];
+    }
+    return ProgressModel.fromString(data, progressType, masechetId);
+  }
+
   factory ProgressModel.empty(int length, ProgressType type,
       [String masechetId]) {
     if (length == null || length < 1) {
@@ -49,6 +66,9 @@ class ProgressModel {
       .map((int number) => number.toString())
       .toList()
       .join(Consts.DATA_DIVIDER);
+
+  String getEncodedKey(String masechetId) =>
+      Consts.PROGRESS_PREFIXES[type] + masechetId;
 
   int countDone() => data.where((int daf) => daf > 0)?.length;
 

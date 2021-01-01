@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/enums/progressType.dart';
+
 class Consts {
   static const double MASECHET_LIST_HEIGHT = 400;
 
@@ -28,4 +30,11 @@ class Consts {
   static const int DAILY_REMINDER_NOTIFICATION_ID = 0;
   static const String DAILY_REMINDER_NOTIFICATION_PAYLOAD = "daily_reminder";
   static const String DAILY_REMINDER_NOTIFICATION_CHANNEL_ID = "daily_reminder";
+
+  static const ProgressType DEFAULT_PROGRESS_TYPE = ProgressType.PROGRESS_TB;
+  static const String PROGRESS_PREFIX_DIVIDER = ":";
+  static const Map<ProgressType, String> PROGRESS_PREFIXES = {
+    DEFAULT_PROGRESS_TYPE: "",
+    ProgressType.PROGRESS_MISHNA: "mishna$PROGRESS_PREFIX_DIVIDER",
+  };
 }

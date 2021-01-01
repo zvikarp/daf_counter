@@ -95,8 +95,8 @@ class _DafYomiFabWidgetState extends State<DafYomiFabWidget> {
     BuildContext progressContext = progressAction.getProgressContext();
     return Observer(builder: (context) {
       ProgressStore progressStore = Provider.of<ProgressStore>(progressContext);
-      ProgressModel progress =
-          progressStore.getProgressTBMap[widget.dafYomi.masechetId];
+      ProgressModel progress = progressStore.getProgress(
+          widget.dafYomi.masechetId, ProgressType.PROGRESS_TB);
       if (progress != null) {
         int dafYomiProgress = progress.data[widget.dafYomi.number];
         return button(dafYomiProgress);

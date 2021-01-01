@@ -57,75 +57,45 @@ class ProgressAction {
       [int daf = 0, int incrementCounterBy = 5]) {
     ProgressStore progressStore = _getProgressStore();
     actionCounterStore.increment(incrementCounterBy);
-    if (progressType == ProgressType.PROGRESS_TB) {
-      ProgressModel progress = hiveService.progressTB.getProgress(masechetId);
-      progress.updateByLearnType(learnType, daf);
-      hiveService.progressTB.setProgress(masechetId, progress);
-      progressStore.setProgressTB(masechetId, progress);
-    } else {
+    ProgressModel progress =
+        hiveService.progress.getProgress(masechetId, progressType);
+    progress.updateByLearnType(learnType, daf);
+    hiveService.progress.setProgress(masechetId, progress);
+    progressStore.setProgress(masechetId, progress);
+    _checkIfShouldBackup();
+  }
+
+  void updateAll(Map<String, LearnType> learnMap, ProgressType progressType,
+      [int incrementCounterBy = 5]) {
+    ProgressStore progressStore = _getProgressStore();
+    actionCounterStore.increment(incrementCounterBy);
+    Map<String, ProgressModel> progressMap = {};
+    learnMap.forEach((String masechetId, LearnType learnType) {
       ProgressModel progress =
-          hiveService.progressMishna.getProgress(masechetId);
-      progress.updateByLearnType(learnType, daf);
-      hiveService.progressMishna.setProgress(masechetId, progress);
-      progressStore.setProgressMishna(masechetId, progress);
-    }
-    _checkIfShouldBackup();
-  }
-
-  void updateAllTB(Map<String, LearnType> learnMap,
-      [int incrementCounterBy = 5]) {
-    ProgressStore progressStore = _getProgressStore();
-    actionCounterStore.increment(incrementCounterBy);
-    Map<String, ProgressModel> progressTBMap = {};
-    learnMap.forEach((String masechetId, LearnType learnType) {
-      ProgressModel progressTB = hiveService.progressTB.getProgress(masechetId);
-      progressTB.updateByLearnType(learnType);
-      progressTBMap[masechetId] = progressTB;
+          hiveService.progress.getProgress(masechetId, progressType);
+      progress.updateByLearnType(learnType);
+      progressMap[masechetId] = progress;
     });
-    hiveService.progressTB.setProgressMap(progressTBMap);
-    progressStore.setProgressTBMap(progressTBMap);
+    hiveService.progress.setProgressMap(progressMap);
+    progressStore.setProgressMap(progressMap);
     _checkIfShouldBackup();
   }
 
-  void updateAllMishna(Map<String, LearnType> learnMap,
-      [int incrementCounterBy = 5]) {
+  ProgressModel get(String masechetId, ProgressType progressType) {
     ProgressStore progressStore = _getProgressStore();
-    actionCounterStore.increment(incrementCounterBy);
-    Map<String, ProgressModel> progressMishnaMap = {};
-    learnMap.forEach((String masechetId, LearnType learnType) {
-      ProgressModel progressMishna =
-          hiveService.progressMishna.getProgress(masechetId);
-      progressMishna.updateByLearnType(learnType);
-      progressMishnaMap[masechetId] = progressMishna;
-    });
-    hiveService.progressMishna.setProgressMap(progressMishnaMap);
-    progressStore.setProgressMishnaMap(progressMishnaMap);
-    _checkIfShouldBackup();
-  }
-
-  ProgressModel getTB(String masechetId) {
-    ProgressStore progressStore = _getProgressStore();
-    return progressStore.getProgressTBMap[masechetId];
-  }
-
-  ProgressModel getMishna(String masechetId) {
-    ProgressStore progressStore = _getProgressStore();
-    return progressStore.getProgressMishnaMap[masechetId];
+    return progressStore.getProgress(masechetId, progressType);
   }
 
   void localToStore() {
     ProgressStore progressStore = _getProgressStore();
-    Map<String, ProgressModel> progressTBMap =
-        hiveService.progressTB.getProgressMap();
-    progressStore.setProgressTBMap(progressTBMap);
-    Map<String, ProgressModel> progressMishnaMap =
-        hiveService.progressMishna.getProgressMap();
-    progressStore.setProgressMishnaMap(progressMishnaMap);
+    Map<String, ProgressModel> progressMap =
+        hiveService.progress.getProgressMap();
+    progressStore.setProgressMap(progressMap);
   }
 
   Future<void> backup() async {
     Map<String, ProgressModel> progressMap =
-        hiveService.progressTB.getProgressMap();
+        hiveService.progress.getProgressMap();
     ResponseModel backupResponse =
         await firestoreService.progress.setProgressMap(progressMap);
     if (backupResponse.isSuccessful()) {
@@ -143,7 +113,7 @@ class ProgressAction {
               masechetId,
               ProgressModel.fromString(
                   progress.toString(), ProgressType.PROGRESS_TB)));
-      hiveService.progressTB.setProgressMap(progressMap);
+      hiveService.progress.setProgressMap(progressMap);
     }
   }
 

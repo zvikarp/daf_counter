@@ -9,53 +9,28 @@ part of 'progress.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ProgressStore on _ProgressStore, Store {
-  Computed<ObservableMap<String, ProgressModel>> _$getProgressTBMapComputed;
+  Computed<ObservableMap<String, ProgressModel>> _$getProgressMapComputed;
 
   @override
-  ObservableMap<String, ProgressModel> get getProgressTBMap =>
-      (_$getProgressTBMapComputed ??=
+  ObservableMap<String, ProgressModel> get getProgressMap =>
+      (_$getProgressMapComputed ??=
               Computed<ObservableMap<String, ProgressModel>>(
-                  () => super.getProgressTBMap,
-                  name: '_ProgressStore.getProgressTBMap'))
-          .value;
-  Computed<ObservableMap<String, ProgressModel>> _$getProgressMishnaMapComputed;
-
-  @override
-  ObservableMap<String, ProgressModel> get getProgressMishnaMap =>
-      (_$getProgressMishnaMapComputed ??=
-              Computed<ObservableMap<String, ProgressModel>>(
-                  () => super.getProgressMishnaMap,
-                  name: '_ProgressStore.getProgressMishnaMap'))
+                  () => super.getProgressMap,
+                  name: '_ProgressStore.getProgressMap'))
           .value;
 
-  final _$progressTBMapAtom = Atom(name: '_ProgressStore.progressTBMap');
+  final _$progressMapAtom = Atom(name: '_ProgressStore.progressMap');
 
   @override
-  ObservableMap<String, ProgressModel> get progressTBMap {
-    _$progressTBMapAtom.reportRead();
-    return super.progressTBMap;
+  ObservableMap<String, ProgressModel> get progressMap {
+    _$progressMapAtom.reportRead();
+    return super.progressMap;
   }
 
   @override
-  set progressTBMap(ObservableMap<String, ProgressModel> value) {
-    _$progressTBMapAtom.reportWrite(value, super.progressTBMap, () {
-      super.progressTBMap = value;
-    });
-  }
-
-  final _$progressMishnaMapAtom =
-      Atom(name: '_ProgressStore.progressMishnaMap');
-
-  @override
-  ObservableMap<String, ProgressModel> get progressMishnaMap {
-    _$progressMishnaMapAtom.reportRead();
-    return super.progressMishnaMap;
-  }
-
-  @override
-  set progressMishnaMap(ObservableMap<String, ProgressModel> value) {
-    _$progressMishnaMapAtom.reportWrite(value, super.progressMishnaMap, () {
-      super.progressMishnaMap = value;
+  set progressMap(ObservableMap<String, ProgressModel> value) {
+    _$progressMapAtom.reportWrite(value, super.progressMap, () {
+      super.progressMap = value;
     });
   }
 
@@ -63,45 +38,22 @@ mixin _$ProgressStore on _ProgressStore, Store {
       ActionController(name: '_ProgressStore');
 
   @override
-  void setProgressTB(String masechetId, ProgressModel progressTB) {
+  void setProgress(String masechetId, ProgressModel progress) {
     final _$actionInfo = _$_ProgressStoreActionController.startAction(
-        name: '_ProgressStore.setProgressTB');
+        name: '_ProgressStore.setProgress');
     try {
-      return super.setProgressTB(masechetId, progressTB);
+      return super.setProgress(masechetId, progress);
     } finally {
       _$_ProgressStoreActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void setProgressMishna(String masechetId, ProgressModel progressMishna) {
+  void setProgressMap(Map<String, ProgressModel> updatedProgressMap) {
     final _$actionInfo = _$_ProgressStoreActionController.startAction(
-        name: '_ProgressStore.setProgressMishna');
+        name: '_ProgressStore.setProgressMap');
     try {
-      return super.setProgressMishna(masechetId, progressMishna);
-    } finally {
-      _$_ProgressStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setProgressTBMap(Map<String, ProgressModel> updatedProgressTBMap) {
-    final _$actionInfo = _$_ProgressStoreActionController.startAction(
-        name: '_ProgressStore.setProgressTBMap');
-    try {
-      return super.setProgressTBMap(updatedProgressTBMap);
-    } finally {
-      _$_ProgressStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setProgressMishnaMap(
-      Map<String, ProgressModel> updatedProgressMishnaMap) {
-    final _$actionInfo = _$_ProgressStoreActionController.startAction(
-        name: '_ProgressStore.setProgressMishnaMap');
-    try {
-      return super.setProgressMishnaMap(updatedProgressMishnaMap);
+      return super.setProgressMap(updatedProgressMap);
     } finally {
       _$_ProgressStoreActionController.endAction(_$actionInfo);
     }
@@ -110,10 +62,8 @@ mixin _$ProgressStore on _ProgressStore, Store {
   @override
   String toString() {
     return '''
-progressTBMap: ${progressTBMap},
-progressMishnaMap: ${progressMishnaMap},
-getProgressTBMap: ${getProgressTBMap},
-getProgressMishnaMap: ${getProgressMishnaMap}
+progressMap: ${progressMap},
+getProgressMap: ${getProgressMap}
     ''';
   }
 }

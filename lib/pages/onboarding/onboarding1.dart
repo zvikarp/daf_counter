@@ -36,7 +36,7 @@ class Onboarding1Page extends StatelessWidget {
         if (index < masechetIndex) {
           learnMap[masechet.id] = LearnType.LearnedMasechetExactlyOnce;
         }
-        progressAction.updateAllTB(learnMap);
+        progressAction.updateAll(learnMap, ProgressType.PROGRESS_TB);
       });
     }
     progressAction.update(
