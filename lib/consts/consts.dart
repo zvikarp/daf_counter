@@ -12,6 +12,8 @@ class Consts {
   static const int FIST_PEREK = 1;
   static const String DAF_YOMI_START_DATE = '2020-01-05';
   static const String DEFAUT_MASECHET = 'brachos';
+  static const bool DEFAULT_IS_DAF_YOMI = true;
+  static const bool DEFAULT_IS_MISHNA = false;
   static const int DEFAUT_DAF = 0;
   static const String DATA_DIVIDER = ',';
   static const int MAX_REVISIONS = 10000;

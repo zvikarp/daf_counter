@@ -54,6 +54,7 @@
     "settings_reset_warning_text": "Are you sure you want to delete everything? This CANNOT be undone.",
     "reset_button": "Reset",
     "do_you_daf": "Do you learn Daf Yomi?",
+    "do_you_mishna": "Do you learn Mishnayot?",
     "should_show_notifications": "Do you want to receive daily notifications?",
     "notifications_time": "Select a time to receive the notifications",
     "calendar_types": {

@@ -8,10 +8,12 @@ import 'package:daf_plus_plus/pages/todaysDaf.dart';
 class HomeDesktop extends StatelessWidget {
   HomeDesktop({
     @required this.isDafYomi,
+    @required this.isMishna,
     @required this.preferredCalendar,
   });
 
   final bool isDafYomi;
+  final bool isMishna;
   final String preferredCalendar;
 
   Widget _sideBar(BuildContext context, Widget child) {

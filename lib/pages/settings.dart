@@ -1,3 +1,4 @@
+import 'package:daf_plus_plus/widgets/userSettings/setMishnas.dart';
 import 'package:flutter/material.dart';
 
 import 'package:daf_plus_plus/widgets/userSettings/setDafYomiWidget.dart';
@@ -25,6 +26,7 @@ class _SettingsPageState extends State<SettingsPage> {
         SetThemeWidget(),
         Divider(),
         SetDafYomiWidget(),
+        SetMishnasWidget(),
         Divider(),
         DeleteAllWidget(),
         Divider(),

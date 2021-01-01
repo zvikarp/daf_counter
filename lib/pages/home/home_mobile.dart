@@ -10,10 +10,12 @@ import 'package:daf_plus_plus/pages/todaysDaf.dart';
 class HomeMobile extends StatelessWidget {
   HomeMobile({
     @required this.isDafYomi,
+    @required this.isMishna,
     @required this.preferredCalendar,
   });
 
   final bool isDafYomi;
+  final bool isMishna;
   final String preferredCalendar;
 
   @override
@@ -24,7 +26,8 @@ class HomeMobile extends StatelessWidget {
       if (!isDafYomi)
         'todays_daf': TodaysDafPage(preferredCalendar: preferredCalendar),
       'all_shas': TBPage(preferredCalendar: preferredCalendar),
-      'mishnas': MishnasPage(preferredCalendar: preferredCalendar),
+      if (isMishna)
+        'mishnas': MishnasPage(preferredCalendar: preferredCalendar),
       'settings': SettingsPage()
     };
     return DefaultTabController(

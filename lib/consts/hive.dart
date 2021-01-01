@@ -15,6 +15,7 @@ class HiveConsts {
   static const String HAS_OPENED = "hasOpened";
   static const String USED_FAB = "usedFab";
   static const String IS_DAF_YOMI = "isDafYomi";
+  static const String IS_MISHNA = "isMishna";
   static const String LAST_UPDATED_BUILD_NUMBER = "lastUpdatedBuildNumber";
 
   // dates consts
