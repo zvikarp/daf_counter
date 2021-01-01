@@ -1,7 +1,8 @@
 import 'package:hive/hive.dart';
 
+import 'package:daf_plus_plus/consts/consts.dart';
+import 'package:daf_plus_plus/enums/progressType.dart';
 import 'package:daf_plus_plus/consts/hive.dart';
-import 'package:daf_plus_plus/data/masechets.dart';
 import 'package:daf_plus_plus/models/progress.dart';
 import 'package:daf_plus_plus/services/hive/index.dart';
 
@@ -14,30 +15,32 @@ class ProgressBox {
     Hive.box(HiveConsts.PROGRESS_BOX).close();
   }
 
-  Stream<ProgressModel> listenToProgress(String masechetId) {
+  Stream<ProgressModel> listenToProgress(String masechetId, ProgressType type) {
     Box progressBox = Hive.box(HiveConsts.PROGRESS_BOX);
     // TODO: who said we didn't delete it and not update?
-    return progressBox
-        .watch(key: masechetId)
-        .map((BoxEvent progress) => (ProgressModel.fromString(progress.value)));
+    String progressKey = Consts.PROGRESS_PREFIXES[type] + masechetId;
+    return progressBox.watch(key: progressKey).map((BoxEvent progress) =>
+        (ProgressModel.fromString(progress.value, type)));
   }
 
-  ProgressModel getProgress(String masechetId) {
+  ProgressModel getProgress(String masechetId, ProgressType type) {
     Box progressBox = Hive.box(HiveConsts.PROGRESS_BOX);
-    String encodedProgress = progressBox.get(masechetId);
-    return ProgressModel.fromString(encodedProgress, masechetId);
+    String progressKey = Consts.PROGRESS_PREFIXES[type] + masechetId;
+    String encodedProgress = progressBox.get(progressKey);
+    return ProgressModel.fromString(encodedProgress, type, masechetId);
   }
 
   void setProgress(String masechetId, ProgressModel progress) {
     Box progressBox = Hive.box(HiveConsts.PROGRESS_BOX);
-    progressBox.put(masechetId, progress.toString());
+    String progressKey = progress.getEncodedKey(masechetId);
+    progressBox.put(progressKey, progress.toString());
     hiveService.settings.setLastUpdatedNow();
   }
 
   void setProgressMap(Map<String, ProgressModel> progressMap) {
     Box progressBox = Hive.box(HiveConsts.PROGRESS_BOX);
-    progressMap.forEach((String masechetId, ProgressModel progress) {
-      progressBox.put(masechetId, progress.toString());
+    progressMap.forEach((String progressKey, ProgressModel progress) {
+      progressBox.put(progressKey, progress.toString());
     });
     hiveService.settings.setLastUpdatedNow();
   }
@@ -45,9 +48,10 @@ class ProgressBox {
   Map<String, ProgressModel> getProgressMap() {
     Box progressBox = Hive.box(HiveConsts.PROGRESS_BOX);
     Map<String, ProgressModel> progressMap = {};
-    MasechetsData.THE_MASECHETS.keys.forEach((String masechetId) {
-      String progress = progressBox.get(masechetId);
-      progressMap[masechetId] = ProgressModel.fromString(progress, masechetId);
+    Map<dynamic, dynamic> progressKeysMap = progressBox.toMap();
+    progressKeysMap.keys.forEach((dynamic key) {
+      progressMap[key] =
+          ProgressModel.fromEncodedString(progressKeysMap[key], key);
     });
     return progressMap;
   }

@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:provider/provider.dart';
 
+import 'package:daf_plus_plus/enums/progressType.dart';
 import 'package:daf_plus_plus/enums/learnType.dart';
 import 'package:daf_plus_plus/models/daf.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
@@ -16,14 +17,16 @@ import 'package:daf_plus_plus/widgets/shared/masechet/title.dart';
 
 class MasechetWidget extends StatefulWidget {
   MasechetWidget({
-    @required this.daf,
+    @required this.position,
     @required this.preferredCalendar,
+    @required this.progressType,
     this.inList = true,
     this.dafYomi = -1,
   });
 
-  final DafModel daf;
+  final DafModel position;
   final String preferredCalendar;
+  final ProgressType progressType;
   final bool inList;
   final int dafYomi;
 
@@ -39,12 +42,8 @@ class _MasechetWidgetState extends State<MasechetWidget> {
   }
 
   void _onProgressChange(LearnType learnType, int daf) {
-    progressAction.update(widget.daf.masechetId, learnType, daf);
-  }
-
-  @override
-  void initState() {
-    super.initState();
+    progressAction.update(
+        widget.position.masechetId, learnType, widget.progressType, daf);
   }
 
   Widget _masechetTitle(MasechetModel masechet, ProgressModel progress) {
@@ -62,15 +61,16 @@ class _MasechetWidgetState extends State<MasechetWidget> {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, _) => Container(
-            height:
-                widget.inList ? Consts.MASECHET_LIST_HEIGHT : double.maxFinite,
-            child: MasechetListWidget(
-              masechet: masechet,
-              progress: progress,
-              onProgressChange: _onProgressChange,
-              lastDafIndex: widget.daf.number,
-              preferredCalendar: widget.preferredCalendar,
-            )),
+          height:
+              widget.inList ? Consts.MASECHET_LIST_HEIGHT : double.maxFinite,
+          child: MasechetListWidget(
+            masechet: masechet,
+            progress: progress,
+            onProgressChange: _onProgressChange,
+            lastPositionIndex: widget.position.number,
+            preferredCalendar: widget.preferredCalendar,
+          ),
+        ),
         childCount: _isExpanded ? 1 : 0,
       ),
     );
@@ -83,7 +83,7 @@ class _MasechetWidgetState extends State<MasechetWidget> {
           masechet: masechet,
           progress: progress,
           onProgressChange: _onProgressChange,
-          lastDafIndex: widget.daf.number,
+          lastPositionIndex: widget.position.number,
           hasPadding: true,
           preferredCalendar: widget.preferredCalendar,
           dafYomi: dafYomi),
@@ -95,11 +95,16 @@ class _MasechetWidgetState extends State<MasechetWidget> {
     BuildContext progressContext = progressAction.getProgressContext();
     return Observer(builder: (context) {
       ProgressStore progressStore = Provider.of<ProgressStore>(progressContext);
-      ProgressModel progress =
-          progressStore.getProgressMap[widget.daf.masechetId];
+      ProgressModel progress = progressStore.getProgress(
+          widget.position.masechetId, widget.progressType);
       MasechetModel masechet =
-          MasechetsData.THE_MASECHETS[widget.daf.masechetId];
-      if (progress == null) progress = ProgressModel.empty(masechet.numOfDafs);
+          MasechetsData.THE_MASECHETS[widget.position.masechetId];
+      if (progress == null)
+        progress = ProgressModel.empty(
+            widget.progressType == ProgressType.PROGRESS_TB
+                ? masechet.numOfDafsTB
+                : masechet.numOfPerakim,
+            widget.progressType);
       if (widget.inList) {
         return SliverStickyHeader(
           header: _masechetTitle(masechet, progress),

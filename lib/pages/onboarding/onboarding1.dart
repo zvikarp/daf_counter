@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/enums/progressType.dart';
+import 'package:daf_plus_plus/models/masechet.dart';
 import 'package:daf_plus_plus/enums/learnType.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
 import 'package:daf_plus_plus/consts/routes.dart';
@@ -26,18 +28,22 @@ class Onboarding1Page extends StatelessWidget {
     int masechetIndex = MasechetsData.THE_MASECHETS[todaysDaf.masechetId].index;
     if (masechetIndex > 0) {
       Map<String, LearnType> learnMap = {};
-      MasechetsData.THE_MASECHETS.keys
+      MasechetsData.THE_MASECHETS.values
+          .where((MasechetModel masechet) => (masechet.inTB()))
           .toList()
           .asMap()
-          .forEach((int index, String masechetId) {
+          .forEach((int index, MasechetModel masechet) {
         if (index < masechetIndex) {
-          learnMap[masechetId] = LearnType.LearnedMasechetExactlyOnce;
+          learnMap[masechet.id] = LearnType.LearnedMasechetExactlyOnce;
         }
-        progressAction.updateAll(learnMap);
+        progressAction.updateAll(learnMap, ProgressType.PROGRESS_TB);
       });
     }
-    progressAction.update(todaysDaf.masechetId,
-        LearnType.LearnedUntilDafExactlyOnce, todaysDaf.number);
+    progressAction.update(
+        todaysDaf.masechetId,
+        LearnType.LearnedUntilDafExactlyOnce,
+        ProgressType.PROGRESS_TB,
+        todaysDaf.number);
   }
 
   _justYes(BuildContext context) {

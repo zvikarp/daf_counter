@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/enums/progressType.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
 import 'package:daf_plus_plus/consts/routes.dart';
 import 'package:daf_plus_plus/data/masechets.dart';
@@ -20,7 +21,7 @@ class _Onboarding2PageState extends State<Onboarding2Page> {
     Map<String, LearnType> learnMap = _selectedMasechets.asMap().map(
         (int index, String masechetId) =>
             MapEntry(masechetId, LearnType.LearnedMasechetExactlyOnce));
-    progressAction.updateAll(learnMap);
+    progressAction.updateAll(learnMap, ProgressType.PROGRESS_TB);
     Navigator.of(context).pushNamed(RoutesConsts.REMINDER_PAGE);
   }
 
