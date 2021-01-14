@@ -80,7 +80,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
   Widget _tabBar() {
     double screenWidth = MediaQuery.of(context).size.width;
     double settingsButtonWidth = 56;
-    int numOfTextTabs = widget.tabs.length - 1;
+    int numOfTextTabs = widget.tabs.length == 3 ? 2 : 3;
     double textTabWidth = (screenWidth - settingsButtonWidth) / numOfTextTabs;
 
     return TabBar(
