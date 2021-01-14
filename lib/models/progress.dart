@@ -116,8 +116,9 @@ class ProgressModel {
         data = data.map((int dafProgress) => 1).toList();
         break;
       case LearnType.LearnedMasechetAtLeastOnce:
-        data =
-            data.map((int dafProgress) => dafCount > 0 ? dafCount : 1).toList();
+        data = data
+            .map((int dafProgress) => dafProgress > 0 ? dafProgress : 1)
+            .toList();
         break;
       case LearnType.UnlearndMasechetExactlyZero:
         data = data.map((int dafProgress) => 0).toList();
