@@ -13,7 +13,7 @@ dependencies:
 
   hive: ^1.4.0+1
   hive_flutter: ^0.3.0+1
-  google_sign_in: ^4.5.1
+  google_sign_in: ^4.5.9
   firebase_core: ^0.7.0
   firebase_auth: ^0.20.0+1
   firebase_crashlytics: ^0.4.0+1
