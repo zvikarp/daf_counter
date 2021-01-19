@@ -34,7 +34,7 @@ void main() async {
   await hiveService.progress.open();
   await localizationUtil.init();
   await notificationsUtil.init();
-  if (platformUtil.isAndroid()) {
+  if (platformUtil.isMobile()) {
     FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     runZonedGuarded(() {
