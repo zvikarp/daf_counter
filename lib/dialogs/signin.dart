@@ -1,4 +1,5 @@
 import 'package:daf_plus_plus/enums/AccountProvider.dart';
+import 'package:daf_plus_plus/utils/platform.dart';
 import 'package:flutter/material.dart';
 
 import 'package:daf_plus_plus/actions/progress.dart';
@@ -110,6 +111,7 @@ class _SigninDialogState extends State<SigninDialog> {
                   buttonType: ButtonType.Outline,
                   margin: EdgeInsets.symmetric(vertical: 8),
                   color: Theme.of(context).primaryColor,
+                  disabled: !platformUtil.isIos(),
                   onPressed: () =>
                       _onConnectAccount(context, AccountProvider.APPLE),
                 ),
