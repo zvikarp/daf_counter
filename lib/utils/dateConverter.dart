@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kosher_dart/hebrewcalendar/jewish_date.dart';
+import 'package:kosher_dart/kosher_dart.dart';
 
 import 'package:daf_plus_plus/utils/gematriaConverter.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
