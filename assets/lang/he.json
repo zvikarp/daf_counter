@@ -96,6 +96,12 @@
     "select_time": "תבחר שעה"
   },
 
+  "signin": {
+    "title": "התחבר",
+    "signin-with-google": "התחבר עם חשבון גוגל",
+    "signin-with-apple": "התחבר עם Apple ID"
+  },
+
   "calendar": {
     "days_in_week": [
       "יום א'",

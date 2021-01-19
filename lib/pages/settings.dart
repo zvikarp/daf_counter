@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:daf_plus_plus/widgets/userSettings/setDafYomiWidget.dart';
 import 'package:daf_plus_plus/widgets/userSettings/about.dart';
 import 'package:daf_plus_plus/widgets/userSettings/deleteAll.dart';
-import 'package:daf_plus_plus/widgets/userSettings/googleAccount.dart';
+import 'package:daf_plus_plus/widgets/userSettings/account.dart';
 import 'package:daf_plus_plus/widgets/userSettings/setCalendar.dart';
 import 'package:daf_plus_plus/widgets/userSettings/setTheme.dart';
 import 'package:daf_plus_plus/widgets/userSettings/setLanguage.dart';
@@ -22,7 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return ResponsiveWidget(builder: (context, sizingInformation) {
       return ListView(
         children: <Widget>[
-          GoogleAccountWidget(),
+          AccountWidget(),
           Divider(),
           SetLanguageWidget(),
           SetCalendarWidget(),
