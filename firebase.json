@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "target": "daf-plus-plus",
     "public": "public",
     "ignore": [
       "firebase.json",
