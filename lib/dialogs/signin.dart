@@ -85,6 +85,7 @@ class _SigninDialogState extends State<SigninDialog> {
   @override
   Widget build(BuildContext context) {
     return DialogWidget(
+      responsiveMargin: 0.4,
       onTapBackground: () => _exitDialog(context),
       child: Column(
         mainAxisSize: MainAxisSize.min,

@@ -1,3 +1,4 @@
+import 'package:daf_plus_plus/widgets/core/spacer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:daf_plus_plus/widgets/core/button.dart';
@@ -20,19 +21,22 @@ class QuestionDialogWidget extends StatelessWidget {
   final String falseActionText;
 
   Widget _actionSection(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: <Widget>[
-          ButtonWidget(
-            onPressed: () => Navigator.pop(context, true),
-            text: this.trueActionText,
-          ),
-          ButtonWidget(
-            onPressed: () => Navigator.pop(context, false),
-            text: this.falseActionText,
-          ),
-        ],
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 8),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: <Widget>[
+            ButtonWidget(
+              onPressed: () => Navigator.pop(context, true),
+              text: this.trueActionText,
+            ),
+            ButtonWidget(
+              onPressed: () => Navigator.pop(context, false),
+              text: this.falseActionText,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -40,6 +44,7 @@ class QuestionDialogWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DialogWidget(
+      responsiveMargin: 0.4,
       margin: EdgeInsets.symmetric(horizontal: 32, vertical: 124),
       onTapBackground: () => Navigator.pop(context, false),
       child: Column(
