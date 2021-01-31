@@ -1,0 +1,4 @@
+enum AccountProvider {
+  GOOGLE,
+  APPLE,
+}

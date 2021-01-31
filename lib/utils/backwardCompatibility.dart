@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/utils/platform.dart';
 import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:daf_plus_plus/utils/appVersion.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
@@ -20,15 +21,17 @@ class BackwardCompatibilityUtil {
   }
 
   void actUponBuildNumber(BuildContext context) async {
-    int buildNumber = await appVersionUtil.getBuildNumber();
-    int lastUpdatedBuildNumber =
-        hiveService.settings.getLastUpdatedBuildNumber();
+    if (!platformUtil.isWeb()) {
+      int buildNumber = await appVersionUtil.getBuildNumber();
+      int lastUpdatedBuildNumber =
+          hiveService.settings.getLastUpdatedBuildNumber();
 
-    if (lastUpdatedBuildNumber <= 8) {
-      _newFeatureNotifications(context);
+      if (lastUpdatedBuildNumber <= 8) {
+        _newFeatureNotifications(context);
+      }
+
+      hiveService.settings.setLastUpdatedBuildNumber(buildNumber);
     }
-
-    hiveService.settings.setLastUpdatedBuildNumber(buildNumber);
   }
 }
 

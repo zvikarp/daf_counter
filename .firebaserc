@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "daf-checker"
+  },
+  "targets": {
+    "daf-checker": {
+      "hosting": {
+        "daf-plus-plus": [
+          "daf-plus-plus"
+        ]
+      }
+    }
   }
 }

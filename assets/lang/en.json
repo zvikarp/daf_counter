@@ -96,6 +96,12 @@
     "dont_set": "Don't remind me"
   },
 
+  "signin": {
+    "title": "Sign In",
+    "signin-with-google": "Sign in with your Google account",
+    "signin-with-apple": "Sign in with your Apple ID"
+  },
+
   "calendar": {
     "days_in_week": ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"],
     "hebrew_months": [

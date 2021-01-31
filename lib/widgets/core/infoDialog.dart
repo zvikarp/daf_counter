@@ -27,6 +27,7 @@ class InfoDialogWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DialogWidget(
+      responsiveMargin: 0.4,
       margin: EdgeInsets.symmetric(horizontal: 32, vertical: 124),
       onTapBackground: () => Navigator.pop(context, false),
       child: Column(

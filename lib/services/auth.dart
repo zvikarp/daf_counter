@@ -1,21 +1,49 @@
+import 'package:daf_plus_plus/enums/AccountProvider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthService {
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User _firebaseUser;
 
-  Future<String> loginWithGoogle() async {
-    try {
-      GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-      if (googleUser == null) return null;
-      GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+  Future<void> _signinWithApple() async {
+    final appleCredential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
 
-      final GoogleAuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
+    final credential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        accessToken: appleCredential.authorizationCode);
+    return credential;
+  }
+
+  Future<GoogleAuthCredential> _signinWithGoogle() async {
+    GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+    if (googleUser == null) return null;
+    GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+    final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    return credential;
+  }
+
+  Future<dynamic> _getCredential(AccountProvider provider) async {
+    if (provider == AccountProvider.GOOGLE) {
+      return await _signinWithGoogle();
+    } else if (provider == AccountProvider.APPLE) {
+      return await _signinWithApple();
+    }
+  }
+
+  Future<String> signin(AccountProvider provider) async {
+    try {
+      dynamic credential = await _getCredential(provider);
       try {
         UserCredential userCredential =
             await _auth.signInWithCredential(credential);
@@ -49,7 +77,7 @@ class AuthService {
 
   Future<bool> signOut() async {
     await FirebaseAuth.instance.signOut();
-    await _googleSignIn.signOut();
+    await _auth.signOut();
     _firebaseUser = null;
     return true;
   }
