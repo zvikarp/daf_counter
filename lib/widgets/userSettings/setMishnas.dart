@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import 'package:daf_plus_plus/services/hive/index.dart';
 import 'package:daf_plus_plus/utils/localization.dart';
@@ -35,7 +36,7 @@ class _SetMishnasWidgetState extends State<SetMishnasWidget> {
           localizationUtil.translate("settings", "do_you_mishna"),
           style: Theme.of(context).textTheme.bodyText2,
         ),
-        trailing: Switch(
+        trailing: PlatformSwitch(
           value: _doesMishnas,
           activeColor: Theme.of(context).primaryColor,
           onChanged: _changeMishnas,

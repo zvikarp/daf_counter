@@ -33,6 +33,7 @@ dependencies:
   dynamic_theme: ^1.0.1
   kosher_dart: ^2.0.1
   package_info: ^0.4.0+18
+  flutter_platform_widgets: ^0.72.0
 
 dev_dependencies:
   flutter_test:

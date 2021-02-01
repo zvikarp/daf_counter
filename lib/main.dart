@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
@@ -80,18 +81,20 @@ class _MyAppState extends State<MyApp> {
           return themeUtil.getTheme(context, currentTheme);
         },
         themedWidgetBuilder: (context, theme) {
-          return MaterialApp(
-            title: 'Daf++',
-            localizationsDelegates: [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
-            supportedLocales: Consts.LOCALES,
-            locale: _locale,
-            initialRoute: RoutesConsts.INITIAL_PAGE,
-            routes: routesUtil.routes,
-            navigatorKey: navigatorKey,
-            theme: theme,
+          return PlatformProvider(
+            builder: (BuildContext context) => MaterialApp(
+              title: 'Daf++',
+              localizationsDelegates: [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              supportedLocales: Consts.LOCALES,
+              locale: _locale,
+              initialRoute: RoutesConsts.INITIAL_PAGE,
+              routes: routesUtil.routes,
+              navigatorKey: navigatorKey,
+              theme: theme,
+            ),
           );
         });
   }

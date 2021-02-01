@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import 'package:daf_plus_plus/utils/platform.dart';
 import 'package:daf_plus_plus/utils/notifications.dart';
@@ -82,7 +83,7 @@ class _SetDafYomiWidgetState extends State<SetDafYomiWidget> {
               localizationUtil.translate("settings", "do_you_daf"),
               style: Theme.of(context).textTheme.bodyText2,
             ),
-            trailing: Switch(
+            trailing: PlatformSwitch(
               value: _doesDafYomi,
               activeColor: Theme.of(context).primaryColor,
               onChanged: _changeDafYomi,
@@ -95,7 +96,7 @@ class _SetDafYomiWidgetState extends State<SetDafYomiWidget> {
                     "settings", "should_show_notifications"),
                 style: Theme.of(context).textTheme.bodyText2,
               ),
-              trailing: Switch(
+              trailing: PlatformSwitch(
                 value: _shouldShowNotifications,
                 activeColor: Theme.of(context).primaryColor,
                 onChanged: _changeShowNotifications,

@@ -24,7 +24,7 @@ class _FirstUseReminderState extends State<FirstUseReminder> {
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (platformUtil.isWeb()) {
+      if (!platformUtil.isAndroid()) {
         _done();
       }
     });
