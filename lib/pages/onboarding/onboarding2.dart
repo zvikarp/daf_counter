@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/models/masechet.dart';
 import 'package:daf_plus_plus/enums/progressType.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
 import 'package:daf_plus_plus/consts/routes.dart';
@@ -35,7 +36,9 @@ class _Onboarding2PageState extends State<Onboarding2Page> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> masechetsList = MasechetsData.THE_MASECHETS.keys.toList();
+    List<MasechetModel> masechetsList = MasechetsData.THE_MASECHETS.values
+        .where((MasechetModel masechet) => (masechet.inTB()))
+        .toList();
     return Scaffold(
       body: Column(
         mainAxisSize: MainAxisSize.min,
@@ -64,11 +67,11 @@ class _Onboarding2PageState extends State<Onboarding2Page> {
               itemCount: masechetsList.length,
               itemBuilder: (context, masechetIndex) => SimpleMesechetWidget(
                 name: localizationUtil.translate(
-                    "shas", masechetsList[masechetIndex]),
-                checked:
-                    _selectedMasechets.contains(masechetsList[masechetIndex]),
+                    "shas", masechetsList[masechetIndex].id),
+                checked: _selectedMasechets
+                    .contains(masechetsList[masechetIndex].id),
                 onChange: (bool state) =>
-                    _onClickMasechet(masechetsList[masechetIndex], state),
+                    _onClickMasechet(masechetsList[masechetIndex].id, state),
               ),
             ),
           ),
