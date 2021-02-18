@@ -21,7 +21,7 @@ These instructions will get you a copy of the project up and running on your loc
   * Run `flutter doctor` in your terminal to verify that everything is fine.
   * You might need to run `flutter config --enable-web` to allow flutter run on the web.
 <!-- * Using the `Dockerfile`:
-  * If you are fimiliar with docker, I suggest to checkout dockers documentation on how to install and get started.
+  * If you are familiar with docker, I suggest to checkout dockers documentation on how to install and get started.
   *  -->
 
 ### Installing

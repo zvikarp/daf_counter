@@ -17,17 +17,21 @@ class PolicyPage extends StatelessWidget {
               future: DefaultAssetBundle.of(context)
                   .loadString('assets/legal/privacy-policy.md'),
               builder: (context, snapshot) {
-                return Markdown(
-                  data: snapshot.data,
-                  styleSheet: themeUtil.isDarkTheme(context)
-                      ? MarkdownStyleSheet(
-                          h1: TextStyle(color: Colors.white),
-                          h3: TextStyle(color: Colors.white),
-                        )
-                      : MarkdownStyleSheet(
-                          h1: TextStyle(color: Colors.black),
-                        ),
-                );
+                if (snapshot.hasData) {
+                  return Markdown(
+                    data: snapshot.data,
+                    styleSheet: themeUtil.isDarkTheme(context)
+                        ? MarkdownStyleSheet(
+                            h1: TextStyle(color: Colors.white),
+                            h3: TextStyle(color: Colors.white),
+                          )
+                        : MarkdownStyleSheet(
+                            h1: TextStyle(color: Colors.black),
+                          ),
+                  );
+                } else {
+                  return Container(child: Text("Loading"));
+                }
               }),
         ),
       ),
