@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/enums/progressType.dart';
 import 'package:daf_plus_plus/widgets/home/dafYomiFab.dart';
 import 'package:daf_plus_plus/stores/dafsDates.dart';
 import 'package:daf_plus_plus/utils/dateConverter.dart';
@@ -17,10 +18,11 @@ class DafYomiPage extends StatelessWidget {
 
     return Scaffold(
       body: MasechetWidget(
-        daf: daf,
+        position: daf,
         inList: false,
         preferredCalendar: preferredCalendar,
         dafYomi: daf.number,
+        progressType: ProgressType.PROGRESS_TB,
       ),
       floatingActionButton: DafYomiFabWidget(dafYomi: daf),
     );

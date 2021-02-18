@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:daf_plus_plus/enums/progressType.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
 import 'package:daf_plus_plus/data/masechets.dart';
 import 'package:daf_plus_plus/enums/learnType.dart';
@@ -37,7 +38,7 @@ class _DeleteAllWidgetState extends State<DeleteAllWidget> {
     Map<String, LearnType> learnMap = masechetsIdsMap.asMap().map(
         (int index, String masechetId) =>
             MapEntry(masechetId, LearnType.UnlearndMasechetExactlyZero));
-    progressAction.updateAll(learnMap);
+    progressAction.updateAll(learnMap, ProgressType.PROGRESS_TB);
   }
 
   @override

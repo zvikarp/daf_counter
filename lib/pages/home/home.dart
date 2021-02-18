@@ -18,7 +18,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool _isDafYomi = true;
+  bool _isDafYomi = Consts.DEFAULT_IS_DAF_YOMI;
+  bool _isMishna = Consts.DEFAULT_IS_MISHNA;
   String _preferredCalendar = Consts.DEFAULT_CALENDAR_TYPE;
 
   Future<void> _loadProgress() async {
@@ -45,6 +46,7 @@ class _HomePageState extends State<HomePage> {
       _loadFirstRun();
     } else {
       _listenToIsDafYomiUpdate();
+      _listenToIsMishnaUpdate();
       _listenToPreferredCalendarState();
       progressAction.localToStore();
       SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -58,6 +60,14 @@ class _HomePageState extends State<HomePage> {
     setState(() => _isDafYomi = isDafYomi);
     hiveService.settings.listenToIsDafYomi().listen((bool isDafYomi) {
       setState(() => _isDafYomi = isDafYomi);
+    });
+  }
+
+  void _listenToIsMishnaUpdate() {
+    bool isMishna = hiveService.settings.getIsMishna();
+    setState(() => _isMishna = isMishna);
+    hiveService.settings.listenToIsMishna().listen((bool isMishna) {
+      setState(() => _isMishna = isMishna);
     });
   }
 
@@ -93,11 +103,13 @@ class _HomePageState extends State<HomePage> {
         if (sizingInformation.deviceType == DeviceScreenType.Mobile) {
           return HomeMobile(
             isDafYomi: _isDafYomi,
+            isMishna: _isMishna,
             preferredCalendar: _preferredCalendar,
           );
         }
         return HomeDesktop(
           isDafYomi: _isDafYomi,
+          isMishna: _isMishna,
           preferredCalendar: _preferredCalendar,
         );
       }),

@@ -1,15 +1,16 @@
 import 'dart:async';
 
-import 'package:daf_plus_plus/utils/platform.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 
+import 'package:daf_plus_plus/utils/platform.dart';
 import 'package:daf_plus_plus/stores/navigatorKey.dart';
 import 'package:daf_plus_plus/utils/notifications.dart';
 import 'package:daf_plus_plus/actions/progress.dart';
@@ -34,7 +35,7 @@ void main() async {
   await hiveService.progress.open();
   await localizationUtil.init();
   await notificationsUtil.init();
-  if (platformUtil.isAndroid()) {
+  if (platformUtil.isMobile()) {
     FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     runZonedGuarded(() {
@@ -80,18 +81,20 @@ class _MyAppState extends State<MyApp> {
           return themeUtil.getTheme(context, currentTheme);
         },
         themedWidgetBuilder: (context, theme) {
-          return MaterialApp(
-            title: 'Daf++',
-            localizationsDelegates: [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
-            supportedLocales: Consts.LOCALES,
-            locale: _locale,
-            initialRoute: RoutesConsts.INITIAL_PAGE,
-            routes: routesUtil.routes,
-            navigatorKey: navigatorKey,
-            theme: theme,
+          return PlatformProvider(
+            builder: (BuildContext context) => MaterialApp(
+              title: 'Daf++',
+              localizationsDelegates: [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              supportedLocales: Consts.LOCALES,
+              locale: _locale,
+              initialRoute: RoutesConsts.INITIAL_PAGE,
+              routes: routesUtil.routes,
+              navigatorKey: navigatorKey,
+              theme: theme,
+            ),
           );
         });
   }

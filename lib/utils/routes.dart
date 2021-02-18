@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import 'package:daf_plus_plus/pages/policy.dart';
 import 'package:daf_plus_plus/consts/routes.dart';
 import 'package:daf_plus_plus/pages/home/home.dart';
 import 'package:daf_plus_plus/pages/onboarding/firstUseReminder.dart';
@@ -16,6 +17,7 @@ class RoutesUtil {
     RoutesConsts.ONBOARDING2_PAGE: (context) => Onboarding2Page(),
     RoutesConsts.REMINDER_PAGE: (context) => FirstUseReminder(),
     RoutesConsts.HOME_PAGE: (context) => HomePage(),
+    RoutesConsts.POLICY_PAGE: (context) => PolicyPage(),
   };
 
   Map<String, Function> get routes => _routes;

@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
+import 'package:daf_plus_plus/enums/progressType.dart';
 import 'package:daf_plus_plus/enums/learnType.dart';
 import 'package:daf_plus_plus/models/daf.dart';
 import 'package:daf_plus_plus/models/progress.dart';
@@ -56,7 +57,7 @@ class _DafYomiFabWidgetState extends State<DafYomiFabWidget> {
 
   void _onLongPress() async {
     progressAction.update(widget.dafYomi.masechetId, LearnType.UnlearnedDafOnce,
-        widget.dafYomi.number);
+        ProgressType.PROGRESS_TB, widget.dafYomi.number);
   }
 
   Widget button(int dafYomiProgress) {
@@ -94,8 +95,8 @@ class _DafYomiFabWidgetState extends State<DafYomiFabWidget> {
     BuildContext progressContext = progressAction.getProgressContext();
     return Observer(builder: (context) {
       ProgressStore progressStore = Provider.of<ProgressStore>(progressContext);
-      ProgressModel progress =
-          progressStore.getProgressMap[widget.dafYomi.masechetId];
+      ProgressModel progress = progressStore.getProgress(
+          widget.dafYomi.masechetId, ProgressType.PROGRESS_TB);
       if (progress != null) {
         int dafYomiProgress = progress.data[widget.dafYomi.number];
         return button(dafYomiProgress);

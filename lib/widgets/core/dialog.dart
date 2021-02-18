@@ -11,6 +11,7 @@ class DialogWidget extends StatelessWidget {
     this.margin,
     this.borderRadius = const BorderRadius.all(Radius.circular(8)),
     this.hasShadow = true,
+    this.responsiveMargin = 0.3,
   });
 
   final Widget child;
@@ -19,15 +20,18 @@ class DialogWidget extends StatelessWidget {
   final EdgeInsets margin;
   final BorderRadius borderRadius;
   final bool hasShadow;
+  final double responsiveMargin;
 
   Widget build(BuildContext context) {
     return ResponsiveWidget(builder: (context, sizingInformation) {
+      double width = MediaQuery.of(context).size.width;
       bool isMobile = sizingInformation.deviceType == DeviceScreenType.Mobile;
-      EdgeInsets responsiveMargin = margin;
-      if (margin == null) {
-        responsiveMargin = isMobile
-            ? EdgeInsets.symmetric(horizontal: 16, vertical: 48)
-            : EdgeInsets.symmetric(horizontal: 256, vertical: 124);
+      EdgeInsets updatedMargin = margin;
+      if ((responsiveMargin > 0) && !isMobile) {
+        updatedMargin = EdgeInsets.symmetric(
+            horizontal: width * responsiveMargin, vertical: 124);
+      } else if (margin == null) {
+        updatedMargin = EdgeInsets.symmetric(horizontal: 16, vertical: 48);
       }
       return Scaffold(
         backgroundColor: hasShadow ? Color(0xBB000000) : Colors.transparent,
@@ -40,7 +44,7 @@ class DialogWidget extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {},
                 child: Container(
-                  margin: responsiveMargin,
+                  margin: updatedMargin,
                   decoration: BoxDecoration(
                     color: Theme.of(context).canvasColor,
                     borderRadius: borderRadius,

@@ -79,14 +79,27 @@ class SettingsBox {
   TimeOfDay getNotificationsTime() =>
       dateConverterUtil.stringToTime(_getByKey(HiveConsts.NOTIFICATIONS_TIME));
 
-  // is daf yomi
+  // learns daf yomi
   void setIsDafYomi(bool isDaf) => _setByKey(HiveConsts.IS_DAF_YOMI, isDaf);
-  bool getIsDafYomi() => _getByKey(HiveConsts.IS_DAF_YOMI) ?? false;
+  bool getIsDafYomi() =>
+      _getByKey(HiveConsts.IS_DAF_YOMI) ?? Consts.DEFAULT_IS_DAF_YOMI;
 
   Stream<bool> listenToIsDafYomi() {
     Box settingsBox = Hive.box(HiveConsts.SETTINGS_BOX);
     return settingsBox
         .watch(key: HiveConsts.IS_DAF_YOMI)
+        .map((BoxEvent setting) => setting.value);
+  }
+
+  // learns mishna
+  void setIsMishna(bool isMishna) => _setByKey(HiveConsts.IS_MISHNA, isMishna);
+  bool getIsMishna() =>
+      _getByKey(HiveConsts.IS_MISHNA) ?? Consts.DEFAULT_IS_MISHNA;
+
+  Stream<bool> listenToIsMishna() {
+    Box settingsBox = Hive.box(HiveConsts.SETTINGS_BOX);
+    return settingsBox
+        .watch(key: HiveConsts.IS_MISHNA)
         .map((BoxEvent setting) => setting.value);
   }
 

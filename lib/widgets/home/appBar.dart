@@ -80,6 +80,8 @@ class _AppBarWidgetState extends State<AppBarWidget> {
   Widget _tabBar() {
     double screenWidth = MediaQuery.of(context).size.width;
     double settingsButtonWidth = 56;
+    int numOfTextTabs = widget.tabs.length == 3 ? 2 : 3;
+    double textTabWidth = (screenWidth - settingsButtonWidth) / numOfTextTabs;
 
     return TabBar(
       indicatorWeight: 3,
@@ -89,7 +91,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       tabs: widget.tabs
           .map(
             (text) => text != "settings"
-                ? _textTab(text, ((screenWidth - settingsButtonWidth) / 2))
+                ? _textTab(text, textTabWidth)
                 : _iconTab(Icons.settings, settingsButtonWidth),
           )
           .toList(),
