@@ -1,8 +1,11 @@
-import 'package:daf_plus_plus/consts/consts.dart';
-import 'package:daf_plus_plus/utils/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'package:daf_plus_plus/consts/consts.dart';
+import 'package:daf_plus_plus/consts/routes.dart';
+import 'package:daf_plus_plus/utils/localization.dart';
+import 'package:daf_plus_plus/widgets/core/button.dart';
 
 class AboutWidget extends StatelessWidget {
   _openSite() async {
@@ -45,6 +48,12 @@ class AboutWidget extends StatelessWidget {
                       text: text[3],
                       style: Theme.of(context).textTheme.bodyText2),
                 ])),
+            ButtonWidget(
+              text: "Privacy Policy",
+              onPressed: () =>
+                  Navigator.of(context).pushNamed(RoutesConsts.POLICY_PAGE),
+              buttonType: ButtonType.Link,
+            ),
           ],
         ));
   }

@@ -4,6 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/scheduler.dart';
 
 class ThemeUtil {
+  bool isDarkTheme(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark;
+
   ThemeData getTheme(BuildContext context, String themeName) {
     if (themeName == "default_theme") {
       try {
