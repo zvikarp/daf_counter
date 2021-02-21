@@ -5,6 +5,7 @@ enum ButtonType {
   Filled,
   Outline,
   Underline,
+  Link,
 }
 
 class ButtonColors {
@@ -61,6 +62,9 @@ class ButtonWidget extends StatelessWidget {
         outlineColor: this.color,
         textColor: Colors.white,
       ),
+      ButtonType.Link: ButtonColors(
+        textColor: this.color,
+      ),
     };
     return typeMap[buttonType];
   }
@@ -86,9 +90,13 @@ class ButtonWidget extends StatelessWidget {
     else
       return Text(
         text,
-        style: Theme.of(context).textTheme.button.merge(
-              TextStyle(color: buttonColors.textColor),
-            ),
+        style: buttonType == ButtonType.Link
+            ? Theme.of(context).textTheme.caption.merge(
+                  TextStyle(color: buttonColors.textColor),
+                )
+            : Theme.of(context).textTheme.button.merge(
+                  TextStyle(color: buttonColors.textColor),
+                ),
       );
   }
 

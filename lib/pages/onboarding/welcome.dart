@@ -47,18 +47,26 @@ class _WelcomeOnboardingPageState extends State<WelcomeOnboardingPage> {
         style: Theme.of(context).textTheme.bodyText1,
       ),
     ];
-    List<Widget> actionChildren = _listOfLanguages
-        .map(
-          (language) => ButtonWidget(
-            text:
-                localizationUtil.translate("onboarding", "choose_" + language),
-            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            buttonType: ButtonType.Outline,
-            color: Theme.of(context).primaryColor,
-            onPressed: () => _changeLanguage(context, language),
-          ),
-        )
-        .toList();
+    List<Widget> actionChildren = [
+      ..._listOfLanguages
+          .map(
+            (language) => ButtonWidget(
+              text: localizationUtil.translate(
+                  "onboarding", "choose_" + language),
+              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              buttonType: ButtonType.Outline,
+              color: Theme.of(context).primaryColor,
+              onPressed: () => _changeLanguage(context, language),
+            ),
+          )
+          .toList(),
+      ButtonWidget(
+        text: "Privacy Policy",
+        onPressed: () =>
+            Navigator.of(context).pushNamed(RoutesConsts.POLICY_PAGE),
+        buttonType: ButtonType.Link,
+      ),
+    ];
     return OnboardingPageTemplate(
         headerChildren: headerChildren, actionChildren: actionChildren);
   }

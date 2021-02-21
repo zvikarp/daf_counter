@@ -7,4 +7,5 @@ class RoutesConsts {
   static const String ONBOARDING2_PAGE = "/onboarding2";
   static const String HOME_PAGE = "/home";
   static const String REMINDER_PAGE = "/firstUseReminder";
+  static const String POLICY_PAGE = "/policy";
 }
